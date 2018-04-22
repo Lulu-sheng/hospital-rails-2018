@@ -1,0 +1,49 @@
+<% @patients.each do |patient| %>
+  <div class="Record-Card">
+    <div class="Polaris-Card">
+      <div class="Polaris-Card__Header">
+        <div class="Polaris-Stack Polaris-Stack--alignmentBaseline">
+          <div class="Polaris-Stack__Item Polaris-Stack__Item--fill">
+            <h2 class="Polaris-Heading"><%= patient.name%>: r.<%= patient.room.number%></h2>
+          </div>
+          <div class="Polaris-Stack__Item">
+            <div class="Polaris-ButtonGroup">
+              <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain"><button type="button" class="Polaris-Button Polaris-Button--plain"><span class="Polaris-Button__Content"><span>Edit Record</span></span></button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="Polaris-Card__Section">
+        <p>Admitted on <%=patient.admitted_on%> (<strong><%=distance_of_time_in_words(Time.now, patient.admitted_on)%></strong> in the past), of blood type <%=patient.blood_type%>, under the care of Doctor <%=patient.doctor.employee_record.name%>
+        </p>
+      </div>
+    </div>
+  </div>
+<%end%>
+<!--<h1>List Of Patients!</h1>
+
+<table>
+    <% @patients.each do |patient| %>
+        <tr>
+            <td><%=patient.name%></td>
+            <td><%=patient.admitted_on%></td>
+            <td><%=patient.emergency_contact%></td>
+            <td><%=patient.blood_type%></td>
+            <td><%=patient.room.number%></td>
+            <td><%=patient.doctor.employee_record.name%></td>
+        </tr>
+    <% end %>
+</table>
+
+<h1> Number of Patients Per Floor</h2>
+<table>
+    <% [1,2,3,4].each do |count| %>
+        <tr>
+            <td><%=count%></td>
+            <td><%=@patientPerFloorHash[count]%></td>
+        </tr>
+    <% end %>
+</table>-->
+
+
+

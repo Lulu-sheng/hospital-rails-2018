@@ -1,0 +1,14 @@
+<h1>List Of Patients After Add!</h1>
+
+<table>
+    <% @patientsAfterAdd.each do |patient| %>
+        <tr>
+            <td><%=patient.name%></td>
+            <td><%=patient.admitted_on%></td>
+            <td><%=patient.emergency_contact%></td>
+            <td><%=patient.blood_type%></td>
+            <td><%=patient.room.number%></td>
+            <td><%=patient.doctor.employee_record.name%></td>
+        </tr>
+    <% end %>
+</table>

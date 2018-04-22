@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: 'Jone'
+  admitted_on: 2017-03-09
+  emergency_contact: 'lulu'
+  blood_type: 'O'
+  doctor: jendoctor
+  room: one
+
+two:
+  name: 'Eliza'
+  admitted_on: 2017-03-09
+  emergency_contact: 'Jen'
+  blood_type: 'A'
+  doctor: jendoctor
+  room: one

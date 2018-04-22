@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HospitalManagement</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'https://sdks.shopifycdn.com/polaris/1.14.1/polaris.min.css'%>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div class="flex-container">
+      <div class="make-shift-navbar">
+        <!-- this is the query search -->
+        <div class="Query-Section">
+          <div class="Polaris-Labelled__LabelWrapper">
+            <div class="Polaris-Label"><label id="Select2Label" for="Select2" class="Polaris-Label__Text">Sort By</label></div>
+          </div>
+          <div class="Polaris-Select">
+            <select id="Select2" class="Polaris-Select__Input" aria-invalid="false">
+              <option value="today">Name</option>
+              <option value="lastWeek">Salary</option>
+            </select>
+            <div class="Polaris-Select__Icon"><span class="Polaris-Icon"><svg class="Polaris-Icon__Svg" viewBox="0 0 20 20"><path d="M13 8l-3-3-3 3h6zm-.1 4L10 14.9 7.1 12h5.8z" fill-rule="evenodd"></path></svg></span></div>
+            <div class="Polaris-Select__Backdrop"></div>
+          </div>
+        </div>
+
+        <!-- this is the query search -->
+        <div class="Query-Section">
+          <div class="Polaris-Labelled__LabelWrapper">
+            <div class="Polaris-Label"><label id="Select2Label" for="Select2" class="Polaris-Label__Text">Actions</label></div>
+          </div>
+          <div class="Polaris-Select"><select id="Select2" class="Polaris-Select__Input" aria-invalid="false">
+              <option href=<%=url_for(action: 'new')%> value="today">Add</option><option value="yesterday">Remove</option></select>
+            <div class="Polaris-Select__Icon"><span class="Polaris-Icon"><svg class="Polaris-Icon__Svg" viewBox="0 0 20 20"><path d="M13 8l-3-3-3 3h6zm-.1 4L10 14.9 7.1 12h5.8z" fill-rule="evenodd"></path></svg></span></div>
+            <div class="Polaris-Select__Backdrop"></div>
+          </div>
+        </div>
+
+        <!-- this is the query search -->
+        <div class="Query-Section">
+          <div class="Polaris-Labelled__LabelWrapper">
+            <div class="Polaris-Label"><label id="Select2Label" for="Select2" class="Polaris-Label__Text">Search People</label></div>
+          </div>
+          <div class="Polaris-Select"><select id="Select2" class="Polaris-Select__Input" aria-invalid="false"><option value="today">Patients</option><option value="yesterday">Doctors</option><option value="yesterday">Nurses</option></select>
+            <div class="Polaris-Select__Icon"><span class="Polaris-Icon"><svg class="Polaris-Icon__Svg" viewBox="0 0 20 20"><path d="M13 8l-3-3-3 3h6zm-.1 4L10 14.9 7.1 12h5.8z" fill-rule="evenodd"></path></svg></span></div>
+            <div class="Polaris-Select__Backdrop"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="Nurse-Content">
+        <div class="Polaris-Page">
+          <div class="Polaris-Page__Header Polaris-Page__Header--hasSeparator">
+            <div class="Polaris-Page__Title">
+              <h1 class="Polaris-DisplayText Polaris-DisplayText--sizeLarge">Nurses</h1>
+            </div>
+            <div class="Polaris-Page__Actions"></div>
+          </div>
+          <div class="Polaris-Page__Content">
+            <div class="Polaris-Layout">
+              <div class="Polaris-Layout__AnnotatedSection">
+                <div class="Polaris-Layout__AnnotationWrapper">
+
+                    <main class='<%= controller.controller_name %>'>
+                    <%= yield %>
+                    </section>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <%= render "partials/buttons"%>
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

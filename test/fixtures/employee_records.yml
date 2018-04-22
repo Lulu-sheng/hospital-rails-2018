@@ -1,0 +1,20 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+jennifer:
+    name: 'Jennifer'
+    salary: 100000
+    email: 'gmail.com'
+    employee: jendoctor (Doctor)
+
+bob:
+    name: 'Bob'
+    salary: 10000
+    email: 'lol.com'
+    employee: bob (Doctor)
+
+helen:
+    name: 'Helen'
+    salary: 20000
+    email: 'yahoo.com'
+    employee: one (Nurse)
+
+

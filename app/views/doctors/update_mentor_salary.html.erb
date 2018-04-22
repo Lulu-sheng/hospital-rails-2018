@@ -1,0 +1,12 @@
+<h1>Doctors after the mentor salary update</h1>
+<table>
+    <% @doctorsAfterSalaryUpdate.each do |doctor| %>
+        <tr>
+            <td><%=doctor.employee_record.name%></td>
+            <td><%=doctor.employee_record.email%></td>
+            <td><%=doctor.employee_record.salary%></td>
+            <td><%=doctor.specialty%></td>
+            <td><%=doctor.received_license%></td>
+        </tr>
+    <% end %>
+</table>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  wing: 'north'
+  floor: 2
+  number: 201
+  vip: true
+
+two:
+  wing: MyString
+  floor: MyString
+  number: MyString
+  vip: false

@@ -1,0 +1,6 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  night_shift: true
+  hours_per_week: 20
+  date_of_certification: 2014-03-10
