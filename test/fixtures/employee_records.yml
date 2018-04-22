@@ -17,4 +17,15 @@ helen:
     email: 'yahoo.com'
     employee: one (Nurse)
 
+john:
+    name: 'John'
+    salary: 20200
+    email: 'myspace.com'
+    employee: two (Nurse)
+
+bella:
+    name: 'Bella'
+    salary: 50200
+    email: 'bella.com'
+    employee: three (Nurse)
 

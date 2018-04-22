@@ -4,3 +4,13 @@ one:
   night_shift: true
   hours_per_week: 20
   date_of_certification: 2014-03-10
+
+two:
+  night_shift: false
+  hours_per_week: 40
+  date_of_certification: 2012-03-10
+
+three:
+  night_shift: true
+  hours_per_week: 50
+  date_of_certification: 2012-01-10
