@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180315204537) do
+ActiveRecord::Schema.define(version: 20180424144714) do
 
   create_table "doctors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "specialty"
@@ -55,9 +55,9 @@ ActiveRecord::Schema.define(version: 20180315204537) do
     t.string "emergency_contact"
     t.string "blood_type"
     t.bigint "doctor_id"
-    t.bigint "room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "room_id"
     t.index ["doctor_id"], name: "index_patients_on_doctor_id"
     t.index ["room_id"], name: "index_patients_on_room_id"
   end
