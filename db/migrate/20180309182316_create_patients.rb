@@ -6,7 +6,7 @@ class CreatePatients < ActiveRecord::Migration[5.1]
       t.string :emergency_contact
       t.string :blood_type
       t.references :doctor, foreign_key: true
-      t.references :room, foreign_key: true 
+      #t.references :room, foreign_key: true 
 
       t.timestamps
     end
