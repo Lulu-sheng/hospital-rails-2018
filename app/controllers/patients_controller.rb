@@ -40,6 +40,12 @@ class PatientsController < ApplicationController
       render 'index'
     end
 
+    def subset_under_nurse
+      @assignments = NurseAssignment.where(nurse_id: params[:nurse_id]).select(:patient_id)
+      @patients = Patient.where(id: @assignments)
+      render 'index'
+    end
+
     private
 
     def resolve_layout

@@ -8,9 +8,11 @@ Rails.application.routes.draw do
   get '/patients/change_ownership', to: 'patients#change_ownership'
   get '/nurses/sort', to: 'nurses#sort'
   get '/patients/sort', to: 'patients#sort'
+  get '/patients_under_nurse/:nurse_id', to: 'patients#subset_under_nurse'
 
   resources :doctors, only: [:index]
   resources :nurses
   resources :patients
+  resources :nurse_assignments
 
 end

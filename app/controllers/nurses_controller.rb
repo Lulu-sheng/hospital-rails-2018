@@ -1,3 +1,4 @@
+require 'date'
 class NursesController < ApplicationController
   layout :resolve_layout
   def index
@@ -24,18 +25,26 @@ class NursesController < ApplicationController
   end
 
   def create
-    #@nurse = Nurse.new(nurse_params)
-    redirect_to action: "index"
+    p params[:nurse][:'date_of_certification(1i)']+params[:nurse][:'date_of_certification(2i)']+params[:nurse][:'date_of_certification(3i)']
 
-=begin
-      respond_to do |format|
-        if @nurse.save
-          format.html { redirect_to :index }
-        else
-          format.html { render :new}
-        end
+    @nurse = Nurse.new(date_of_certification: '20150101',  
+                       night_shift: params[:nurse][:night_shift],
+                       hours_per_week: params[:nurse][:hours_per_week])
+
+    @employee = @nurse.build_employee_record(employee_params)
+
+    respond_to do |format|
+      if @nurse.save && @employee.save
+        format.html { redirect_to nurses_path }
+      else
+        format.html { render :new, notice: 'Line item was unsuccessfully created.'}
       end
-=end
+    end
+  end
+
+  def edit
+    @nurse = Nurse.find(params[:id])
+    p @nurse
   end
 
   def sort
@@ -49,12 +58,16 @@ class NursesController < ApplicationController
 
   private
   def nurse_params
-    params.require(:nurse).permit(:name, :salary, :email, :date_of_certification, :night_shift, :hours_per_week)
+    params.require(:nurse).permit(:'date_of_certification(1i)', :'date_of_certification(2i)', :'date_of_certification(3i)', :night_shift, :hours_per_week)
+  end
+
+  def employee_params
+    params.require(:nurse).permit(:name, :email, :salary)
   end
 
   def resolve_layout
     case action_name
-    when "new", "create" 
+    when "new", "create", "edit"
       "application"
     else # index
       "index_layout"

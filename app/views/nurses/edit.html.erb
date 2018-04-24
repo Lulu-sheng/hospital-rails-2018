@@ -32,7 +32,7 @@
                 </div>
                 <div class="Polaris-TextField">
                   <!--<input id="TextField7" class="Polaris-TextField__Input" aria-labelledby="TextField7Label" aria-invalid="false" value placeholder="Jane Doe">-->
-                  <%= form.text_field :name, class:"Polaris-TextField__Input", placeholder: "Jane Doe"%>
+                  <%= form.text_field :name, class:"Polaris-TextField__Input"%>
                   <div class="Polaris-TextField__Backdrop"></div>
                 </div>
               </div>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="Polaris-TextField">
                   <!--<input id="TextField8" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField8Label" aria-invalid="false" value placeholder="jane.doe@gmail.com">-->
-                  <%= form.email_field :email, class:"Polaris-TextField__Input", placeholder: "jane.doe@gmail.com"%>
+                  <%= form.email_field :email, class:"Polaris-TextField__Input"%>
                   <div class="Polaris-TextField__Backdrop"></div>
                 </div>
               </div>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="Polaris-TextField">
                   <!--<input id="TextField8" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField8Label" aria-invalid="false" value placeholder="jane.doe@gmail.com">-->
-                  <%= form.number_field :salary, step: 0.01, id: "TextField8", class:"Polaris-TextField__Input", placeholder: "0.00"%>
+                  <%= form.number_field :salary, step: 0.01, id: "TextField8", class:"Polaris-TextField__Input"%>
                   <div class="Polaris-TextField__Backdrop"></div>
                 </div>
               </div>
@@ -86,7 +86,7 @@
                 </div>
                 <div class="Polaris-TextField">
                   <!--<input id="TextField8" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField8Label" aria-invalid="false" value placeholder="jane.doe@gmail.com">-->
-                  <%= form.number_field :hours_per_week, step: 1, id: "TextField8", class:"Polaris-TextField__Input", placeholder: "20"%>
+                  <%= form.number_field :hours_per_week, step: 1, id: "TextField8", class:"Polaris-TextField__Input"%>
                   <div class="Polaris-TextField__Backdrop"></div>
                 </div>
               </div>
@@ -130,42 +130,3 @@
 </div>
 </div>
 
-
-<!--
-  <%= form_with(model: @nurse, local: true) do |form| %>
-
-    <div class="field">
-    <%= form.label :email, class: ""%>
-    <%= form.email_field :email%>
-    </div>
-
-    <div class="field">
-    <%= form.label :salary %>
-    <%= form.number_field :salary, step: 0.01%>
-    </div>
-
-    <div class="field">
-    <%= form.label :name %>
-    <%= form.check_box :name%>
-    </div>
-
-    <div class="field">
-    <%= form.label :night_shift %>
-    <%= form.select :night_shift, %w(true false)%>
-    </div>
-
-    <div class="field">
-    <%= form.label :hours_per_week %>
-    <%= form.number_field :night_shift%>
-    </div>
-
-    <div class="field">
-    <%= form.label :date_of_certification %>
-    <%= form.date_select :date_of_certification %>
-    </div>
-
-    <div class="actions">
-    <%= form.submit %>
-    </div>
-  <% end %>
--->

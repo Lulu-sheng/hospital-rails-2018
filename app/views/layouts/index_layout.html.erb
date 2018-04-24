@@ -12,6 +12,7 @@
   <body>
     <div class="flex-container">
       <div class="make-shift-navbar">
+        <p class="Polaris-DisplayText Polaris-DisplayText--sizeMedium">Hello Nurse <%=@user_nurse.employee_record.name%></p>
         <!-- this is the query search -->
         <div class="Query-Section">
           <div class="Polaris-Labelled__LabelWrapper">
@@ -62,10 +63,13 @@
           </div>
           <div class="Polaris-Page__Content">
             <div class="Polaris-Layout">
+              <% if notice %>
+                <p><%= notice %></p>
+              <% end %>
               <div class="Polaris-Layout__AnnotatedSection">
                 <div class="Polaris-Layout__AnnotationWrapper">
 
-                    <main class='<%= controller.controller_name %>'>
+                  <main class='<%= controller.controller_name %>'>
                     <%= yield %>
                     </section>
                 </div>
