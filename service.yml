@@ -1,0 +1,6 @@
+# https://services.shopify.io/services/devdegree17-hospitalApp/production
+director: 2xbass
+owners:
+- Shopify/bcs
+production:
+  classification: tier4
