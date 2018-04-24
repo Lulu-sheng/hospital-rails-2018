@@ -1,0 +1,3 @@
+kubernetes:
+  namespace: devdegree17-hospitalapp-production
+  context: tier4

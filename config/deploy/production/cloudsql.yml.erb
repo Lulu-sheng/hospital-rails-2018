@@ -1,0 +1,21 @@
+---
+apiVersion: stable.shopify.io/v1
+kind: Cloudsql
+metadata:
+  name: "devdegree17-hospitalapp-production"
+  labels:
+    app: "devdegree17-hospitalapp"
+    env: "production"
+    name: "devdegree17-hospitalapp-production"
+spec:
+  backend_type: SECOND_GEN
+  database_version: MYSQL_5_7
+  database_flags:
+    log_bin_trust_function_creators: "on"
+    performance_schema: "on"
+  data_disk_size_gb: 25
+  tier: db-n1-highmem-4
+  databases:
+  - name: "devdegree17-hospitalapp-production"
+    character_set: utf8mb4
+    collation: utf8mb4_unicode_ci
