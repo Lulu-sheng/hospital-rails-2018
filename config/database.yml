@@ -52,9 +52,4 @@ production:
   database: hospital-management_production
   username: hospital-management
   password: <%= ENV['HOSPITAL-MANAGEMENT_DATABASE_PASSWORD'] %>
-
-<% if ENV['DATABASE_URL'] %>
-staging:
-  <<: *default
   url: "<%= ENV['DATABASE_URL'] %>"
-<% end %>
