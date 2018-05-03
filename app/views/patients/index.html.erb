@@ -1,31 +1,13 @@
-<% cache @patients do %>
-  <% @patients.each do |patient| %>
-    <% cache patient do %>
-      <div class="Record-Card">
-        <div class="Polaris-Card">
-          <div class="Polaris-Card__Header">
-            <div class="Polaris-Stack Polaris-Stack--alignmentBaseline">
-              <div class="Polaris-Stack__Item Polaris-Stack__Item--fill">
-                <h2 class="Polaris-Heading"><%= patient.name%>: r.<%= patient.room.number%></h2>
-              </div>
-              <div class="Polaris-Stack__Item">
-                <div class="Polaris-ButtonGroup">
-                  <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
-                    <%= link_to 'Edit Record', nurses_path, class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
-                  </div>
-                  <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
-                    <%= button_to 'Manage Patient', nurse_assignments_path(patient_id: patient), class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="Polaris-Card__Section">
-            <p>Admitted on <%=patient.admitted_on%> (<strong><%=distance_of_time_in_words(Time.now, patient.admitted_on)%></strong> in the past), of blood type <%=patient.blood_type%>, under the care of Doctor <%=patient.doctor.employee_record.name%>
-          </p>
-          </div>
-        </div>
-      </div>
-    <%end%>
-  <%end%>
-<%end%>
+<% if @past_patients %>
+  <div class="patient-partition-header">
+    <h3 aria-label="Accounts" class="Polaris-Subheading">Current Patients</h3>
+  </div>
+<% end %>
+<%= render partial: "partials/patient_card", locals: {patients: @current_patients}%>
+
+<% if @past_patients && !@past_patients.empty? %>
+  <div class="patient-partition-header">
+    <h3 aria-label="Accounts" class="Polaris-Subheading">Past Patients</h3>
+  </div>
+  <%= render partial: "partials/patient_card", locals: {patients: @past_patients}%>
+<% end%>

@@ -8,11 +8,22 @@ Rails.application.routes.draw do
   get '/patients/change_ownership', to: 'patients#change_ownership'
   get '/nurses/sort', to: 'nurses#sort'
   get '/patients/sort', to: 'patients#sort'
+  get '/nurse/:nurse_id/patients/sort', to: 'patients#sort'
   get '/patients_under_nurse/:nurse_id', to: 'patients#subset_under_nurse'
+  put '/nurse_assignments', to: 'nurse_assignments#update'
 
-  resources :doctors, only: [:index]
-  resources :nurses
-  resources :patients
+  resources :patients do
+    get 'information', on: :member
+  end
+
+  resources :doctors do 
+    resources :patients
+  end
+  resources :nurses do
+    resources :patients
+  end
+  #resources :patients
   resources :nurse_assignments
 
+  mount ActionCable.server, at: '/cable'
 end

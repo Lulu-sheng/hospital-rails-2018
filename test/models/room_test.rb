@@ -22,7 +22,7 @@ class RoomTest < ActiveSupport::TestCase
     end
 
     test "patients association" do
-        assert_equal 2, rooms(:one).patients.size
+        assert_equal 3, rooms(:one).patients.size
     end
 
     test "valid vip" do

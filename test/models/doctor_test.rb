@@ -40,7 +40,7 @@ class DoctorTest < ActiveSupport::TestCase
     end
 
     test "patients association" do
-        assert_equal 2, doctors(:jendoctor).patients.size
+        assert_equal 3, doctors(:jendoctor).patients.size
         assert_not doctors(:jendoctor).patients.first.nil?
     end
 

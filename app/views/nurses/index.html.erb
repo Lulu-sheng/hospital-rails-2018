@@ -14,7 +14,7 @@
                     <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_nurse_url(nurse.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Record</span></span></a>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
-                    <a class="Polaris-Button Polaris-Button--plain" href="https://hospital-management.myshopify.io/patients_under_nurse/<%=nurse.id%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>See Patients</span></span></a>
+                    <a class="Polaris-Button Polaris-Button--plain" href="<%= nurse_patients_path(nurse)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>See Patients</span></span></a>
                   </div>
                 </div>
               </div>

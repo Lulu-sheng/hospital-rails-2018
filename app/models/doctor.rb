@@ -14,4 +14,8 @@ class Doctor < ApplicationRecord
             errors.add(:received_license, 'must be valid date and must be in the past')
         end
     end
+
+    def name
+      self.employee_record.name
+    end
 end

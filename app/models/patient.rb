@@ -1,5 +1,5 @@
 class Patient < ApplicationRecord
-    has_many :nurse_assignments
+    has_many :nurse_assignments, dependent: :destroy
     has_many :nurses, through: :nurse_assignments
     belongs_to :doctor
     belongs_to :room

@@ -25,26 +25,34 @@ class NursesController < ApplicationController
   end
 
   def create
-    p params[:nurse][:'date_of_certification(1i)']+params[:nurse][:'date_of_certification(2i)']+params[:nurse][:'date_of_certification(3i)']
-
-    @nurse = Nurse.new(date_of_certification: '20150101',  
-                       night_shift: params[:nurse][:night_shift],
-                       hours_per_week: params[:nurse][:hours_per_week])
-
+    @nurse = Nurse.new(nurse_params)
     @employee = @nurse.build_employee_record(employee_params)
 
     respond_to do |format|
-      if @nurse.save && @employee.save
-        format.html { redirect_to nurses_path }
+      if [@nurse.save, @employee.save].all?
+        format.html { redirect_to nurses_path, notice: 'Nurse was successfully created'}
       else
-        format.html { render :new, notice: 'Line item was unsuccessfully created.'}
+        format.html { render :new }
       end
     end
   end
 
   def edit
     @nurse = Nurse.find(params[:id])
-    p @nurse
+    @employee = @nurse.employee_record
+  end
+
+  def update
+    @nurse = Nurse.find(params[:id])
+    @employee = @nurse.employee_record
+
+    respond_to do |format|
+      if [@nurse.update(nurse_params), @employee.update(employee_params)].all?
+        format.html { redirect_to nurses_path, notice: 'Nurse was successfully updated'}
+      else
+        format.html { render :edit }
+      end
+    end
   end
 
   def sort
@@ -54,20 +62,27 @@ class NursesController < ApplicationController
 
   def new
     @nurse = Nurse.new
+    @employee = EmployeeRecord.new
   end
 
   private
   def nurse_params
-    params.require(:nurse).permit(:'date_of_certification(1i)', :'date_of_certification(2i)', :'date_of_certification(3i)', :night_shift, :hours_per_week)
+    params.require(:nurse).permit(:'date_of_certification(1i)', :'date_of_certification(2i)', 
+                                  :'date_of_certification(3i)', :night_shift, :hours_per_week)
   end
 
   def employee_params
-    params.require(:nurse).permit(:name, :email, :salary)
+    params.require(:employee_record).permit(:name, :email, :salary)
+  end
+
+  def invalid_nurse
+    logger.error "Attempt to access invalid nurse #{params[:id]}"
+    redirect_to nurses_url, notice: 'Invalid nurse'
   end
 
   def resolve_layout
     case action_name
-    when "new", "create", "edit"
+    when "new", "create", "edit", "update"
       "application"
     else # index
       "index_layout"

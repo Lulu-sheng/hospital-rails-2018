@@ -15,3 +15,11 @@ two:
   blood_type: 'A'
   doctor: jendoctor
   room: one
+
+three:
+  name: 'Abby'
+  admitted_on: 2017-03-09
+  emergency_contact: Jen
+  blood_type: A
+  doctor: jendoctor
+  room: one

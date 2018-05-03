@@ -4,10 +4,16 @@ one:
     patient: one
     nurse: one
     start_date: 2016-03-10
-    end_date: 2018-03-10
+    end_date: nil
 
 two:
     patient: two
     nurse: one
+    start_date: 2016-03-10
+    end_date: 2018-03-10
+
+three:
+    patient: three
+    nurse: two
     start_date: 2016-03-10
     end_date: 2018-03-10
