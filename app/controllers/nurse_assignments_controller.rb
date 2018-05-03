@@ -8,12 +8,14 @@ class NurseAssignmentsController < ApplicationController
     respond_to do |format|
       if (NurseAssignment.where(patient_id: nurse_assignment_params[:patient_id], nurse_id: @user_nurse, end_date: nil).empty? &&
           @nurse_assignment.save)
-        format.html { redirect_to patients_path, notice: 'Successfully assigned nurse to patient' }
+        format.html { flash[:success] = 'Successfully assigned nurse to patient' 
+                      redirect_to patients_path, notice: 'Successfully assigned nurse to patient' } # not necessary
         format.js { @new_patient_name = patient.name
                     @current_patients = Patient.all 
                     render action: 'update'}
       else
-        format.html { redirect_to patients_path, notice: 'You are already assigned to this patient.'}
+        format.html { flash[:warning] = 'You are already assigned to this patient.'
+                      redirect_to patients_path }
       end
     end
   end
@@ -24,7 +26,7 @@ class NurseAssignmentsController < ApplicationController
 
     respond_to do |format|
       if assignment.update(end_date: Date.today)
-        format.html { redirect_to patients_path, notice: 'Successfully assigned nurse to patient' }
+        format.html { redirect_to patients_path, notice: 'Successfully assigned nurse to patient' } # not necessary
         format.js {@new_patient_name = nil
                    @current_patients = Patient.all}
       else

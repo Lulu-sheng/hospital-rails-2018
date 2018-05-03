@@ -83,7 +83,8 @@ class PatientsController < ApplicationController
         nurse_patients_path
       elsif params[:nurse_id]
         respond_to do |format|
-          format.html { redirect_back fallback_location: patients_path, notice: 'You can\'t assign patients to other nurses other than yourself'}
+          format.html { flash[:warning] = 'You can\'t assign patients to other nurses other than yourself'
+                        redirect_back fallback_location: patients_path}
         end
       else
         patients_path
@@ -99,7 +100,8 @@ class PatientsController < ApplicationController
 
     respond_to do |format|
       if @patient.save && (params[:nurse_id]? @nurse_assignment.save : true)
-        format.html { redirect_to patients_path, notice: 'Patient record was successfully created.'}
+        format.html { flash[:success] = 'Patient record was successfully created.'
+                      redirect_to patients_path }
         @current_patients = Patient.all
         ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
       else
@@ -118,13 +120,15 @@ class PatientsController < ApplicationController
     if @patient.nurses.to_a.include? @user_nurse
       @patient.destroy
       respond_to do |format|
-        format.html { redirect_to patients_url, notice: 'Patient was successfully removed.' }
+        format.html { flash[:success] = 'Patient was successfully removed.'
+                      redirect_to patients_url }
         @current_patients = Patient.all
         ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
       end
     else
       respond_to do |format|
-        format.html { redirect_to patients_url, notice: 'You cannot remove a patient that is not under your care'}
+        format.html { flash[:warning] = 'You cannot remove a patient that is not under your care' 
+                      redirect_to patients_url }
       end
     end
   end
@@ -152,7 +156,8 @@ class PatientsController < ApplicationController
 
   def invalid_patient
     logger.error "Attempt to access invalid patient #{params[:id]}"
-    redirect_to patients_url, notice: 'Invalid patient'
+    flash[:warning] = 'Invalid patient'
+    redirect_to patients_url
   end
 
   def patient_params

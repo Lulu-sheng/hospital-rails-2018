@@ -1,4 +1,4 @@
-<% if @past_patients %>
+<% if @past_patients && !@current_patients.empty?%>
   <div class="patient-partition-header">
     <h3 aria-label="Accounts" class="Polaris-Subheading">Current Patients</h3>
   </div>

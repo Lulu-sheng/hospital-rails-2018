@@ -35,8 +35,8 @@
           <div class="Polaris-Page__Content">
             <div class="Polaris-Layout">
 
-              <% if notice %>
-                <%= render partial: 'partials/banner', locals: {notice: notice}%>
+              <% unless flash.empty? %>
+                <%= render partial: 'partials/banner'%>
               <% end %>
 
               <div class="Polaris-Layout__AnnotatedSection">

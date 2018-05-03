@@ -30,7 +30,8 @@ class NursesController < ApplicationController
 
     respond_to do |format|
       if [@nurse.save, @employee.save].all?
-        format.html { redirect_to nurses_path, notice: 'Nurse was successfully created'}
+        format.html { flash[:success] = 'Nurse was successfully created'
+                      redirect_to nurses_path }
       else
         format.html { render :new }
       end
@@ -48,7 +49,8 @@ class NursesController < ApplicationController
 
     respond_to do |format|
       if [@nurse.update(nurse_params), @employee.update(employee_params)].all?
-        format.html { redirect_to nurses_path, notice: 'Nurse was successfully updated'}
+        format.html { flash[:success] = 'Nurse was successfully updated'
+                      redirect_to nurses_path }
       else
         format.html { render :edit }
       end
@@ -77,7 +79,8 @@ class NursesController < ApplicationController
 
   def invalid_nurse
     logger.error "Attempt to access invalid nurse #{params[:id]}"
-    redirect_to nurses_url, notice: 'Invalid nurse'
+    flash[:warning] = 'Invalid nurse'
+    redirect_to nurses_url
   end
 
   def resolve_layout
