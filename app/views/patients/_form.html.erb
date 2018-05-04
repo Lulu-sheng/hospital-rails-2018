@@ -58,7 +58,7 @@
                 <div class="Polaris-Labelled__LabelWrapper">
                   <div class="Polaris-Label"><label id="TextField7Label" for="TextField7" class="Polaris-Label__Text">Doctor</label></div>
                 </div>
-                <%= form.collection_select(:doctor_id, Doctor.all, :id, :name) %>
+                <%=react_component("doctor_selector", {doctors: @doctor_array})%>
               </div>
             </div>
 
@@ -100,5 +100,4 @@
       <% end %>
       </div>
     </div> 
-    <% javascript_pack_tag("doctor_type")%>
 

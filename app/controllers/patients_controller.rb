@@ -78,6 +78,15 @@ class PatientsController < ApplicationController
   def new
     @patient = Patient.new
 
+    @doctor_array =
+      Doctor.all.to_a.map do |doctor|
+        { name: doctor.employee_record.name,
+          value: doctor.id,
+          is_student: !doctor.mentor_id.nil?
+          #email: EmployeeRecord.where(employee_id: doctor.mentor_id).first.email
+        }
+      end
+
     @url =
       if params[:nurse_id].to_i == @user_nurse.id
         nurse_patients_path
@@ -94,12 +103,19 @@ class PatientsController < ApplicationController
   def create
     @patient = Patient.new(patient_params)
 
+    # if the doctor was a student doctor, then the 
+    @doctor_assigned = Doctor.find(params[:doctor_id])
+    unless @doctor_assigned.mentor_id.nil? # and checkbox is filled
+      email = EmployeeRecord.where(employee_id: @doctor_assigned).first.email
+    end
+
     if params[:nurse_id]
       @nurse_assignment = Nurse.find(params[:nurse_id]).nurse_assignments.build(patient: @patient, start_date: Date.today)
     end
 
     respond_to do |format|
       if @patient.save && (params[:nurse_id]? @nurse_assignment.save : true)
+        OrderMailer.assigned(email).deliver_later # pass in the body in the params
         format.html { flash[:success] = 'Patient record was successfully created.'
                       redirect_to patients_path }
         @current_patients = Patient.all
