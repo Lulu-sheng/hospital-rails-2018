@@ -1,0 +1,9 @@
+<p> Dear <%=@mentor_employee_record.name%></p>
+
+<% if @message.empty? %>
+  <p>This email has been sent to you in order to inform you that your student, <%=@student_doctor_name%>, has been assigned to a patient in the hospital management system. </p>
+
+  <p>Please review the <%= link_to 'details', url_for(host: 'hospital-management.myshopify.io', controller: 'patients', action: 'index')%>  of the assignment.</p>
+<% else %>
+  <%= @message %>
+<% end%>

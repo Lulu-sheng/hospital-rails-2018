@@ -57,3 +57,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'webpacker', '~> 3.0'
 
 gem 'react-rails'
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'chromedriver-helper'
+end

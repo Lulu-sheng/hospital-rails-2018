@@ -103,85 +103,96 @@ class PatientsController < ApplicationController
   def create
     @patient = Patient.new(patient_params)
 
-    # if the doctor was a student doctor, then the 
-    @doctor_assigned = Doctor.find(params[:doctor_id])
-    unless @doctor_assigned.mentor_id.nil? # and checkbox is filled
-      email = EmployeeRecord.where(employee_id: @doctor_assigned).first.email
+    unless params[:email_check].nil?
+      @doctor_assigned = Doctor.find(params[:patient][:doctor_id])
     end
+    #unless @doctor_assigned.mentor_id.nil? 
+    #@email = EmployeeRecord.where(employee_id: @doctor_assigned).first.email
 
-    if params[:nurse_id]
-      @nurse_assignment = Nurse.find(params[:nurse_id]).nurse_assignments.build(patient: @patient, start_date: Date.today)
-    end
-
-    respond_to do |format|
-      if @patient.save && (params[:nurse_id]? @nurse_assignment.save : true)
-        OrderMailer.assigned(email).deliver_later # pass in the body in the params
-        format.html { flash[:success] = 'Patient record was successfully created.'
-                      redirect_to patients_path }
-        @current_patients = Patient.all
-        ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
-      else
-        logger.error "Invalid parameters for a patient record"
-        format.html { render :new }
-      end
-    end
+  if params[:nurse_id]
+    @nurse_assignment = Nurse.find(params[:nurse_id]).nurse_assignments.build(patient: @patient, start_date: Date.today)
   end
 
-  def show
-    @patient = Patient.find(params[:id])
-  end
-
-  def destroy
-    @patient = Patient.find(params[:id])
-    if @patient.nurses.to_a.include? @user_nurse
-      @patient.destroy
-      respond_to do |format|
-        format.html { flash[:success] = 'Patient was successfully removed.'
-                      redirect_to patients_url }
-        @current_patients = Patient.all
-        ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
+  respond_to do |format|
+    if @patient.save && (params[:nurse_id]? @nurse_assignment.save : true)
+      unless params[:email_check].nil?
+        MentorConfirmationMailer.assigned(@doctor_assigned, params[:email_text]).deliver_later
+        #OrderMailer.assigned(@user_nurse, @doctor_assigned, params[:email_text]).deliver_later
       end
+
+      format.html { flash[:success] = 'Patient record was successfully created.'
+                    redirect_to patients_path }
+      @current_patients = Patient.all
+      ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
     else
-      respond_to do |format|
-        format.html { flash[:warning] = 'You cannot remove a patient that is not under your care' 
-                      redirect_to patients_url }
-      end
+      logger.error "Invalid parameters for a patient record"
+      # I MUST PASS IN THE VARIABLE BUT ALSO ONLY RENDER SO THIS RATCHET NESS!
+      format.html { @doctor_array =
+                    Doctor.all.to_a.map do |doctor|
+                      { name: doctor.employee_record.name,
+                        value: doctor.id,
+                        is_student: !doctor.mentor_id.nil?
+                      }
+                    end
+      render :new }
     end
   end
+end
 
-  def information
-    patient = Patient.find(params[:id])
-    if stale?(patient)
-      #render json: {status: 'SUCCESS', message: 'Loaded patient information', data: patient}, status: :ok
-      respond_to do |format|
-        format.json { render json: {status: 'SUCCESS', message: 'Loaded patient information', data: patient}, status: :ok }
-      end
+def show
+  @patient = Patient.find(params[:id])
+end
+
+def destroy
+  @patient = Patient.find(params[:id])
+  if @patient.nurses.to_a.include? @user_nurse
+    @patient.destroy
+    respond_to do |format|
+      format.html { flash[:success] = 'Patient was successfully removed.'
+                    redirect_to patients_url }
+      @current_patients = Patient.all
+      ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
+    end
+  else
+    respond_to do |format|
+      format.html { flash[:warning] = 'You cannot remove a patient that is not under your care' 
+                    redirect_to patients_url }
     end
   end
+end
 
-  private
-
-  def resolve_layout
-    case action_name
-    when "new", "create", "show" 
-      "application"
-    else # index
-      "index_layout"
+def information
+  patient = Patient.find(params[:id])
+  if stale?(patient)
+    #render json: {status: 'SUCCESS', message: 'Loaded patient information', data: patient}, status: :ok
+    respond_to do |format|
+      format.json { render json: {status: 'SUCCESS', message: 'Loaded patient information', data: patient}, status: :ok }
     end
   end
+end
 
-  def invalid_patient
-    logger.error "Attempt to access invalid patient #{params[:id]}"
-    flash[:warning] = 'Invalid patient'
-    redirect_to patients_url
+private
+
+def resolve_layout
+  case action_name
+  when "new", "create", "show" 
+    "application"
+  else # index
+    "index_layout"
   end
+end
 
-  def patient_params
-    params.require(:patient).permit(:name, :emergency_contact, :blood_type,
-                                    :doctor_id, :room_id, :'admitted_on(1i)', 
-                                    :'admitted_on(2i)', :'admitted_on(3i)')
-  end
+def invalid_patient
+  logger.error "Attempt to access invalid patient #{params[:id]}"
+  flash[:warning] = 'Invalid patient'
+  redirect_to patients_url
+end
 
+def patient_params
+  params.require(:patient).permit(:name, :emergency_contact, :blood_type,
+                                  :doctor_id, :room_id, :'admitted_on(1i)', 
+                                  :'admitted_on(2i)', :'admitted_on(3i)')
+end
 
 =begin
         @JustinPatients.each do |patient|

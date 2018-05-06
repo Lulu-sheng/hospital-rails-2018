@@ -17,7 +17,7 @@ doctor3 = doctor1.student_doctors.build(specialty:'plastic', received_license:'2
 doctor3.save
 
 # Create employee records corresponding to the doctors
-doctor1record = doctor1.build_employee_record(email: "lulu@gmail.com", salary: 300000, name:"Lulu Sheng")
+doctor1record = doctor1.build_employee_record(email: "lulu.sheng1418@gmail.com", salary: 300000, name:"Lulu Sheng")
 doctor1record.save
 doctor2record = doctor2.build_employee_record(email: "justin@gmail.com", salary: 200000, name: "Justin Wong")
 doctor2record.save

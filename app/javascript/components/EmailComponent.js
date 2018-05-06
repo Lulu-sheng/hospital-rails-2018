@@ -6,7 +6,7 @@ class MentorType extends React.Component {
   <div className="Polaris-Labelled__LabelWrapper">
     <div className="Polaris-Label"><label id="TextField19Label" for="TextField19" className="Polaris-Label__Text">Personalized Message</label></div>
   </div>
-  <div className="Polaris-TextField Polaris-TextField--multiline"><textarea id="TextField19" className="Polaris-TextField__Input" aria-labelledby="TextField19Label" aria-invalid="false"></textarea>
+  <div className="Polaris-TextField Polaris-TextField--multiline"><textarea id="TextField19" name="email_text" className="Polaris-TextField__Input" aria-labelledby="TextField19Label" aria-invalid="false"></textarea>
     <div className="Polaris-TextField__Backdrop"></div>
     <div aria-hidden="true" className="Polaris-TextField__Resizer">
       <div className="Polaris-TextField__DummyInput"><br/></div>

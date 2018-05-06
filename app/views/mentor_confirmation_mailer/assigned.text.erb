@@ -1,0 +1,10 @@
+Dear <%=@mentor_employee_record.name%>
+
+<% if @message.empty? %>
+This email has been sent to you in order to inform you that your student, <%=@student_doctor_name%>, has been assigned to a patient in the hospital management system. 
+
+Please refer to the following link in order to review the details of the assignment.
+<%= url_for(host: 'hospital-management.myshopify.io', controller: 'patients', action: 'index')%>
+<% else %>
+  <%= @message %>
+<% end%>
