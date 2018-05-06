@@ -1,0 +1,11 @@
+---
+apiVersion: stable.shopify.io/v1
+kind: Mail
+metadata:
+  name: "devdegree17-hospitalapp-production"
+  labels:
+    app: "devdegree17-hospitalapp"
+    namespace: metadata.namespace
+spec:
+  sendgrid-scope:
+  - mail.send
