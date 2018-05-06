@@ -7,6 +7,8 @@ class Nurse < ApplicationRecord
     validates :night_shift, inclusion: {in: [false, true] }
     validates :hours_per_week, presence: true
     validate :date_of_certification_valid?
+    validates :username, presence: true, uniqueness: true
+    has_secure_password
 
     def date_of_certification_valid?
         if !date_of_certification.is_a?(Date) || date_of_certification > Time.now

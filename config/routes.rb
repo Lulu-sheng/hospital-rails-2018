@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  controller :sessions do
+    get 'login', to: 'sessions#new'
+    post 'login', to: 'sessions#create'
+    delete 'logout', to: 'sessions#destory'
+  end
+
   root 'patients#index', as: 'patient_index'
 
   get '/doctors/update_mentor_salary', to: 'doctors#update_mentor_salary'
@@ -22,7 +28,6 @@ Rails.application.routes.draw do
   resources :nurses do
     resources :patients
   end
-  #resources :patients
   resources :nurse_assignments
 
   mount ActionCable.server, at: '/cable'

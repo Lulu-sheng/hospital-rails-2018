@@ -87,6 +87,48 @@
               <%= form.date_select :date_of_certification%>
             </div>
           </div>
+
+          <div class="Polaris-FormLayout__Item">
+            <div class="">
+              <div class="Polaris-Labelled__LabelWrapper">
+                <div class="Polaris-Label"><label id="TextField8Label" for="TextField8" class="Polaris-Label__Text">Username
+                  </label></div>
+              </div>
+              <div class="Polaris-TextField">
+                <!--<input id="TextField8" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField8Label" aria-invalid="false" value placeholder="jane.doe@gmail.com">-->
+                <%= form.text_field :username, class:"Polaris-TextField__Input", placeholder: "janeDoe222"%>
+                <div class="Polaris-TextField__Backdrop"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="Polaris-FormLayout__Item">
+            <div class="">
+              <div class="Polaris-Labelled__LabelWrapper">
+                <div class="Polaris-Label"><label id="TextField8Label" for="TextField8" class="Polaris-Label__Text">Password
+                  </label></div>
+              </div>
+              <div class="Polaris-TextField">
+                <!--<input id="TextField8" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField8Label" aria-invalid="false" value placeholder="jane.doe@gmail.com">-->
+                <%= form.password_field :password, class:"Polaris-TextField__Input", placeholder: "janeDoe222"%>
+                <div class="Polaris-TextField__Backdrop"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="Polaris-FormLayout__Item">
+            <div class="">
+              <div class="Polaris-Labelled__LabelWrapper">
+                <div class="Polaris-Label"><label id="TextField8Label" for="TextField8" class="Polaris-Label__Text">Confirm
+                  </label></div>
+              </div>
+              <div class="Polaris-TextField">
+                <!--<input id="TextField8" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField8Label" aria-invalid="false" value placeholder="jane.doe@gmail.com">-->
+                <%= form.password_field :password_confirmation, class:"Polaris-TextField__Input", placeholder: "janeDoe222"%>
+                <div class="Polaris-TextField__Backdrop"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>

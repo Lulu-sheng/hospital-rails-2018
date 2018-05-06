@@ -31,10 +31,11 @@ room3 = Room.create(wing:'north', floor:2, number:207, vip: true)
 room4 = Room.create(wing:'west', floor:2, number:217, vip: true)
 
 # Create nurses
-nurse1 = Nurse.create(night_shift:true, hours_per_week:25, date_of_certification:'20180101')
-nurse2 = Nurse.create(night_shift:false, hours_per_week:15, date_of_certification:'20170101')
-nurse3 = Nurse.create(night_shift:true, hours_per_week:35, date_of_certification:'20160101')
-nurse4 = Nurse.create(night_shift:false, hours_per_week:40, date_of_certification:'20150101')
+nurse1 = Nurse.create(night_shift:true, hours_per_week:25, date_of_certification:'20180101', username: 'bobby', password: 'secret')
+nurse2 = Nurse.create(night_shift:false, hours_per_week:15, date_of_certification:'20170101', username: 'grace', password: 'secret')
+nurse3 = Nurse.create(night_shift:true, hours_per_week:35, date_of_certification:'20160101', username: 'helen', password: 'secret')
+nurse4 = Nurse.create(night_shift:false, hours_per_week:40, date_of_certification:'20150101', username: 'jimmy', password: 'secret')
+
 
 # Create employee records corresponding to each nurse
 nurse1record = nurse1.build_employee_record(email: "bob@gmail.com", salary: 100000, name:"Bob Joe")

@@ -21,6 +21,8 @@
         <div id="your-patients">
           <%= render_if_have_patients @user_nurse, 'partials/your_patients', {user: @user_nurse}%>
         </div>
+
+        <a class="Polaris-Button Polaris-Button" href=<%=login_url%> data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Logout</span></span></a>
       </div>
 
       <div class="Nurse-Content">

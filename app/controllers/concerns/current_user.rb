@@ -11,8 +11,8 @@ module CurrentUser
     # AUTHENTICATE: if the user is cool and all,
     # get the user_id of logged in user, and populate
     # it into the session hash thing
-    @user_nurse = Nurse.first
+    #@user_nurse = Nurse.first
     # default: create a new user and set it to this person
-    session[:nurse_id] = @user_nurse.id
+    #session[:nurse_id] = @user_nurse.id
   end
 end

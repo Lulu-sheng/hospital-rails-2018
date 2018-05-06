@@ -70,7 +70,8 @@ class NursesController < ApplicationController
   private
   def nurse_params
     params.require(:nurse).permit(:'date_of_certification(1i)', :'date_of_certification(2i)', 
-                                  :'date_of_certification(3i)', :night_shift, :hours_per_week)
+                                  :'date_of_certification(3i)', :night_shift, :hours_per_week,
+                                  :username, :password, :password_confirmation)
   end
 
   def employee_params
