@@ -1,144 +1,53 @@
-<div class="Polaris-Layout">
-  <% unless flash.empty? %>
-    <%= render partial: 'partials/banner'%>
-  <% end %>
-  <div class="Polaris-Layout__AnnotatedSection">
-    <div class="Polaris-Layout__AnnotationWrapper">
-      <div class="Polaris-Layout__Annotation">
-        <div class="Polaris-TextContainer">
-          <h2 class="Polaris-Heading">Welcome to The Hospital Management System</h2><span class="Polaris-TextStyle--variationSubdued"><p>Everything you need to get your hospital working as efficiently and effectively as possibly</p></span></div>
-      </div>
-      <div class="Polaris-Layout__AnnotationContent">
-        <%= form_tag do %>
-          <div class="Polaris-Card">
-            <div class="Polaris-Card__Section">
-              <div class="Polaris-FormLayout">
-                <div class="Polaris-FormLayout__Item">
-                  <div class="">
-                    <div class="Polaris-Labelled__LabelWrapper">
-                      <div class="Polaris-Label"><label id="TextField3Label" for="TextField3" class="Polaris-Label__Text">Username</label></div>
-                    </div>
-                    <div class="Polaris-TextField">
-                      <!--<input id="TextField3" class="Polaris-TextField__Input" aria-labelledby="TextField3Label" aria-invalid="false" value="">-->
-                      <%= text_field_tag :username, params[:username], class:'Polaris-TextField__Input' %>
-                      <div class="Polaris-TextField__Backdrop"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="Polaris-FormLayout__Item">
-                  <div class="">
-                    <div class="Polaris-Labelled__LabelWrapper">
-                      <div class="Polaris-Label"><label id="TextField4Label" for="TextField4" class="Polaris-Label__Text">Account email</label></div>
-                    </div>
-                    <div class="Polaris-TextField">
-                      <!--<input id="TextField4" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField4Label" aria-invalid="false" value="">-->
-                      <%= text_field_tag :password, params[:password], class:'Polaris-TextField__Input' %>
-                      <div class="Polaris-TextField__Backdrop"></div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <%= submit_tag 'Login', class: "Polaris-Button Polaris-Button--primary Polaris-Button__Content"%>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="Polaris-Page">
   <div class="Polaris-Page__Header Polaris-Page__Header--hasSeparator">
     <div class="Polaris-Page__Title">
-      <h1 class="Polaris-DisplayText Polaris-DisplayText--sizeLarge">Welcome To The Hospital Management System</h1>
+      <h1 class="Polaris-DisplayText Polaris-DisplayText--sizeLarge">Welcome to the Hospital Management System</h1>
     </div>
   </div>
   <div class="Polaris-Page__Content">
-    <div class="Polaris-Layout">
-      <div class="Polaris-Layout__AnnotatedSection">
-        <div class="Polaris-Layout__AnnotationWrapper">
-          <div class="Polaris-Card">
-            <div class="Polaris-Card__Section">
-              <div class="Polaris-FormLayout__Item">
-                <div class="">
-                  <div class="Polaris-Labelled__LabelWrapper">
-                    <div class="Polaris-Label"><label id="TextField3Label" for="TextField3" class="Polaris-Label__Text">Username</label></div>
-                  </div>
-                  <div class="Polaris-TextField">
-                    <!--<input id="TextField3" class="Polaris-TextField__Input" aria-labelledby="TextField3Label" aria-invalid="false" value="">-->
-                    <%= text_field_tag :username, params[:username], class:'Polaris-TextField__Input' %>
-                    <div class="Polaris-TextField__Backdrop"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="Polaris-FormLayout__Item">
-                <div class="">
-                  <div class="Polaris-Labelled__LabelWrapper">
-                    <div class="Polaris-Label"><label id="TextField4Label" for="TextField4" class="Polaris-Label__Text">Account email</label></div>
-                  </div>
-                  <div class="Polaris-TextField">
-                    <!--<input id="TextField4" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField4Label" aria-invalid="false" value="">-->
-                    <%= text_field_tag :password, params[:password], class:'Polaris-TextField__Input' %>
-                    <div class="Polaris-TextField__Backdrop"></div>
+      <% unless flash.empty? %>
+        <%= render partial: 'partials/banner'%>
+      <% end %>
 
-                  </div>
-                </div>
+      <%= form_tag do %>
+      <div class="Polaris-Card">
+        <div class="Polaris-Card__Section">
+          <div class="Polaris-FormLayout__Item">
+            <div class="">
+              <div class="Polaris-Labelled__LabelWrapper">
+                <div class="Polaris-Label"><label id="TextField3Label" for="TextField3" class="Polaris-Label__Text">Username</label></div>
               </div>
-            </div>
-            <div class="Polaris-Card__Footer">
-              <div class="Polaris-ButtonGroup">
-                <div class="Polaris-ButtonGroup__Item">
-                  <!--<button type="button" class="Polaris-Button Polaris-Button--primary"><span class="Polaris-Button__Content"><span>Add tracking number</span></span></button>-->
-                  <%= submit_tag 'Login', class: "Polaris-Button Polaris-Button--primary Polaris-Button__Content"%>
-                </div>
+              <div class="Polaris-TextField">
+                <!--<input id="TextField3" class="Polaris-TextField__Input" aria-labelledby="TextField3Label" aria-invalid="false" value="">-->
+                <%= text_field_tag :username, params[:username], class:'Polaris-TextField__Input' %>
+                <div class="Polaris-TextField__Backdrop"></div>
               </div>
             </div>
           </div>
-          <!--<div class="Polaris-Layout__Annotation">
-            <div class="Polaris-TextContainer">
-            <h2 class="Polaris-Heading">Store details</h2><span class="Polaris-TextStyle--variationSubdued"></span></div>
-            </div>-->
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+          <div class="Polaris-FormLayout__Item">
+            <div class="">
+              <div class="Polaris-Labelled__LabelWrapper">
+                <div class="Polaris-Label"><label id="TextField4Label" for="TextField4" class="Polaris-Label__Text">Password</label></div>
+              </div>
+              <div class="Polaris-TextField">
+                <!--<input id="TextField4" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField4Label" aria-invalid="false" value="">-->
+                <%= password_field_tag :password, params[:password], class:'Polaris-TextField__Input' %>
+                <div class="Polaris-TextField__Backdrop"></div>
 
-<div class="Polaris-Card">
-  <div class="Polaris-Card__Section">
-    <div class="Polaris-FormLayout__Item">
-      <div class="">
-        <div class="Polaris-Labelled__LabelWrapper">
-          <div class="Polaris-Label"><label id="TextField3Label" for="TextField3" class="Polaris-Label__Text">Username</label></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="Polaris-TextField">
-          <!--<input id="TextField3" class="Polaris-TextField__Input" aria-labelledby="TextField3Label" aria-invalid="false" value="">-->
-          <%= text_field_tag :username, params[:username], class:'Polaris-TextField__Input' %>
-          <div class="Polaris-TextField__Backdrop"></div>
+        <div class="Polaris-Card__Footer">
+          <div class="Polaris-ButtonGroup">
+            <div class="Polaris-ButtonGroup__Item">
+              <!--<button type="button" class="Polaris-Button Polaris-Button--primary"><span class="Polaris-Button__Content"><span>Add tracking number</span></span></button>-->
+              <%= submit_tag 'Login', class: "Polaris-Button Polaris-Button--primary Polaris-Button__Content"%>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="Polaris-FormLayout__Item">
-      <div class="">
-        <div class="Polaris-Labelled__LabelWrapper">
-          <div class="Polaris-Label"><label id="TextField4Label" for="TextField4" class="Polaris-Label__Text">Account email</label></div>
-        </div>
-        <div class="Polaris-TextField">
-          <!--<input id="TextField4" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField4Label" aria-invalid="false" value="">-->
-          <%= text_field_tag :password, params[:password], class:'Polaris-TextField__Input' %>
-          <div class="Polaris-TextField__Backdrop"></div>
+    <% end %>
 
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="Polaris-Card__Footer">
-    <div class="Polaris-ButtonGroup">
-      <div class="Polaris-ButtonGroup__Item">
-        <!--<button type="button" class="Polaris-Button Polaris-Button--primary"><span class="Polaris-Button__Content"><span>Add tracking number</span></span></button>-->
-        <%= submit_tag 'Login', class: "Polaris-Button Polaris-Button--primary Polaris-Button__Content"%>
-      </div>
-    </div>
   </div>
 </div>

@@ -11,10 +11,15 @@
               <div class="Polaris-Stack__Item">
                 <div class="Polaris-ButtonGroup">
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
+                    <% if nurse.id == @user_nurse.id %>
                     <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_nurse_url(nurse.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Record</span></span></a>
+                  <% end %>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
                     <a class="Polaris-Button Polaris-Button--plain" href="<%= nurse_patients_path(nurse)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>See Patients</span></span></a>
+                  </div>
+                  <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
+                    <%= link_to 'Delete Nurse', nurse_path(nurse), method: :delete, data: {confirm: 'Are you sure you want to remove this nurse\'s record and account?' }, class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
                   </div>
                 </div>
               </div>

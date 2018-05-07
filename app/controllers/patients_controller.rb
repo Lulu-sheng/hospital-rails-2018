@@ -134,7 +134,7 @@ class PatientsController < ApplicationController
                         is_student: !doctor.mentor_id.nil?
                       }
                     end
-      render :new }
+                    render :new }
     end
   end
 end

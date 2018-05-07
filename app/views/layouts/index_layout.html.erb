@@ -22,7 +22,7 @@
           <%= render_if_have_patients @user_nurse, 'partials/your_patients', {user: @user_nurse}%>
         </div>
 
-        <a class="Polaris-Button Polaris-Button" href=<%=login_url%> data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Logout</span></span></a>
+         <%= link_to 'Logout', logout_url, method: :delete, class: "Polaris-Button Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
       </div>
 
       <div class="Nurse-Content">

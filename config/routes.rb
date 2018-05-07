@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   controller :sessions do
     get 'login', to: 'sessions#new'
     post 'login', to: 'sessions#create'
-    delete 'logout', to: 'sessions#destory'
+    delete 'logout', to: 'sessions#destroy'
   end
 
   root 'patients#index', as: 'patient_index'

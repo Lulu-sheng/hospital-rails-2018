@@ -1,9 +1,13 @@
 require 'date'
 class NursesController < ApplicationController
   layout :resolve_layout
+
+  # this is before the transaction is actually committed
   def index
     # all doctors before queries (seeded)
     @nurses = Nurse.all
+    #@is_head_nurse = Nurse.find(session[:nurse_id]).eql?(Nurse.first)
+    p @user_nurse
 
     # first query: get the name of the nurses that take care of employees that are
     # under the care of doctor Lulu Sheng
@@ -38,7 +42,35 @@ class NursesController < ApplicationController
     end
   end
 
+  def destroy
+    nurse = Nurse.find(params[:id])
+
+    nurse.destroy
+    respond_to do |format|
+      if params[:id] == session[:nurse_id]
+        session[:nurse_id] = nil
+        authorize
+      end
+
+      flash[:success] = 'Nurse was successfully removed from the system'
+      format.html { redirect_to nurses_url }
+    end
+  end
+
+  rescue_from 'Nurse::Error' do |exception|
+    flash[:warning] = exception.message
+    redirect_to patients_url
+  end
+
   def edit
+    # I don't need this anymore thanks to the index logic!!
+    # (Is this logic okay to sit in the view?)
+=begin
+    if Nurse.find(session[:nurse_id]) != Nurse.first
+      flash[:warning] = 'You can only edit your own profile.'
+      redirect_to nurses_url
+    end
+=end
     @nurse = Nurse.find(params[:id])
     @employee = @nurse.employee_record
   end
