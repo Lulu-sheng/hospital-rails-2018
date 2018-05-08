@@ -1,6 +1,13 @@
 require "application_system_test_case"
 
 class PatientsTest < ApplicationSystemTestCase
+  def setup
+    visit login_url
+    fill_in 'username', with: nurses(:one).username
+    fill_in 'password', with: 'secret'
+    click_on "Login"
+  end
+
   test "react component dynamic select" do
     visit patients_url
 
@@ -16,8 +23,8 @@ class PatientsTest < ApplicationSystemTestCase
     assert_selector '.Polaris-Choice'
     assert_no_selector '.Polaris-TextField Polaris-TextField--multiline'
 
-    #check 'email_check', wait: 5
-    #assert_selector '.Polaris-TextField Polaris-TextField--multiline'
+    find(".Polaris-Checkbox").click
+    assert_selector '.Polaris-TextField--multiline'
     #https://github.com/thoughtbot/capybara-webkit/issues/629
   end
 end

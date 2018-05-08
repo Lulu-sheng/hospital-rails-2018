@@ -10,6 +10,7 @@ class NurseAssignmentsController < ApplicationController
           @nurse_assignment.save)
         format.html { flash[:success] = 'Successfully assigned nurse to patient' 
                       redirect_to patients_path, notice: 'Successfully assigned nurse to patient' } # not necessary
+        # inside of the block because this is the stuff that is only  associated with the js response
         format.js { @new_patient_name = patient.name
                     @current_patients = Patient.all 
                     render action: 'update'}

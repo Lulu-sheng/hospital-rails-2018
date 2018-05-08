@@ -23,8 +23,10 @@ class Nurse < ApplicationRecord
   private
 
   def ensure_a_nurse_remains
+=begin
     if Nurse.count.zero?
       raise Error.new "Can't delete last nurse"
     end 
+=end
   end
 end

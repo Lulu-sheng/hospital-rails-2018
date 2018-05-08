@@ -47,19 +47,20 @@ class NursesController < ApplicationController
 
     nurse.destroy
     respond_to do |format|
-      if params[:id] == session[:nurse_id]
+      if params[:id] == session[:nurse_id].to_s
         session[:nurse_id] = nil
-        authorize
+        format.html { flash[:warning] = 'Please log in'
+                      redirect_to login_url }
+      else
+        format.html { flash[:success] = 'Nurse was successfully removed from the system'
+                      redirect_to nurses_url }
       end
-
-      flash[:success] = 'Nurse was successfully removed from the system'
-      format.html { redirect_to nurses_url }
     end
   end
 
   rescue_from 'Nurse::Error' do |exception|
     flash[:warning] = exception.message
-    redirect_to patients_url
+    redirect_to nurses_url
   end
 
   def edit

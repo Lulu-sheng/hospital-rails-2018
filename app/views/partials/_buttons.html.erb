@@ -1,5 +1,5 @@
 <div class="Polaris-ButtonGroup__Item">
-  <a class="Polaris-Button Polaris-Button--primary" href=<%=url_for(action: 'new')%> data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Add New Record</span></span></a>
-  <a class="Polaris-Button Polaris-Button" href=<%=url_for(action: 'sort')%> data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Sort Records</span></span></a>
+  <%= link_to 'Add New Record', new_patient_path, class: "Polaris-Button Polaris-Button--primary", 'data-polaris-unstyled': "true", data: { turbolinks: false }%>
+  <%= link_to 'Sort Records', url_for(action: 'sort'), class: "Polaris-Button Polaris-Button", 'data-polaris-unstyled': "true" %>
 </div>
 

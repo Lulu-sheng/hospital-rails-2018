@@ -50,7 +50,6 @@ class PatientsController < ApplicationController
     if (params[:nurse_id])
       @assignments = NurseAssignment.joins(:patient).where(nurse_id: params[:nurse_id])
       @assignments = @assignments.partition { |assignment| assignment.end_date.nil? }
-      p @assignments
 
       current_patients = []
       past_patients = []
@@ -62,30 +61,21 @@ class PatientsController < ApplicationController
       @assignments[1].each do |assignment|
         past_patients << assignment.patient_id
       end
-          
+
       @current_patients = Patient.where(id: current_patients)
       @past_patients = Patient.where(id: past_patients)
 
-      #@assignments = NurseAssignment.where(nurse_id: params[:nurse_id]).select(:patient_id)
-      #@patients = Patient.where(id: @assignments)
     else
       # all doctors before queries (seeded)
       @current_patients = Patient.all
     end
   end
 
-  # GET /line_items/new
+  # GET /patients/new
   def new
     @patient = Patient.new
 
-    @doctor_array =
-      Doctor.all.to_a.map do |doctor|
-        { name: doctor.employee_record.name,
-          value: doctor.id,
-          is_student: !doctor.mentor_id.nil?
-          #email: EmployeeRecord.where(employee_id: doctor.mentor_id).first.email
-        }
-      end
+    @doctor_array = get_doctors
 
     @url =
       if params[:nurse_id].to_i == @user_nurse.id
@@ -106,93 +96,92 @@ class PatientsController < ApplicationController
     unless params[:email_check].nil?
       @doctor_assigned = Doctor.find(params[:patient][:doctor_id])
     end
-    #unless @doctor_assigned.mentor_id.nil? 
-    #@email = EmployeeRecord.where(employee_id: @doctor_assigned).first.email
 
-  if params[:nurse_id]
-    @nurse_assignment = Nurse.find(params[:nurse_id]).nurse_assignments.build(patient: @patient, start_date: Date.today)
-  end
+    if params[:nurse_id]
+      @nurse_assignment = Nurse.find(params[:nurse_id]).nurse_assignments.build(patient: @patient, start_date: Date.today)
+    end
 
-  respond_to do |format|
-    if @patient.save && (params[:nurse_id]? @nurse_assignment.save : true)
-      unless params[:email_check].nil?
-        MentorConfirmationMailer.assigned(@doctor_assigned, params[:email_text]).deliver_later
-        #OrderMailer.assigned(@user_nurse, @doctor_assigned, params[:email_text]).deliver_later
+    respond_to do |format|
+      if @patient.save && (params[:nurse_id]? @nurse_assignment.save : true)
+        unless params[:email_check].nil?
+          MentorConfirmationMailer.assigned(@doctor_assigned, params[:email_text]).deliver_later
+          #OrderMailer.assigned(@user_nurse, @doctor_assigned, params[:email_text]).deliver_later
+        end
+
+        format.html { flash[:success] = 'Patient record was successfully created.'
+                      redirect_to patients_path }
+        @current_patients = Patient.all
+        ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
+      else
+        logger.error "Invalid parameters for a patient record"
+        @doctor_array = get_doctors
+        format.html { render :new }
       end
+    end
+  end
 
-      format.html { flash[:success] = 'Patient record was successfully created.'
-                    redirect_to patients_path }
-      @current_patients = Patient.all
-      ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
+  def show
+    @patient = Patient.find(params[:id])
+  end
+
+  def destroy
+    @patient = Patient.find(params[:id])
+    if @patient.nurses.to_a.include? @user_nurse
+      @patient.destroy
+      respond_to do |format|
+        format.html { flash[:success] = 'Patient was successfully removed.'
+                      redirect_to patients_url }
+        @current_patients = Patient.all
+        ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
+      end
     else
-      logger.error "Invalid parameters for a patient record"
-      # I MUST PASS IN THE VARIABLE BUT ALSO ONLY RENDER SO THIS RATCHET NESS!
-      format.html { @doctor_array =
-                    Doctor.all.to_a.map do |doctor|
-                      { name: doctor.employee_record.name,
-                        value: doctor.id,
-                        is_student: !doctor.mentor_id.nil?
-                      }
-                    end
-                    render :new }
+      respond_to do |format|
+        format.html { flash[:warning] = 'You cannot remove a patient that is not under your care' 
+                      redirect_to patients_url }
+      end
     end
   end
-end
 
-def show
-  @patient = Patient.find(params[:id])
-end
-
-def destroy
-  @patient = Patient.find(params[:id])
-  if @patient.nurses.to_a.include? @user_nurse
-    @patient.destroy
-    respond_to do |format|
-      format.html { flash[:success] = 'Patient was successfully removed.'
-                    redirect_to patients_url }
-      @current_patients = Patient.all
-      ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
-    end
-  else
-    respond_to do |format|
-      format.html { flash[:warning] = 'You cannot remove a patient that is not under your care' 
-                    redirect_to patients_url }
+  def information
+    patient = Patient.find(params[:id])
+    if stale?(patient)
+      respond_to do |format|
+        format.json { render json: {status: 'SUCCESS', message: 'Loaded patient information', data: patient}, status: :ok }
+      end
     end
   end
-end
 
-def information
-  patient = Patient.find(params[:id])
-  if stale?(patient)
-    #render json: {status: 'SUCCESS', message: 'Loaded patient information', data: patient}, status: :ok
-    respond_to do |format|
-      format.json { render json: {status: 'SUCCESS', message: 'Loaded patient information', data: patient}, status: :ok }
+  private
+
+  def resolve_layout
+    case action_name
+    when "new", "create", "show" 
+      "application"
+    else # index
+      "index_layout"
     end
   end
-end
 
-private
-
-def resolve_layout
-  case action_name
-  when "new", "create", "show" 
-    "application"
-  else # index
-    "index_layout"
+  def get_doctors
+    Doctor.all.to_a.map do |doctor|
+      { name: doctor.employee_record.name,
+        value: doctor.id,
+        is_student: !doctor.mentor_id.nil?
+      }
+    end
   end
-end
 
-def invalid_patient
-  logger.error "Attempt to access invalid patient #{params[:id]}"
-  flash[:warning] = 'Invalid patient'
-  redirect_to patients_url
-end
+  def invalid_patient
+    logger.error "Attempt to access invalid patient #{params[:id]}"
+    flash[:warning] = 'Invalid patient'
+    redirect_to patients_url
+  end
 
-def patient_params
-  params.require(:patient).permit(:name, :emergency_contact, :blood_type,
-                                  :doctor_id, :room_id, :'admitted_on(1i)', 
-                                  :'admitted_on(2i)', :'admitted_on(3i)')
-end
+  def patient_params
+    params.require(:patient).permit(:name, :emergency_contact, :blood_type,
+                                    :doctor_id, :room_id, :'admitted_on(1i)', 
+                                    :'admitted_on(2i)', :'admitted_on(3i)')
+  end
 
 =begin
         @JustinPatients.each do |patient|
