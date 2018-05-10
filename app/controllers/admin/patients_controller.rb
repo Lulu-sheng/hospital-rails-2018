@@ -1,40 +1,6 @@
-class PatientsController < ApplicationController
+class Admin::PatientsController < Admin::BaseController
   layout :resolve_layout
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_patient
-=begin
-        # all doctors before queries (seeded)
-        @patients = Patient.all
-
-        # first query: the number of patients per floor
-        @patientPerFloorHash =Patient.joins(:room).group(:floor).count(:id)
-=end
-
-  def change_ownership
-    # second query: change all of the patients that are under Justin to be under Emily
-    @Emily = Doctor.joins(:employee_record).where('employee_records.name': 'Emily Smith').first
-    @Justin = Doctor.joins(:employee_record).where('employee_records.name': 'Justin Wong')
-    @JustinPatients = Patient.where(doctor_id: @Justin).update_all(doctor_id: @Emily.id) #.update(doctor_id: @Emily)
-
-    @patientsAfterSwap = Patient.all
-  end
-
-  def add_patient
-    # third query: create a new patient and assign to room 217 and Justin
-    @Justin = Doctor.joins(:employee_record).where('employee_records.name': 'Justin Wong').first
-    @room = Room.where(number:217).first
-    newPatient = @Justin.patients.build(name: 'Bob McNugget', admitted_on:'20180330', emergency_contact:'Tim McNugget', blood_type:'O', room_id: @room.id)
-    newPatient.save
-    @patientsAfterAdd = Patient.all
-  end
-
-  def remove_patient
-    # fourth query: destroy patient
-    @patientToDestroy = Patient.where(name:'Mark Matthews').first
-    if @patientToDestroy != nil
-      @patientToDestroy.destroy
-    end
-    @patientsAfterDestroy = Patient.all
-  end
 
   def sort
     @current_patients = 
@@ -43,20 +9,15 @@ class PatientsController < ApplicationController
       else
         Patient.all.order(name: :asc)
       end
-    render 'index'
+    #render 'patients/index'
+    render :index
   end
 
   def index
     if (params[:nurse_id])
-      # All assignments associated with the specific nurse.
       @assignments = NurseAssignment.joins(:patient).where(nurse_id: params[:nurse_id])
-
-      # Partition all of the nurse assignments that are currently taking place
-      # and those that are not currently taking place
       @assignments = @assignments.partition { |assignment| assignment.end_date.nil? }
 
-      # push these separate assignment patient_id's into
-      # their own array
       current_patients = []
       past_patients = []
 
@@ -68,11 +29,6 @@ class PatientsController < ApplicationController
         past_patients << assignment.patient_id
       end
 
-      # run another query to extract patients who are in each partition
-      # this is because even if we created a join between patinet and nurse_assignments,
-      # we cannot access the attributes association with the joined model. However
-      # we must partition the patients with the nurse_assignment attribute (end_date)
-      # hence this was the workaround.
       @current_patients = Patient.where(id: current_patients)
       @past_patients = Patient.where(id: past_patients)
 
@@ -80,6 +36,7 @@ class PatientsController < ApplicationController
       # all doctors before queries (seeded)
       @current_patients = Patient.all
     end
+    #render 'patients/index'
   end
 
   # GET /patients/new
@@ -94,11 +51,12 @@ class PatientsController < ApplicationController
       elsif params[:nurse_id]
         respond_to do |format|
           format.html { flash[:warning] = 'You can\'t assign patients to other nurses other than yourself'
-                        redirect_back fallback_location: patients_path}
+                        redirect_back fallback_location: admin_patients_path}
         end
       else
         patients_path
       end
+    #render 'patients/new'
   end
 
   def create
@@ -120,7 +78,7 @@ class PatientsController < ApplicationController
         end
 
         format.html { flash[:success] = 'Patient record was successfully created.'
-                      redirect_to patients_path }
+                      redirect_to 'hospital-management.myshopify.io/admin/patients' }
         @current_patients = Patient.all
         ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
       else
@@ -133,6 +91,7 @@ class PatientsController < ApplicationController
 
   def show
     @patient = Patient.find(params[:id])
+    #render 'patients/show'
   end
 
   def destroy
@@ -141,14 +100,14 @@ class PatientsController < ApplicationController
       @patient.destroy
       respond_to do |format|
         format.html { flash[:success] = 'Patient was successfully removed.'
-                      redirect_to patients_url }
+                      redirect_to admin_patients_url }
         @current_patients = Patient.all
         ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
       end
     else
       respond_to do |format|
         format.html { flash[:warning] = 'You cannot remove a patient that is not under your care' 
-                      redirect_to patients_url }
+                      redirect_to admin_patients_url }
       end
     end
   end
@@ -185,7 +144,7 @@ class PatientsController < ApplicationController
   def invalid_patient
     logger.error "Attempt to access invalid patient #{params[:id]}"
     flash[:warning] = 'Invalid patient'
-    redirect_to patients_url
+    redirect_to admin_patients_url
   end
 
   def patient_params
@@ -193,27 +152,4 @@ class PatientsController < ApplicationController
                                     :doctor_id, :room_id, :'admitted_on(1i)', 
                                     :'admitted_on(2i)', :'admitted_on(3i)')
   end
-
-=begin
-        @JustinPatients.each do |patient|
-            patient.update(doctor_id: @Emily)
-        end
-
-        # first query
-        @luluDoctor = Doctor.joins(:employee_record).where('employee_records.name':'Lulu Sheng')
-        @patientsUnderLulu = Patient.where(doctor_id:@luluDoctor)
-
-        @result = []
-        @patientsUnderLulu.each do |patient|
-            @result << Nurse.joins(:employee_record).where(id: patient.nurses)
-        end
-
-        # second query: the name of the nurse who works the least amount of hours per week
-        @leastHours = Nurse.minimum(:hours_per_week)
-        @minHours = Nurse.where(hours_per_week:@leastHours).first
-
-        # third query: total number of night-shift nurses
-        @numOfNightShift = Nurse.where(night_shift:true).count(:id)
-=end
 end
-

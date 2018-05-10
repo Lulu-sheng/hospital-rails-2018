@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180506204554) do
+ActiveRecord::Schema.define(version: 20180508233333) do
 
   create_table "doctors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "specialty"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20180506204554) do
     t.datetime "updated_at", null: false
     t.string "employee_type"
     t.bigint "employee_id"
+    t.string "gravatar", default: "https://www.gravatar.com/avatar/d69ab4fb9bb28c0527e972273614f585"
     t.index ["employee_type", "employee_id"], name: "index_employee_records_on_employee_type_and_employee_id"
   end
 

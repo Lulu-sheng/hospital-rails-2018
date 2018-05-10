@@ -3,7 +3,8 @@
     <%cache nurse do %>
       <div class="Record-Card">
         <div class="Polaris-Card">
-         <div class="Polaris-Card__Header">
+          <%=image_tag(nurse.employee_record.gravatar, size: "20x20", alt: "Edit Entry")%>
+          <div class="Polaris-Card__Header">
             <div class="Polaris-Stack Polaris-Stack--alignmentBaseline">
               <div class="Polaris-Stack__Item Polaris-Stack__Item--fill">
                 <h2 class="Polaris-Heading"><%= nurse.employee_record.name%>: <%= nurse.employee_record.email%></h2>
@@ -12,11 +13,11 @@
                 <div class="Polaris-ButtonGroup">
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
                     <% if nurse.id == @user_nurse.id %>
-                    <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_nurse_url(nurse.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Record</span></span></a>
-                  <% end %>
+                      <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_nurse_url(nurse.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Record</span></span></a>
+                    <% end %>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
-                    <a class="Polaris-Button Polaris-Button--plain" href="<%= nurse_patients_path(nurse)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>See Patients</span></span></a>
+                    <a class="Polaris-Button Polaris-Button--plain" href="<%= nurse_patients_url(nurse)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>See Patients</span></span></a>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
                     <%= link_to 'Delete Nurse', nurse_path(nurse), method: :delete, data: {confirm: 'Are you sure you want to remove this nurse\'s record and account?' }, class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
@@ -39,3 +40,4 @@
     <%end%>
   <%end%>
 <%end%>
+

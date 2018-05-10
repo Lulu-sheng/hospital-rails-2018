@@ -1,0 +1,36 @@
+fr:
+  partials:
+    patient_card:
+      patient_description1: 'Admis le %{admitted_on} ('
+      patient_description2_html: ' dans la pass&eacutee), de la type de sang %{blood}, sous la surveillance de %{doctor}'
+  patients:
+    form:
+      heading_html: Les d&eacutetailles du patient
+      full_name_html: Nom complet
+      contact_html: Personne à contacter au cas d'urgence
+      blood_html: Type de sang
+      doctor_html: Médecin
+      room_html: Chambre
+      admitted_on_html: Date d'admission
+
+  errors:
+    header:
+      one: "1 erreur a interdit le processus de sauf guarder un record d'%{model}"
+      other: "%{count} erreurs ont interdit le processus de sauf guarder un record d'%{model}"
+  
+  activerecord:
+    errors:
+      messages:
+        blank: ne peut pas être vide
+        too_short: est trop court
+        inclusion: n'est pas inclu dans la liste
+    models:
+      patient: patient
+    attributes:
+      patient:
+        name: Nom
+        admitted_on: Date d'admission
+        emergency_contact: Contact d'urgence
+        blood_type: Type de sang
+        doctor_id: Médecin
+        room_id: Chambre

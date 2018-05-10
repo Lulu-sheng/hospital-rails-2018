@@ -6,6 +6,6 @@ class Patient < ApplicationRecord
 
     validates :name, presence: true, length: { minimum: 2}
     validates :admitted_on, presence: true
-    validates :emergency_contact, presence: { message: "patient must specify the name of their emergency contact" } 
+    validates :emergency_contact, presence: true
     validates :blood_type, inclusion: { in: %w(O B AB)}
 end

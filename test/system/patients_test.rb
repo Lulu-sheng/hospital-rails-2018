@@ -12,7 +12,6 @@ class PatientsTest < ApplicationSystemTestCase
     visit patients_url
 
     click_link "Add New Record"
-    #find("a[href='#{new_patient_url}']").click
 
     page.driver.browser.navigate.refresh
 

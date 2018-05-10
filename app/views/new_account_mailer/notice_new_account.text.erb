@@ -1,0 +1,7 @@
+Dear <%=@new_employee_record.name%>
+
+This email has been sent to you to notify you that your account on the Hospital Management System has been created. Here is your temporary login information. You will be able to change your password once you login to the system. 
+
+Your username is <%= @new_nurse.username %> and your password is <%= @new_nurse.password_digest %>
+
+Follow this <%= link_to 'link', url_for(host: 'hospital-management.myshopify.io', controller: 'patients', action: 'index')%>  in order to login

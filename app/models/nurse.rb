@@ -2,7 +2,7 @@ class Nurse < ApplicationRecord
   after_destroy :ensure_a_nurse_remains
   has_many :nurse_assignments
   has_many :patients, through: :nurse_assignments
-  has_one :employee_record, as: :employee
+  has_one :employee_record, as: :employee, dependent: :destroy
 
   # this is precense validation for booleans
   validates :night_shift, inclusion: {in: [false, true] }
@@ -23,10 +23,8 @@ class Nurse < ApplicationRecord
   private
 
   def ensure_a_nurse_remains
-=begin
     if Nurse.count.zero?
       raise Error.new "Can't delete last nurse"
     end 
-=end
   end
 end

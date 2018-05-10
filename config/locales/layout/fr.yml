@@ -1,0 +1,87 @@
+fr:
+  layouts:
+    index_layout:
+      doctors: Medecins
+      nurses: Infirmiers
+      patients: Patients
+      map: Carte
+      
+      logout_html: D&eacuteconnection
+  
+  partials:
+    profile:
+      profile: Ton profil
+    your_patients:
+      patients: Tes patients
+    buttons:
+      add: Ajouter un nouveau record
+      sort: Arranger les records
+
+  datetime:
+    distance_in_words:
+      x_months:
+        one: "approximativement 1 mois"
+        other: "approximativement %{count} mois"
+      about_x_hours:
+        one: environ une heure
+        other: environ %{count} heures
+      about_x_years:
+        one: environ un an
+        other: environ %{count} ans
+      over_x_years:
+        one: plus d'un an
+        other: plus de %{count} ans
+
+  date:
+    abbr_day_names:
+    - dim
+    - lun
+    - mar
+    - mer
+    - jeu
+    - ven
+    - sam
+    abbr_month_names:
+    -
+    - jan.
+    - fév.
+    - mar.
+    - avr.
+    - mai
+    - juin
+    - juil.
+    - août
+    - sept.
+    - oct.
+    - nov.
+    - déc.
+    day_names:
+    - dimanche
+    - lundi
+    - mardi
+    - mercredi
+    - jeudi
+    - vendredi
+    - samedi
+    formats:
+      default: "%d/%m/%Y"
+      short: "%e %b"
+      long: "%e %B %Y"
+    month_names:
+    -
+    - janvier
+    - février
+    - mars
+    - avril
+    - mai
+    - juin
+    - juillet
+    - août
+    - septembre
+    - octobre
+    - novembre
+    - décembre
+    order:
+    - :day
+    - :month
+    - :year

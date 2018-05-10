@@ -1,0 +1,23 @@
+en:
+  partials:
+    patient_card:
+      patient_description1: 'Admitted on %{admitted_on} ('
+      patient_description2_html: ' in the past), of blood type %{blood}, under the care of Doctor %{doctor}'
+  patients:
+    form:
+      heading_html: Nurse Details
+      full_name_html: Full Name
+      contact_html: Emergency Contact
+      blood_html: Blood Type
+      doctor_html: Doctor
+      room_html: Room
+      admitted_on_html: Admitted On Date
+
+  errors:
+    header:
+      one: "1 error prohibited this %{model} from being saved"
+      other: "%{count} errors prohibited this %{model} from being saved"
+
+  activerecord:
+    models:
+      patient: patient

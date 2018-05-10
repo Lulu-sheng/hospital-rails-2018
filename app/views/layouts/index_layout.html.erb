@@ -12,17 +12,17 @@
   <body>
     <div class="flex-container">
       <div class="make-shift-navbar">
-        <%= link_to 'Patients', patients_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
-        <%= link_to 'Nurses', nurses_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
-        <%= link_to 'Doctors', nurses_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
-        <%= link_to 'Map', nurses_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+        <%= link_to t('.patients'), url_for(controller: 'patients', action: 'index'), class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+        <%= link_to t('.nurses'), url_for(controller: 'nurses', action: 'index'), class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+        <%= link_to t('.doctors'), nurses_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+        <%= link_to t('.map'), nurses_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
 
         <%= render partial: 'partials/profile', locals: {user: @user_nurse} %>
         <div id="your-patients">
           <%= render_if_have_patients @user_nurse, 'partials/your_patients', {user: @user_nurse}%>
         </div>
 
-         <%= link_to 'Logout', logout_url, method: :delete, class: "Polaris-Button Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+         <%= link_to t('.logout_html'), logout_url, method: :delete, class: "Polaris-Button Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
       </div>
 
       <div class="Nurse-Content">

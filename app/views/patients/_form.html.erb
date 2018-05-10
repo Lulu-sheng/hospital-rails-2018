@@ -5,7 +5,7 @@
 
       <div class="Polaris-Card">
         <div class="Polaris-Card__Header">
-          <h2 class="Polaris-Heading">Nurse Details</h2>
+          <h2 class="Polaris-Heading"><%= t('.heading_html')%></h2>
         </div>
         <div class="Polaris-Card__Section">
 
@@ -15,10 +15,9 @@
             <div class="Polaris-FormLayout__Item">
               <div class="">
                 <div class="Polaris-Labelled__LabelWrapper">
-                  <div class="Polaris-Label"><label id="TextField7Label" for="TextField7" class="Polaris-Label__Text">Full Name</label></div>
+                  <div class="Polaris-Label"><label id="TextField7Label" for="TextField7" class="Polaris-Label__Text"><%=t('.full_name_html')%></label></div>
                 </div>
                 <div class="Polaris-TextField">
-                  <!--<input id="TextField7" class="Polaris-TextField__Input" aria-labelledby="TextField7Label" aria-invalid="false" value placeholder="Jane Doe">-->
                   <%= form.text_field :name, class:"Polaris-TextField__Input", placeholder: "Jane Doe"%>
                   <div class="Polaris-TextField__Backdrop"></div>
                 </div>
@@ -28,11 +27,9 @@
             <div class="Polaris-FormLayout__Item">
               <div class="">
                 <div class="Polaris-Labelled__LabelWrapper">
-                  <div class="Polaris-Label"><label id="TextField8Label" for="TextField8" class="Polaris-Label__Text">Emergency Contact
-                    </label></div>
+                  <div class="Polaris-Label"><label id="TextField8Label" for="TextField8" class="Polaris-Label__Text"><%=t('.contact_html')%></label></div>
                 </div>
                 <div class="Polaris-TextField">
-                  <!--<input id="TextField8" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField8Label" aria-invalid="false" value placeholder="jane.doe@gmail.com">-->
                   <%= form.text_field :emergency_contact, class:"Polaris-TextField__Input", placeholder: "Momma Doe"%>
                   <div class="Polaris-TextField__Backdrop"></div>
                 </div>
@@ -42,21 +39,19 @@
             <div class="Polaris-FormLayout__Item">
               <div class="">
                 <div class="Polaris-Labelled__LabelWrapper">
-                  <div class="Polaris-Label"><label id="TextField8Label" for="TextField8" class="Polaris-Label__Text">Blood Type
+                  <div class="Polaris-Label"><label id="TextField8Label" for="TextField8" class="Polaris-Label__Text"><%= t('.blood_html')%>
                     </label></div>
                 </div>
                 <div class="Polaris-TextField">
-                  <!--<input id="TextField8" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField8Label" aria-invalid="false" value placeholder="jane.doe@gmail.com">-->
                   <%= form.text_field :blood_type, class:"Polaris-TextField__Input", placeholder: "A"%>
                   <div class="Polaris-TextField__Backdrop"></div>
                 </div>
               </div>
             </div>
-
             <div class="Polaris-FormLayout__Item">
               <div class="">
                 <div class="Polaris-Labelled__LabelWrapper">
-                  <div class="Polaris-Label"><label id="TextField7Label" for="TextField7" class="Polaris-Label__Text">Doctor</label></div>
+                  <div class="Polaris-Label"><label id="TextField7Label" for="TextField7" class="Polaris-Label__Text"><%= t('.doctor_html')%></label></div>
                 </div>
                 <%=react_component("doctor_selector", {doctors: @doctor_array})%>
                 <%= javascript_pack_tag("application")%>
@@ -66,7 +61,7 @@
             <div class="Polaris-FormLayout__Item">
               <div class="">
                 <div class="Polaris-Labelled__LabelWrapper">
-                  <div class="Polaris-Label"><label id="TextField7Label" for="TextField7" class="Polaris-Label__Text">Room</label></div>
+                  <div class="Polaris-Label"><label id="TextField7Label" for="TextField7" class="Polaris-Label__Text"><%= t('.room_html')%></label></div>
                 </div>
                 <%= form.collection_select(:room_id, Room.all, :id, :number)%>
               </div>
@@ -75,7 +70,7 @@
             <div class="Polaris-FormLayout__Item">
               <div class="">
                 <div class="Polaris-Labelled__LabelWrapper">
-                  <div class="Polaris-Label"><label id="TextField7Label" for="TextField7" class="Polaris-Label__Text">Admitted On Date</label></div>
+                  <div class="Polaris-Label"><label id="TextField7Label" for="TextField7" class="Polaris-Label__Text"><%= t('.admitted_on_html')%></label></div>
                 </div>
                 <%= form.date_select :admitted_on%>
               </div>

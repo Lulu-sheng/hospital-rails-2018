@@ -14,7 +14,7 @@
                     <%= button_to_if patient, 'Drop Patient', nurse_assignments_path(patient_id: patient), "Polaris-Button Polaris-Button--plain Polaris-Button__Content", true, :put%>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
-                    <%= link_to 'Full Details', patient_path(patient), class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+                    <%= link_to 'Full Details', {controller: 'patients', action: 'show', id: patient.id}, class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
                     <%= button_to 'Manage Patient', nurse_assignments_path(patient_id: patient), class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true", remote: true%>
@@ -24,8 +24,7 @@
             </div>
           </div>
           <div class="Polaris-Card__Section">
-            <p>Admitted on <%=patient.admitted_on%> (<strong><%=distance_of_time_in_words(Time.now, patient.admitted_on)%></strong> in the past), of blood type <%=patient.blood_type%>, under the care of Doctor <%=patient.doctor.employee_record.name%>
-          </p>
+            <p> <%=t('.patient_description1',admitted_on: patient.admitted_on)%><strong><%=distance_of_time_in_words(Time.now, patient.admitted_on)%></strong><%= t('.patient_description2_html', blood: patient.blood_type, doctor: patient.doctor.employee_record.name)%></p>
           </div>
         </div>
       </div>

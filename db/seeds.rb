@@ -38,11 +38,11 @@ nurse4 = Nurse.create(night_shift:false, hours_per_week:40, date_of_certificatio
 
 
 # Create employee records corresponding to each nurse
-nurse1record = nurse1.build_employee_record(email: "bob@gmail.com", salary: 100000, name:"Bob Joe")
+nurse1record = nurse1.build_employee_record(email: "bob@gmail.com", salary: 100000, name:"Bob Joe", gravatar: 'https://www.gravatar.com/avatar/e0b2b5a49cd229ea8ec8f92e84093394')
 nurse1record.save
 nurse2record = nurse2.build_employee_record(email: "grace@gmail.com", salary: 80000, name: "Grace Jane")
 nurse2record.save
-nurse3record = nurse3.build_employee_record(email: "helen@gmail.com", salary: 90000, name:"Helen Gupta")
+nurse3record = nurse3.build_employee_record(email: "helen@gmail.com", salary: 90000, name:"Helen Gupta", gravatar: 'https://www.gravatar.com/avatar/e0b2b5a49cd229ea8ec8f92e84093394')
 nurse3record.save
 nurse4record = nurse4.build_employee_record(email: "jimmy@gmail.com", salary: 70000, name:"Jimmy Zhang")
 nurse4record.save

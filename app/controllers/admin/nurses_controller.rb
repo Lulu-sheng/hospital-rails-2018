@@ -1,30 +1,9 @@
-require 'date'
-class NursesController < ApplicationController
+class Admin::NursesController < Admin::BaseController
   layout :resolve_layout
 
   # this is before the transaction is actually committed
   def index
-    # all doctors before queries (seeded)
     @nurses = Nurse.all
-    #@is_head_nurse = Nurse.find(session[:nurse_id]).eql?(Nurse.first)
-
-    # first query: get the name of the nurses that take care of employees that are
-    # under the care of doctor Lulu Sheng
-    @luluDoctor = Doctor.joins(:employee_record).where('employee_records.name':'Lulu Sheng')
-    @patientsUnderLulu = Patient.where(doctor_id:@luluDoctor)
-
-    @luluNurses = []
-    @patientsUnderLulu.each do |patient|
-      @luluNurses << Nurse.joins(:employee_record).where(id: patient.nurses).select('employee_records.name')
-    end
-
-    # second query: the name of the nurse who works the least amount of hours per week
-    @leastHours = Nurse.minimum(:hours_per_week)
-    #@nurseWithLeastHrs = Nurse.where(hours_per_week:@leastHours).first
-    @nurseWithLeastHrs = Nurse.joins(:employee_record).where(hours_per_week:@leastHours).select('employee_records.name').first
-
-    # third query: total number of night-shift nurses
-    @numOfNightShift = Nurse.where(night_shift:true).count(:id)
   end
 
   def create
@@ -33,7 +12,6 @@ class NursesController < ApplicationController
 
     respond_to do |format|
       if [@nurse.save, @employee.save].all?
-        NewAccountMailer.notice_new_account(@nurse).deliver_later
         format.html { flash[:success] = 'Nurse was successfully created'
                       redirect_to nurses_path }
       else
@@ -73,15 +51,11 @@ class NursesController < ApplicationController
   def update
     @nurse = Nurse.find(params[:id])
     @employee = @nurse.employee_record
-    @previous_email = @employee.gravatar
 
     respond_to do |format|
       if [@nurse.update(nurse_params), @employee.update(employee_params)].all?
         format.html { flash[:success] = 'Nurse was successfully updated'
                       redirect_to nurses_path }
-        unless @previous_email.eql?(@nurse.employee_record.email)
-          GenerateHashJob.perform_later(@nurse)
-        end
       else
         format.html { render :edit }
       end
@@ -123,6 +97,4 @@ class NursesController < ApplicationController
       "index_layout"
     end
   end
-
 end
-
