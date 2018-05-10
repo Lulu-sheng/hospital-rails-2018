@@ -1,0 +1,88 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: jobs
+  annotations:
+    shipit.shopify.io/restart: 'true'
+  labels:
+    name: jobs
+    app: "devdegree17-hospitalapp"
+    env: "production"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: jobs
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 50%
+  template:
+    metadata:
+      labels:
+        name: jobs
+        app: "devdegree17-hospitalapp"
+        env: "production"
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - name: jobs
+        image: gcr.io/shopify-docker-images/apps/production/devdegree17-hospitalapp:<%= current_sha %>
+        args:
+        - jobs
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/run/gcloud/key
+        - name: ENV
+          value: "production"
+        - name: RAILS_ENV
+          value: "production"
+        - name: RAILS_LOG_TO_STDOUT
+          value: '1'
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: TRACE_PROXY_ADDR
+          value: http://$(NODE_NAME):8096/
+        - name: STATSD_ADDR
+          value: $(NODE_NAME):8125
+        - name: STATSD_IMPLEMENTATION
+          value: datadog
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: database-url
+              key: DATABASE_URL
+        - name: KAFKA_CLIENT_CERT
+          value: "/ssl/kafka-client/tls.crt"
+        - name: KAFKA_CLIENT_KEY
+          value: "/ssl/kafka-client/tls.key"
+        volumeMounts:
+        - name: ejson-keys
+          mountPath: "/key"
+          readOnly: true
+        - mountPath: "/ssl/kafka-client"
+          name: kafka-client
+        - name: google-service-account
+          mountPath: "/var/run/gcloud"
+          readOnly: true
+        resources:
+          requests:
+            cpu: 200m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+      volumes:
+      - name: kafka-client
+        secret:
+          secretName: kafka-client
+      - name: ejson-keys
+        secret:
+          secretName: ejson-keys
+      - name: google-service-account
+        secret:
+          secretName: service-account-key
