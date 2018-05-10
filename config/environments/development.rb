@@ -58,8 +58,8 @@ config.webpacker.check_yarn_integrity = true
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
-    user_name:            'lulu.sheng1418@gmail.com',
-    password:             'groupof4soup',
+    user_name:            ENV["GMAIL_USERNAME"],
+    password:             ENV["GMAIL_PASSWORD"],
     authentication:       'plain',
     enable_starttls_auto: true 
   }
