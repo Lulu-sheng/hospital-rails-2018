@@ -1,5 +1,8 @@
 require 'date'
 class NursesController < ApplicationController
+  skip_before_action :authorize, only: :new
+  before_action :authorize, unless: :no_nurses?
+
   layout :resolve_layout
 
   # this is before the transaction is actually committed
@@ -122,6 +125,10 @@ class NursesController < ApplicationController
     else # index
       "index_layout"
     end
+  end
+
+  def no_nurses?
+    Nurse.count == 0
   end
 
 end

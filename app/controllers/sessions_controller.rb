@@ -1,8 +1,9 @@
 class SessionsController < ApplicationController
   skip_before_action :authorize
   def new
-    #it just needs to show the login stuff!
-    unless session[:nurse_id].nil?
+    if Nurse.count == 0
+      redirect_to new_nurse_url
+    elsif !session[:nurse_id].nil?
       redirect_to patients_url
     end
   end
