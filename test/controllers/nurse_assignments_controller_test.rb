@@ -1,5 +1,7 @@
 require 'test_helper'
 
+#this is a test
+
 class NurseAssignmentControllerTest < ActionDispatch::IntegrationTest
   test "should manage patient (not currently mine)" do
     assert_difference('NurseAssignment.count', 1) do
