@@ -14,8 +14,7 @@ class NurseAssignmentControllerTest < ActionDispatch::IntegrationTest
       post nurse_assignments_path(patient_id: patients(:three)), xhr: true 
     end
 
-    #follow_redirect!
-    #assert_select 'p.Polaris-Heading', 'You are already assigned to this patient.'
+    assert_select '#Banner23Heading', 'You are already assigned to this patient.'
 
   end
 

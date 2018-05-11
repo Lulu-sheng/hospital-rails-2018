@@ -15,7 +15,7 @@ class PatientTest < ActiveSupport::TestCase
         assert patient.invalid?
         assert_equal ["can't be blank", "is too short (minimum is 2 characters)"], patient.errors[:name]
         assert patient.errors[:admitted_on].any?
-        assert_equal ["patient must specify the name of their emergency contact"], patient.errors[:emergency_contact]
+        assert_equal ["can't be blank"], patient.errors[:emergency_contact]
     end
 
     test "valid blood_type" do
