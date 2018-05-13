@@ -84,7 +84,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: esp-secrets
-              key: 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
+              key: <%= ENV['sendgrid_API_key']%>
               optional: true
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/run/gcloud/key
