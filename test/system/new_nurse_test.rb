@@ -17,8 +17,8 @@ class NewNurseTest < ApplicationSystemTestCase
     fill_in 'employee_record[salary]', with: '10000'
     fill_in 'nurse[hours_per_week]', with: '10'
     fill_in 'nurse[username]', with: 'freya'
-    fill_in 'nurse[password]', with: 'zhang'
-    fill_in 'nurse[password_confirmation]', with: 'zhang'
+    fill_in 'nurse[password]', with: 'zhangster'
+    fill_in 'nurse[password_confirmation]', with: 'zhangster'
 
     perform_enqueued_jobs do
       click_on "Create Nurse"
@@ -34,12 +34,14 @@ class NewNurseTest < ApplicationSystemTestCase
 
     visit login_url
     fill_in 'username', with: 'freya'
-    fill_in 'password', with: 'zhang'
+    fill_in 'password', with: 'zhangster'
     click_on "Login"
 
     visit nurses_url
     click_on 'Edit Record'
     fill_in 'employee_record[email]', with: 'william.lu@shopify.com', wait: 5
+    fill_in 'nurse[password]', with: 'secret'
+    fill_in 'nurse[password_confirmation]', with: 'secret'
     perform_enqueued_jobs do
       click_on 'Update Nurse'
     end

@@ -9,7 +9,8 @@ end
 
 class ActionDispatch::IntegrationTest
   def login_as(user)
-    post login_url, params: { name: user.username, password: 'secret' } end
+    post login_url, params: { username: user.username, password: 'secret' } 
+  end
   def logout
     delete logout_url
   end

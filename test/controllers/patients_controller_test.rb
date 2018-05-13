@@ -6,12 +6,8 @@ class PatientsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get overall sort" do
-    get url_for(controller: 'patients', action: 'sort')
+    get patients_sort_url
     assert_response :success
-    #assert_select 'h2.Polaris-Heading', "#{@patientA.name}: r.#{@patientA.room.number}"
-  end
-
-  test "should get specific sort" do
   end
 
   test "should get index" do
@@ -19,6 +15,20 @@ class PatientsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select 'h1', 'Patients'
     assert_select 'div.Record-Card', 3
+  end
+
+  test "should get subset of patients with partition" do
+    get nurse_patients_path(nurse_id: nurses(:one))
+    assert_response :success
+    assert_select 'h3', 2
+    assert_select 'h1', 'Patients'
+  end
+
+  test "should get subset of patients without partition" do
+    get nurse_patients_path(nurse_id: nurses(:two))
+    assert_response :success
+    assert_select 'h3', 'Current Patients'
+    assert_select 'h1', 'Patients'
   end
 
   test "should get new (form)" do
@@ -29,24 +39,58 @@ class PatientsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create patient general" do
     assert_difference 'Patient.count', 1 do
-      post patients_url, params: { patient: { name: 'James Turtle', emergency_contact: 'Helen Turtle', blood_type: 'A', doctor: doctors(:bob).id, room: rooms(:two).number}}
+      post patients_url, params: { patient: { name: 'James Turtle', 
+                                              emergency_contact: 'Helen Turtle', 
+                                              blood_type: 'B', 
+                                              doctor_id: doctors(:bob).id, 
+                                              room_id: rooms(:two).id,
+                                              'admitted_on(1i)': '2016',
+                                              'admitted_on(2i)': '5',
+                                              'admitted_on(3i)': '13'},
+                                              email_text: ''}
     end
-    assert_response :redirect
     follow_redirect!
-    assert_select 'p.Polaris-Heading', 'Patient was successfully created.' 
+    assert_select 'p.Polaris-Heading', 'Patient record was successfully created.' 
   end
 
-  test "should create patient under me" do
-  end
-
-  test "should NOT create invalid patient" do
+  test "should display errors faulty create" do
     assert_difference 'Patient.count', 0 do
-      post patients_url, params: { patient: { name: @patientA.name, emergency_contact: @patientA.emergency_contact, blood_type: @patientA.blood_type, doctor: @patientA.doctor_id, room: @patientA.room_id}}
+      post patients_url, params: { patient: { name: '', 
+                                              emergency_contact: '', 
+                                              blood_type: '', 
+                                              doctor_id: nil,
+                                              room_id: nil,
+                                              'admitted_on(1i)': '',
+                                              'admitted_on(2i)': '',
+                                              'admitted_on(3i)': ''},
+                                              email_text: ''}
     end
+    assert_select 'p.Polaris-Heading', '7 errors prohibited this patient from being saved'
+  end
 
-    assert_response :redirect
+  test "should create patient under my care" do
+     assert_difference 'Patient.count', 1 do
+       post nurse_patients_url(nurse_id: nurses(:one)), 
+         params: { patient: { name: 'James Turtle', 
+                              emergency_contact: 'Helen Turtle', 
+                              blood_type: 'B', 
+                              doctor_id: doctors(:bob).id, 
+                              room_id: rooms(:two).id,
+                              'admitted_on(1i)': '2016',
+                              'admitted_on(2i)': '5',
+                              'admitted_on(3i)': '13'},
+                              email_text: ''}
+     end
+     follow_redirect!
+     assert_select 'p.Polaris-Heading', 'Patient record was successfully created.' 
+     get nurse_patients_path(nurse_id: nurses(:one))
+     assert_select 'div.Record-Card', 3
+  end
+
+  test "should not create patient not under my care" do
+    get new_nurse_patient_url(nurse_id: nurses(:two))
     follow_redirect!
-    assert_select 'p.Polaris-Heading', 'Patient record was unsuccessfully created.' 
+    assert_equal flash[:warning], 'You can\'t assign patients to other nurses other than yourself'
   end
 
   test "should show specific patient" do
@@ -59,18 +103,21 @@ class PatientsControllerTest < ActionDispatch::IntegrationTest
   test "should flash invalid patient show" do
     get '/patients/0'
     assert_response :redirect
-    #assert_select 'p.Polaris-Heading', 'Patient record was unsuccessfully created.' 
+    assert_equal flash[:warning], 'Invalid patient'
   end
 
   test "should not destroy patient not under my care" do
-    delete patient_url(patients(:one))
+    delete patient_url(patients(:three))
     assert_response :redirect
 
     follow_redirect!
     assert_select 'p.Polaris-Heading', 'You cannot remove a patient that is not under your care' 
   end
 
-  test "should destory patient under my care" do
+  test "should destroy patient under my care" do
+    delete patient_url(patients(:one))
+    follow_redirect!
+    assert_equal flash[:success], 'Patient was successfully removed.'
   end
 end
 

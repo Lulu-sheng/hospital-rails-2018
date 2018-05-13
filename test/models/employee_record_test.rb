@@ -10,6 +10,10 @@ class EmployeeRecordTest < ActiveSupport::TestCase
         assert_not employee_records(:helen).employee.nil?
     end
 
+    test "default gravatar" do
+      assert_equal employee_records(:jennifer).gravatar, 'https://www.gravatar.com/avatar/d69ab4fb9bb28c0527e972273614f585'
+    end
+
     test "test empty employee record" do
         record = EmployeeRecord.new
         assert record.invalid?
