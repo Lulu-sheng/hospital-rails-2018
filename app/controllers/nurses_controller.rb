@@ -1,7 +1,8 @@
 require 'date'
 class NursesController < ApplicationController
-  skip_before_action :authorize, only: :new
-  before_action :authorize, unless: :no_nurses?
+  #skip_before_action :authorize, only: :new
+  # but authorize 
+  #before_action :authorize, only: :new, unless: :no_nurses?
 
   layout :resolve_layout
 
@@ -99,6 +100,9 @@ class NursesController < ApplicationController
   def new
     @nurse = Nurse.new
     @employee = EmployeeRecord.new
+    if no_nurses?
+      render 'nurses/new_register'
+    end
   end
 
   private

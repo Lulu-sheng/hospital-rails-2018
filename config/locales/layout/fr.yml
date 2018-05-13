@@ -1,10 +1,10 @@
 fr:
   layouts:
     index_layout:
-      doctors: Medecins
-      nurses: Infirmiers
-      patients: Patients
-      map: Carte
+      doctors: Les médecins
+      nurses: Les infirmiers
+      patients: Les patients
+      map: La carte
       
       logout_html: D&eacuteconnection
   

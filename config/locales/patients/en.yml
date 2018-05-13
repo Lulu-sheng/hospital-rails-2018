@@ -3,6 +3,9 @@ en:
     patient_card:
       patient_description1: 'Admitted on %{admitted_on} ('
       patient_description2_html: ' in the past), of blood type %{blood}, under the care of Doctor %{doctor}'
+      drop_patient_html: Drop Patient
+      full_details_html: Full Details
+      manage_patient_html: Manage Patient
   patients:
     form:
       heading_html: Nurse Details
@@ -12,6 +15,16 @@ en:
       doctor_html: Doctor
       room_html: Room
       admitted_on_html: Admitted On Date
+      create_patient_html: Create Patient Record
+      student_notification_html: This doctor is a student doctor
+      confirmation_blurb_html: Would you like to send a confirmation email to the mentor of this student in order to notify them about this decision?
+      compose: Compose Email
+      personalized_message: Personalized Message
+      text_box_explanation: If a message is not provided, an automated email will be sent
+    new:
+      patients_html: Patients
+      add_new_patients_html: Add New Patient
+      save: Save
 
   errors:
     header:

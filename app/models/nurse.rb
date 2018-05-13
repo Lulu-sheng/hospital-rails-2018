@@ -9,6 +9,7 @@ class Nurse < ApplicationRecord
   validates :hours_per_week, presence: true
   validate :date_of_certification_valid?
   validates :username, presence: true, uniqueness: true
+  validates :password, presence: true, length: { minimum: 5}
   has_secure_password
 
   def date_of_certification_valid?

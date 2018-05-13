@@ -47,6 +47,9 @@ class PatientsController < ApplicationController
   end
 
   def index
+    if params[:set_locale]
+      redirect_to patients_url(locale: params[:set_locale])
+    end
     if (params[:nurse_id])
       # All assignments associated with the specific nurse.
       @assignments = NurseAssignment.joins(:patient).where(nurse_id: params[:nurse_id])

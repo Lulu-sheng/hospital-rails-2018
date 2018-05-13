@@ -62,3 +62,5 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'chromedriver-helper'
 end
+
+gem 'i18n-js'

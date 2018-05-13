@@ -1,0 +1,17 @@
+fr:
+  partials:
+    profile:
+      activerecord:
+        attributes:
+          nurse:
+            night_shift: Ronde de nuit
+            date_of_certification: Date de certification
+            hours_per_week: Heures par semaine
+            username: Nom d'utilisateur
+          employee_record:
+            email: Courriel
+            salary: Salaire
+            name: Nom
+            employee_type: Type d'employé
+            employee_id: Numéro ID d'employé
+         

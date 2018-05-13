@@ -3,6 +3,9 @@ fr:
     patient_card:
       patient_description1: 'Admis le %{admitted_on} ('
       patient_description2_html: ' dans la pass&eacutee), de la type de sang %{blood}, sous la surveillance de %{doctor}'
+      drop_patient_html: Cessez de prendre soin du patient
+      full_details_html: Les détails
+      manage_patient_html: Prendre soin du patient
   patients:
     form:
       heading_html: Les d&eacutetailles du patient
@@ -12,7 +15,17 @@ fr:
       doctor_html: Médecin
       room_html: Chambre
       admitted_on_html: Date d'admission
+      create_patient_html: Créer record
+      student_notification_html: Ce médecin est un étudiant
+      confirmation_blurb_html: Est-ce que vous voulez d'envoyer un courriel au mentor de cet étudiant pour lui notifier de votre décision?
+      compose: Composer le courriel
+      personalized_message: Ton message personalizé
+      text_box_explanation: Si un message n'est pas spécifié en haut, un courriel automé sera envoyé
 
+    new:
+      patients_html: Les patients
+      add_new_patients_html: Enregistrer nouveau patient
+      save: Sauveguarder
   errors:
     header:
       one: "1 erreur a interdit le processus de sauf guarder un record d'%{model}"

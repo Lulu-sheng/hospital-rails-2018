@@ -13,5 +13,7 @@
 //= require turbolinks
 //= require rails-ujs
 //= require_tree .
+//= require i18n
+//= require i18n/translations
 //
 // I deleted the turbo_links :(((((

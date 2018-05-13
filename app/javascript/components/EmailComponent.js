@@ -4,7 +4,7 @@ class MentorType extends React.Component {
     return (
       <div>
   <div className="Polaris-Labelled__LabelWrapper">
-    <div className="Polaris-Label"><label id="TextField19Label" htmlFor="TextField19" className="Polaris-Label__Text">Personalized Message</label></div>
+    <div className="Polaris-Label"><label id="TextField19Label" htmlFor="TextField19" className="Polaris-Label__Text">{I18n.t("patients.form.personalized_message")}</label></div>
   </div>
   <div className="Polaris-TextField Polaris-TextField--multiline"><textarea id="TextField19" name="email_text" className="Polaris-TextField__Input" aria-labelledby="TextField19Label" aria-invalid="false"></textarea>
     <div className="Polaris-TextField__Backdrop"></div>
@@ -14,7 +14,7 @@ class MentorType extends React.Component {
     </div>
   </div>
 
-      <div className="Polaris-Labelled__HelpText" id="TextField20HelpText">If a message is not provided, a custom email will be sent</div>
+      <div className="Polaris-Labelled__HelpText" id="TextField20HelpText">{I18n.t("patients.form.text_box_explanation")}</div>
       </div>
     ); 
   }

@@ -20,5 +20,7 @@ module HospitalManagement
         ENV[key.to_s] = value
       end if File.exists?(env_file)
     end
+
+    config.middleware.use I18n::JS::Middleware
   end
 end

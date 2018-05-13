@@ -8,8 +8,12 @@
         <dl class="Polaris-DescriptionList">
           <% [user.employee_record.attributes, user.attributes].each do |collection|%>
             <% collection.each_pair do |key, value|%>
-              <% unless key == 'created_at' || key == 'updated_at' || key == 'id' || key == 'password_digest'%>
-                  <dt class="Polaris-DescriptionList__Term flex1"><%=key.gsub'_', ' '%></dt>
+              <% unless key == 'created_at' || key == 'updated_at' || key == 'id' || key == 'password_digest' || key == 'gravatar'%>
+                <% if key == 'username'|| key =='date_of_certification'|| key == 'hours_per_week'|| key == 'night_shift'%>
+                <dt class="Polaris-DescriptionList__Term flex1"><%=t(".activerecord.attributes.nurse.#{key}")%></dt>
+                <% else %>
+                <dt class="Polaris-DescriptionList__Term flex1"><%=t(".activerecord.attributes.employee_record.#{key}")%></dt>
+                <% end%>
                   <dd class="Polaris-DescriptionList__Description flex2"><%=value%></dd>
               <%end%>
             <%end%>
