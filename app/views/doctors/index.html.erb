@@ -1,16 +1,41 @@
-<h1>List Of Doctors!</h1>
-
-<table>
+<% cache @doctors do %>
   <% @doctors.each do |doctor| %>
-    <tr>
-      <td><%=doctor.employee_record.name%></td>
-      <td><%=doctor.employee_record.email%></td>
-      <td><%=doctor.employee_record.salary%></td>
-      <td><%=doctor.specialty%></td>
-      <td><%=doctor.received_license%></td>
-    </tr>
-  <% end %>
-</table>
-
-<h1>The average salary of student doctors!</h1>
-<p><%=@studentAvgSal%></p>
+    <%cache doctor do %>
+      <div class="Record-Card">
+        <div class="Polaris-Card">
+          <%=image_tag(doctor.employee_record.gravatar, size: "20x20", alt: "Edit Entry")%>
+          <div class="Polaris-Card__Header">
+            <div class="Polaris-Stack Polaris-Stack--alignmentBaseline">
+              <div class="Polaris-Stack__Item Polaris-Stack__Item--fill">
+                <h2 class="Polaris-Heading"><%= doctor.employee_record.name%>: <%= doctor.employee_record.email%></h2>
+              </div>
+              <div class="Polaris-Stack__Item">
+                <div class="Polaris-ButtonGroup">
+                  <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
+                    <% if doctor.id == @user_nurse.id %>
+                      <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_doctor_url(doctor.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Record</span></span></a>
+                    <% end %>
+                  </div>
+                  <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
+                    <a class="Polaris-Button Polaris-Button--plain" href="<%= doctor_patients_url(doctor)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>See Patients</span></span></a>
+                  </div>
+                  <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
+                    <%= link_to 'Delete Doctor', doctor_path(doctor), method: :delete, data: {confirm: 'Are you sure you want to remove this doctor\'s record and account?' }, class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="Polaris-Card__Section">
+            <p>Licensed on <%=doctor.received_license%> (<strong><%=distance_of_time_in_words(Time.now, doctor.received_license)%></strong> in the past), currently working in the <%=doctor.specialty%> specialty
+            <% if doctor.mentor_id.nil? then%>
+            <% else %>
+              and under the mentor <%=EmployeeRecord.find_by(employee_id: doctor.mentor_id).name%>
+            <%end%>
+            </p>
+          </div>
+        </div>
+      </div>
+    <%end%>
+  <%end%>
+<%end%>

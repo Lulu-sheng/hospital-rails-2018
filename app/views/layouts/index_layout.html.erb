@@ -14,8 +14,8 @@
       <div class="make-shift-navbar">
         <%= link_to t('.patients'), url_for(controller: 'patients', action: 'index'), class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
         <%= link_to t('.nurses'), url_for(controller: 'nurses', action: 'index'), class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
-        <%= link_to t('.doctors'), nurses_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
-        <%= link_to t('.map'), nurses_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+        <%= link_to t('.doctors'), doctors_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+        <%= link_to t('.map'), rooms_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
 
         <%= render partial: 'partials/profile', locals: {user: @user_nurse} %>
         <div id="your-patients">
