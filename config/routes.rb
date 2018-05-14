@@ -35,6 +35,8 @@ Rails.application.routes.draw do
 
     get '/nurses/sort', to: 'nurses#sort'
     get '/patients/sort', to: 'patients#sort'
+    get '/doctors/sort', to: 'doctors#sort'
+    get '/rooms/sort', to: 'rooms#sort'
     get '/nurse/:nurse_id/patients/sort', to: 'patients#sort'
 
     # use resources except!
@@ -45,9 +47,11 @@ Rails.application.routes.draw do
       get 'information', on: :member
     end
 
-    #resources :doctors do 
-      #resources :patients
-    #end
+    resources :rooms
+
+    resources :doctors do 
+      resources :patients
+    end
 
     resources :nurses do
       resources :patients
