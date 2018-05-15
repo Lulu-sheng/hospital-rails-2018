@@ -31,21 +31,6 @@ class NursesController < ApplicationController
     @numOfNightShift = Nurse.where(night_shift:true).count(:id)
   end
 
-  def create
-    @nurse = Nurse.new(nurse_params)
-    @employee = @nurse.build_employee_record(employee_params)
-
-    respond_to do |format|
-      if [@nurse.save, @employee.save].all?
-        NewAccountMailer.notice_new_account(@nurse).deliver_later
-        format.html { flash[:success] = 'Nurse was successfully created'
-                      redirect_to nurses_path }
-      else
-        format.html { render :new }
-      end
-    end
-  end
-
   def destroy
     nurse = Nurse.find(params[:id])
 
@@ -98,11 +83,7 @@ class NursesController < ApplicationController
   end
 
   def new
-    @nurse = Nurse.new
-    @employee = EmployeeRecord.new
-    if no_nurses?
-      render 'nurses/new_register'
-    end
+    redirect_to new_admin_nurse_url
   end
 
   private
@@ -130,10 +111,5 @@ class NursesController < ApplicationController
       "index_layout"
     end
   end
-
-  def no_nurses?
-    Nurse.count == 0
-  end
-
 end
 

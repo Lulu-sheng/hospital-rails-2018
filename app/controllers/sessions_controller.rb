@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   skip_before_action :authorize
   def new
     if Nurse.count == 0
-      redirect_to new_nurse_url
+      redirect_to new_admin_nurse_url
     elsif !session[:nurse_id].nil?
       redirect_to patients_url
     end
@@ -13,7 +13,11 @@ class SessionsController < ApplicationController
     if nurse.try(:authenticate, params[:password]) # checks if user is nil before trying to call
       # authenticate does the decoding of the hashed password
       session[:nurse_id] = nurse.id
-      redirect_to patients_url
+      if (Nurse.first.id.eql?(nurse.id))
+        redirect_to admin_patients_url
+      else
+        redirect_to patients_url
+      end
     else
       flash[:warning] = 'Invalid user/password combination'
       redirect_to login_url

@@ -78,30 +78,19 @@ class PatientsController < ApplicationController
       # hence this was the workaround.
       @current_patients = Patient.where(id: current_patients)
       @past_patients = Patient.where(id: past_patients)
+      @is_not_subsection = false
 
     else
       # all doctors before queries (seeded)
       @current_patients = Patient.all
+      @is_not_subsection = true
     end
   end
 
   # GET /patients/new
   def new
     @patient = Patient.new
-
     @doctor_array = get_doctors
-
-    @url =
-      if params[:nurse_id].to_i == @user_nurse.id
-        nurse_patients_path
-      elsif params[:nurse_id]
-        respond_to do |format|
-          format.html { flash[:warning] = 'You can\'t assign patients to other nurses other than yourself'
-                        redirect_back fallback_location: patients_path}
-        end
-      else
-        patients_path
-      end
   end
 
   def create
@@ -111,15 +100,10 @@ class PatientsController < ApplicationController
       @doctor_assigned = Doctor.find(params[:patient][:doctor_id])
     end
 
-    if params[:nurse_id]
-      @nurse_assignment = Nurse.find(params[:nurse_id]).nurse_assignments.build(patient: @patient, start_date: Date.today)
-    end
-
     respond_to do |format|
-      if @patient.save && (params[:nurse_id]? @nurse_assignment.save : true)
+      if @patient.save
         unless params[:email_check].nil?
           MentorConfirmationMailer.assigned(@doctor_assigned, params[:email_text]).deliver_later
-          #OrderMailer.assigned(@user_nurse, @doctor_assigned, params[:email_text]).deliver_later
         end
 
         format.html { flash[:success] = 'Patient record was successfully created.'

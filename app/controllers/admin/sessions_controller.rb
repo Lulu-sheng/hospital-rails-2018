@@ -1,5 +1,6 @@
 class Admin::SessionsController < Admin::BaseController
   skip_before_action :authorize
+  skip_before_action :admin_authorize
   def new
     #it just needs to show the login stuff!
     unless session[:nurse_id].nil?

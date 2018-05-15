@@ -11,16 +11,19 @@
 
   <body>
     <div class="flex-container">
-      <div class="make-shift-navbar">
-        <%= link_to t('.patients'), patients_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
-        <%= link_to t('.nurses'), nurses_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+      <div class="ghost-div">
+      <div class="make-shift-navbar-admin">
+        <%= link_to t('.patients'), admin_patients_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+        <%= link_to t('.nurses'), admin_nurses_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+        <%= link_to t('.doctors'), admin_doctors_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+        <%= link_to t('.map'), admin_rooms_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
 
-        <%= render partial: 'partials/profile', locals: {user: @user_nurse} %>
+        <%= render partial: 'admin/partials/profile', locals: {user: @user_nurse} %>
         <div id="your-patients">
-          <%= render_if_have_patients @user_nurse, 'partials/your_patients', {user: @user_nurse}%>
+          <%= render_if_have_patients @user_nurse, 'admin/partials/your_patients', {user: @user_nurse}%>
         </div>
 
-        <%= form_tag patients_path, method: :get do %> 
+        <%= form_tag admin_patients_path, method: :get do %> 
           <div class="Polaris-Select">
             <%= select_tag 'set_locale',
               options_for_select(LANGUAGES, I18n.locale.to_s),
@@ -32,6 +35,7 @@
       <% end %>
 
       <%= link_to t('.logout_html'), logout_url, method: :delete, class: "Polaris-Button Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+      </div>
       </div>
 
       <div class="Nurse-Content">
@@ -47,7 +51,7 @@
             <div class="Polaris-Layout">
 
               <% unless flash.empty? %>
-                <%= render partial: 'partials/banner'%>
+                <%= render partial: 'admin/partials/banner'%>
               <% end %>
 
               <div class="Polaris-Layout__AnnotatedSection">
@@ -60,9 +64,9 @@
               </div>
             </div>
           </div>
-          <% if @is_not_subsection.nil? || @is_not_subsection %>
-            <%= render "partials/buttons"%>
-          <% end %>
+
+          <%= render partial: "admin/partials/buttons", locals: {is_not_subsection: @is_not_subsection}%>
+
         </div>
       </div>
     </div>

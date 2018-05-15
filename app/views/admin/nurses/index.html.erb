@@ -12,22 +12,24 @@
               <div class="Polaris-Stack__Item">
                 <div class="Polaris-ButtonGroup">
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
-                    <% if nurse.id == @user_nurse.id %>
-                      <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_nurse_url(nurse.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Record</span></span></a>
-                    <% end %>
+                      <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_admin_nurse_url(nurse.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Record</span></span></a>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
-                    <a class="Polaris-Button Polaris-Button--plain" href="<%= nurse_patients_url(nurse)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>See Patients</span></span></a>
+                    <a class="Polaris-Button Polaris-Button--plain" href="<%= admin_nurse_patients_url(nurse)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>See Patients</span></span></a>
+                  </div>
+                  <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
+                    <%= link_to 'Delete Nurse', nurse_path(nurse), method: :delete, data: {confirm: 'Are you sure you want to remove this nurse\'s record and account?' }, class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="Polaris-Card__Section">
+            <p>Certified on <%=nurse.date_of_certification%> (<strong><%=distance_of_time_in_words(Time.now, nurse.date_of_certification)%></strong> in the past), currently working <%=nurse.hours_per_week%> hours per week
             <% if nurse.night_shift then%>
-              Has night shifts
+              with night shifts
             <% else %>
-              Has no night shifts
+              without night shifts
             <%end%>
             </p>
           </div>

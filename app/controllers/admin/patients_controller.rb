@@ -14,6 +14,9 @@ class Admin::PatientsController < Admin::BaseController
   end
 
   def index
+    if params[:set_locale]
+      redirect_to admin_patients_url(locale: params[:set_locale])
+    end
     if (params[:nurse_id])
       @assignments = NurseAssignment.joins(:patient).where(nurse_id: params[:nurse_id])
       @assignments = @assignments.partition { |assignment| assignment.end_date.nil? }
@@ -31,10 +34,12 @@ class Admin::PatientsController < Admin::BaseController
 
       @current_patients = Patient.where(id: current_patients)
       @past_patients = Patient.where(id: past_patients)
+      @is_not_subsection = false
 
     else
       # all doctors before queries (seeded)
       @current_patients = Patient.all
+      @is_not_subsection = true
     end
     #render 'patients/index'
   end
@@ -46,17 +51,11 @@ class Admin::PatientsController < Admin::BaseController
     @doctor_array = get_doctors
 
     @url =
-      if params[:nurse_id].to_i == @user_nurse.id
-        nurse_patients_path
-      elsif params[:nurse_id]
-        respond_to do |format|
-          format.html { flash[:warning] = 'You can\'t assign patients to other nurses other than yourself'
-                        redirect_back fallback_location: admin_patients_path}
-        end
+      if params[:nurse_id]
+        admin_nurse_patients_path
       else
-        patients_path
+        admin_patients_path
       end
-    #render 'patients/new'
   end
 
   def create
@@ -78,9 +77,10 @@ class Admin::PatientsController < Admin::BaseController
         end
 
         format.html { flash[:success] = 'Patient record was successfully created.'
-                      redirect_to 'hospital-management.myshopify.io/admin/patients' }
+                      redirect_to admin_patients_url }
+
         @current_patients = Patient.all
-        ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
+        ActionCable.server.broadcast 'patients', html: render_to_string('admin/patients/index', layout: false)
       else
         logger.error "Invalid parameters for a patient record"
         @doctor_array = get_doctors
@@ -96,19 +96,12 @@ class Admin::PatientsController < Admin::BaseController
 
   def destroy
     @patient = Patient.find(params[:id])
-    if @patient.nurses.to_a.include? @user_nurse
-      @patient.destroy
-      respond_to do |format|
-        format.html { flash[:success] = 'Patient was successfully removed.'
-                      redirect_to admin_patients_url }
-        @current_patients = Patient.all
-        ActionCable.server.broadcast 'patients', html: render_to_string('patients/index', layout: false)
-      end
-    else
-      respond_to do |format|
-        format.html { flash[:warning] = 'You cannot remove a patient that is not under your care' 
-                      redirect_to admin_patients_url }
-      end
+    @patient.destroy
+    respond_to do |format|
+      format.html { flash[:success] = 'Patient was successfully removed.'
+                    redirect_to admin_patients_url }
+      @current_patients = Patient.all
+      ActionCable.server.broadcast 'patients', html: render_to_string('admin/patients/index', layout: false)
     end
   end
 
@@ -126,9 +119,9 @@ class Admin::PatientsController < Admin::BaseController
   def resolve_layout
     case action_name
     when "new", "create", "show" 
-      "application"
+      "admin/layouts/application"
     else # index
-      "index_layout"
+      "admin/layouts/index_layout"
     end
   end
 

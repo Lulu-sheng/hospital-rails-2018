@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HospitalManagement</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'https://sdks.shopifycdn.com/polaris/1.14.1/polaris.min.css'%>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <script type="text/javascript">
+    I18n.defaultLocale = "<%= I18n.default_locale %>"; 
+    I18n.locale = "<%= I18n.locale %>";
+  </script>
+  </head>
+
+  <body>
+    <%= javascript_pack_tag("application")%>
+    <main class='<%= controller.controller_name %>'>
+      <%= yield %>
+      </section>
+  </body>
+</html>

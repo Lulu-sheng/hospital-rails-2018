@@ -19,6 +19,15 @@
   .Nurse-Content {
     width: 75%;
   }
+  .ghost-div {
+    width: 25%;
+    .make-shift-navbar-admin {
+      width: 25%;
+      height: 100vh;
+      background: #B4E1FA;
+      position: fixed;
+    }
+  }
   .make-shift-navbar {
     width: 25%;
     height: 100vh;

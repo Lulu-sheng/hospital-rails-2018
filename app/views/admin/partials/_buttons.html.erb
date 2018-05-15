@@ -1,0 +1,7 @@
+<div class="Polaris-ButtonGroup__Item">
+  <%= link_to t('.add'), url_for(action: 'new'), class: "Polaris-Button Polaris-Button--primary", 'data-polaris-unstyled': "true", data: { turbolinks: false }%>
+  <% if is_not_subsection.nil? || is_not_subsection%>
+    <%= link_to t('.sort'), url_for(action: 'sort'), class: "Polaris-Button Polaris-Button", 'data-polaris-unstyled': "true" %>
+  <% end %>
+</div>
+

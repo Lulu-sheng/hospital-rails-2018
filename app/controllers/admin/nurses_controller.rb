@@ -1,4 +1,5 @@
 class Admin::NursesController < Admin::BaseController
+  #skip_before_action :authorize, only: :new
   layout :resolve_layout
 
   # this is before the transaction is actually committed
@@ -12,8 +13,9 @@ class Admin::NursesController < Admin::BaseController
 
     respond_to do |format|
       if [@nurse.save, @employee.save].all?
+        NewAccountMailer.notice_new_account(@nurse, params[:nurse][:password]).deliver_later
         format.html { flash[:success] = 'Nurse was successfully created'
-                      redirect_to nurses_path }
+                      redirect_to admin_nurses_path }
       else
         format.html { render :new }
       end
@@ -29,10 +31,10 @@ class Admin::NursesController < Admin::BaseController
       if params[:id] == session[:nurse_id].to_s
         session[:nurse_id] = nil
         format.html { flash[:warning] = 'Please log in'
-                      redirect_to login_url }
+                      redirect_to admin_login_url }
       else
         format.html { flash[:success] = 'Nurse was successfully removed from the system'
-                      redirect_to nurses_url }
+                      redirect_to admin_nurses_url }
       end
     end
   end
@@ -40,7 +42,7 @@ class Admin::NursesController < Admin::BaseController
   # this is bubbled up from the transaction failure
   rescue_from 'Nurse::Error' do |exception|
     flash[:warning] = exception.message
-    redirect_to nurses_url
+    redirect_to admin_nurses_url
   end
 
   def edit
@@ -55,7 +57,7 @@ class Admin::NursesController < Admin::BaseController
     respond_to do |format|
       if [@nurse.update(nurse_params), @employee.update(employee_params)].all?
         format.html { flash[:success] = 'Nurse was successfully updated'
-                      redirect_to nurses_path }
+                      redirect_to admin_nurses_path }
       else
         format.html { render :edit }
       end
@@ -70,6 +72,9 @@ class Admin::NursesController < Admin::BaseController
   def new
     @nurse = Nurse.new
     @employee = EmployeeRecord.new
+    if no_nurses?
+      render 'admin/nurses/new_register'
+    end
   end
 
   private
@@ -86,15 +91,19 @@ class Admin::NursesController < Admin::BaseController
   def invalid_nurse
     logger.error "Attempt to access invalid nurse #{params[:id]}"
     flash[:warning] = 'Invalid nurse'
-    redirect_to nurses_url
+    redirect_to admin_nurses_url
   end
 
   def resolve_layout
     case action_name
     when "new", "create", "edit", "update"
-      "application"
+      "admin/layouts/application"
     else # index
-      "index_layout"
+      "admin/layouts/index_layout"
     end
+  end
+
+  def no_nurses?
+    Nurse.count == 0
   end
 end
