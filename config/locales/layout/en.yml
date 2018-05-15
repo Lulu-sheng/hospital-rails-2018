@@ -49,6 +49,24 @@ en:
       add: Add New Record
       sort: Sort Records
 
+  admin:
+    layouts:
+      index_layout: 
+        doctors: Doctors
+        nurses: Nurses
+        patients: Patients
+        map: Map
+
+        logout_html: Logout
+
+    partials:
+      profile:
+        profile: Your Profile
+      your_patients:
+        patients: Your Patients
+      buttons:
+        add: Add New Record
+        sort: Sort Records
 
 
 

@@ -17,6 +17,25 @@ fr:
       add: Ajouter un nouveau record
       sort: Arranger les records
 
+  admin:
+    layouts:
+      index_layout:
+        doctors: Les médecins
+        nurses: Les infirmiers
+        patients: Les patients
+        map: La carte
+      
+        logout_html: D&eacuteconnection
+  
+    partials:
+      profile:
+        profile: Ton profil
+      your_patients:
+        patients: Tes patients
+      buttons:
+        add: Ajouter un nouveau record
+        sort: Arranger les records
+
   datetime:
     distance_in_words:
       x_months:
@@ -31,6 +50,9 @@ fr:
       over_x_years:
         one: plus d'un an
         other: plus de %{count} ans
+      x_days:
+        one: 1 jour
+        other: "%{count} jours"
 
   date:
     abbr_day_names:
