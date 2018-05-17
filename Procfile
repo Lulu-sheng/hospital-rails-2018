@@ -1,1 +1,2 @@
-bundle exec rake jobs:work
+jobs: bundle exec rake jobs:work
+web: bundle exec rails server
