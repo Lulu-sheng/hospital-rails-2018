@@ -23,12 +23,18 @@ Rails.application.routes.draw do
 
       resources :rooms do
         get 'sort', on: :collection
+        get 'summary', on: :collection
       end
 
       resources :doctors do
         get 'sort', on: :collection
+        #get 'swap', on: :collection
+        #post 'swap_perform', on: :collection
       end
 
+      # you do not need this sessions controller
+      # nor these routes! You redirect immediately
+      # in response to the admin
       controller :sessions do
         get 'login', to: 'sessions#new'
         post 'login', to: 'sessions#create'

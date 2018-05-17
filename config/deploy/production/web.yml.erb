@@ -80,6 +80,11 @@ spec:
         - containerPort: 8000
           name: http-alt
         env:
+        - name: REDIS_URL
+            valueFrom:
+              secretKeyRef:
+                name: redis-url
+                key: devdegree17-hospitalapp-production
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/run/gcloud/key
         - name: ENV
