@@ -1,2 +1,2 @@
-jobs: bundle exec rake jobs:work
+jobs: bundle exec sidekiq
 web: bundle exec rails server

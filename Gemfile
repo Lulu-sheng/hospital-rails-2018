@@ -64,3 +64,4 @@ group :development, :test do
 end
 
 gem 'i18n-js'
+gem 'sidekiq'
