@@ -1,0 +1,11 @@
+---
+apiVersion: stable.shopify.io/v1
+kind: Redis
+metadata:
+  name: "devdegree17-hospitalapp-production"
+  labels:
+    app: "devdegree17-hospitalapp"
+    env: "production"
+    name: "devdegree17-hospitalapp-production"
+spec:
+  max_memory: 4Gi
