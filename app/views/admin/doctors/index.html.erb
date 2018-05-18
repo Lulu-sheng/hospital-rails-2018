@@ -12,6 +12,9 @@
               <div class="Polaris-Stack__Item">
                 <div class="Polaris-ButtonGroup">
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
+                      <a class="Polaris-Button Polaris-Button--plain" href="<%= admin_doctor_url(doctor.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Full Details</span></span></a>
+                  </div>
+                  <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
                       <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_admin_doctor_url(doctor.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Record</span></span></a>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
@@ -34,3 +37,9 @@
     <%end%>
   <%end%>
 <%end%>
+
+<% content_for :swap do %>
+  <div class="Polaris-ButtonGroup__Item">
+  </div>
+<% end %>
+

@@ -1,0 +1,51 @@
+<div class="Polaris-Page Polaris-Page--singleColumn">
+  <div class="Polaris-Page__Header Polaris-Page__Header--hasBreadcrumbs">
+    <div class="Polaris-Page__Navigation">
+      <nav role="navigation"><a class="Polaris-Breadcrumbs__Breadcrumb" data-polaris-unstyled="true" href=<%=admin_doctors_url%>><span class="Polaris-Breadcrumbs__Icon"><span class="Polaris-Icon"><svg class="Polaris-Icon__Svg" viewBox="0 0 20 20"><path d="M12 16a.997.997 0 0 1-.707-.293l-5-5a.999.999 0 0 1 0-1.414l5-5a.999.999 0 1 1 1.414 1.414L8.414 10l4.293 4.293A.999.999 0 0 1 12 16" fill-rule="evenodd"></path></svg></span></span><span class="Polaris-Breadcrumbs__Content">All Doctors</span></a></nav>
+    </div>
+    <div class="Polaris-Page__MainContent">
+      <div class="Polaris-Page__TitleAndActions">
+        <div class="Polaris-Page__Title">
+          <h1 class="Polaris-DisplayText Polaris-DisplayText--sizeLarge">Add New Doctor</h1>
+        </div>
+        <div class="Polaris-Page__Actions">
+          <div class="Polaris-Page__PrimaryAction"><button type="button" class="Polaris-Button Polaris-Button--primary Polaris-Button--disabled" disabled=""><span class="Polaris-Button__Content"><span>Save</span></span></button></div>
+        </div>
+      </div>
+      <div class="Polaris-Page__PrimaryAction"><button type="button" class="Polaris-Button Polaris-Button--primary Polaris-Button--disabled" disabled=""><span class="Polaris-Button__Content"><span>Save</span></span></button></div>
+    </div>
+  </div>
+
+  <%= form_tag(swap_perform_admin_doctors_path, method: "post") do %>
+    <div class="Polaris-Card">
+      <div class="Polaris-Card__Section">
+        <div class="Polaris-FormLayout__Item">
+          <div class="">
+            <div class="Polaris-Labelled__LabelWrapper">
+              <div class="Polaris-Label"><label id="TextField3Label" for="TextField3" class="Polaris-Label__Text">Doctor Receiving Patients</label></div>
+            </div>
+              <!--<input id="TextField3" class="Polaris-TextField__Input" aria-labelledby="TextField3Label" aria-invalid="false" value="">-->
+              <%= select_tag(:doctor_to, options_from_collection_for_select(Doctor.all, :id, :name)) %>
+          </div>
+        </div>
+        <div class="Polaris-FormLayout__Item">
+          <div class="">
+            <div class="Polaris-Labelled__LabelWrapper">
+              <div class="Polaris-Label"><label id="TextField4Label" for="TextField4" class="Polaris-Label__Text">Doctor From Which Patients Are Being Revoked From</label></div>
+            </div>
+              <!--<input id="TextField4" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField4Label" aria-invalid="false" value="">-->
+              <%= select_tag(:doctor_from, options_from_collection_for_select(Doctor.all, :id, :name)) %>
+
+          </div>
+        </div>
+      </div>
+      <div class="Polaris-Card__Footer">
+        <div class="Polaris-ButtonGroup">
+          <div class="Polaris-ButtonGroup__Item">
+            <%= submit_tag 'Swap', class: "Polaris-Button Polaris-Button--primary Polaris-Button__Content"%>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

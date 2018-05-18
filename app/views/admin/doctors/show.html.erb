@@ -1,0 +1,113 @@
+<div class="Polaris-Page">
+  <div class="Polaris-Page__Header Polaris-Page__Header--hasPagination Polaris-Page__Header--hasBreadcrumbs Polaris-Page__Header--hasRollup Polaris-Page__Header--hasSecondaryActions">
+    <div class="Polaris-Page__Navigation">
+    <nav role="navigation"><a href='<%=url_for(action: 'index')%>'class="Polaris-Breadcrumbs__Breadcrumb" data-polaris-unstyled="true"><span class="Polaris-Breadcrumbs__Icon"><span class="Polaris-Icon"><svg class="Polaris-Icon__Svg" viewBox="0 0 20 20"><path d="M12 16a.997.997 0 0 1-.707-.293l-5-5a.999.999 0 0 1 0-1.414l5-5a.999.999 0 1 1 1.414 1.414L8.414 10l4.293 4.293A.999.999 0 0 1 12 16" fill-rule="evenodd"></path></svg></span></span><span class="Polaris-Breadcrumbs__Content">Doctors</span></a></nav>
+      <div
+        class="Polaris-Page__Pagination">
+        <nav class="Polaris-Pagination Polaris-Pagination--plain" aria-label="Pagination"><button class="Polaris-Pagination__Button" aria-label="Previous"><span class="Polaris-Icon"><svg class="Polaris-Icon__Svg" viewBox="0 0 20 20"><path d="M17 9H5.414l3.293-3.293a.999.999 0 1 0-1.414-1.414l-5 5a.999.999 0 0 0 0 1.414l5 5a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L5.414 11H17a1 1 0 1 0 0-2" fill-rule="evenodd"></path></svg></span></button>
+          <button
+            class="Polaris-Pagination__Button" aria-label="Next"><span class="Polaris-Icon"><svg class="Polaris-Icon__Svg" viewBox="0 0 20 20"><path d="M17.707 9.293l-5-5a.999.999 0 1 0-1.414 1.414L14.586 9H3a1 1 0 1 0 0 2h11.586l-3.293 3.293a.999.999 0 1 0 1.414 1.414l5-5a.999.999 0 0 0 0-1.414" fill-rule="evenodd"></path></svg></span></button>
+        </nav>
+      </div>
+    </div>
+    <div class="Polaris-Page__MainContent">
+      <div class="Polaris-Page__TitleAndActions">
+        <div class="Polaris-Page__Title">
+          <h1 class="Polaris-DisplayText Polaris-DisplayText--sizeLarge">Doctor #<%= @doctor.id %>: <%= @doctor.employee_record.name%></h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="Polaris-Page__Content">
+    <dl class="Polaris-DescriptionList">
+      <dt class="Polaris-DescriptionList__Term">Specialty</dt>
+      <dd class="Polaris-DescriptionList__Description"><%= @doctor.specialty%></dd>
+      <dt class="Polaris-DescriptionList__Term">Licensed Date</dt>
+      <dd class="Polaris-DescriptionList__Description"><%=@doctor.received_license%></dd>
+      <dt class="Polaris-DescriptionList__Term">Name</dt>
+      <dd class="Polaris-DescriptionList__Description"><%=@doctor.employee_record.name%></dd>
+      <dt class="Polaris-DescriptionList__Term">Email</dt>
+      <dd class="Polaris-DescriptionList__Description"><%=@doctor.employee_record.email%></dd>
+      <dt class="Polaris-DescriptionList__Term">Salary</dt>
+      <dd class="Polaris-DescriptionList__Description"><%=@doctor.employee_record.salary%></dd>
+    </dl>
+  </div>
+
+
+
+  <% unless @doctor_nurses.empty? %>
+  <div class="doctor-profile-spacing">
+    <div class="Polaris-Page__TitleAndActions">
+      <div class="Polaris-Page__Title">
+        <h1 class="Polaris-DisplayText Polaris-DisplayText--sizeLarge">Nurses That Work With This Doctor</h1>
+      </div>
+    </div>
+  </div>
+  <div class="Polaris-Card">
+    <div class="Polaris-ResourceList__ResourceListWrapper">
+      <ul class="Polaris-ResourceList" aria-live="polite">
+
+        <% @doctor_nurses.each do |nurse|%>
+          <li class="Polaris-ResourceList__ItemWrapper">
+            <div class="Polaris-ResourceList-Item"><a aria-describedby="341" aria-label="View details for Mae Jemison" class="Polaris-ResourceList-Item__Link" href="customers/341" data-polaris-unstyled="true"></a>
+              <div class="Polaris-ResourceList-Item__Container" id="341">
+                <div class="Polaris-ResourceList-Item__Owned">
+                  <div class="Polaris-ResourceList-Item__Media"><span aria-label="Mae Jemison" role="img" class="Polaris-Avatar Polaris-Avatar--styleSix Polaris-Avatar--sizeMedium Polaris-Avatar--hasImage"><img src="<%=nurse.employee_record.gravatar%>" class="Polaris-Avatar__Image" alt="" role="presentation"></span></div>
+                </div>
+                <div class="Polaris-ResourceList-Item__Content">
+                  <h3><span class="Polaris-TextStyle--variationStrong"><%= nurse.employee_record.name%></span></h3>
+                  <div><%=nurse.employee_record.email%></div>
+                </div>
+                <div class="Polaris-ResourceList-Item__Actions">
+                  <div class="Polaris-ButtonGroup Polaris-ButtonGroup--segmented">
+                    <div class="Polaris-ButtonGroup__Item"><a class="Polaris-Button Polaris-Button--sizeSlim" href=<%=admin_nurse_url(nurse)%> data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>View nurse details</span></span></a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div> 
+<% end %>
+
+  <% unless @patients_under_doctor.empty? %>
+  <div class="doctor-profile-spacing">
+  <div class="Polaris-Page__TitleAndActions">
+    <div class="Polaris-Page__Title">
+      <h1 class="Polaris-DisplayText Polaris-DisplayText--sizeLarge">Doctor's Patients</h1>
+    </div>
+  </div>
+  </div>
+  <div class="Polaris-Card">
+    <div class="Polaris-ResourceList__ResourceListWrapper">
+      <ul class="Polaris-ResourceList" aria-live="polite">
+
+        <% @patients_under_doctor.each do |patient|%>
+          <li class="Polaris-ResourceList__ItemWrapper">
+            <div class="Polaris-ResourceList-Item"><a aria-describedby="341" aria-label="View details for Mae Jemison" class="Polaris-ResourceList-Item__Link" href="customers/341" data-polaris-unstyled="true"></a>
+              <div class="Polaris-ResourceList-Item__Container" id="341">
+                <div class="Polaris-ResourceList-Item__Owned">
+                  <div class="Polaris-ResourceList-Item__Media"><span aria-label="Mae Jemison" role="img" class="Polaris-Avatar Polaris-Avatar--styleSix Polaris-Avatar--sizeMedium Polaris-Avatar--hasImage"><img src="data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZTBjM30uY2xzLTJ7ZmlsbDojZmY5NjdkfS5jbHMtM3tmaWxsOiMzMmNhYzZ9LmNscy00e2ZpbGw6IzAwOTc5Nn0uY2xzLTUsLmNscy02e2ZpbGw6bm9uZTtzdHJva2U6I2ZmZjtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMH0uY2xzLTV7c3Ryb2tlLXdpZHRoOjVweH0uY2xzLTZ7c3Ryb2tlLXdpZHRoOjRweH08L3N0eWxlPjwvZGVmcz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0tLjAyLS4wMWgxMDB2MTAwaC0xMDB6Ii8+PHBhdGggY2xhc3M9ImNscy0yIiBkPSJNMCAwaDY5LjQxdjEwMEgweiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTY5LjkyIDB2NDQuMzJMNTEuMzQgNTV2NDVIMTAwVjB6Ii8+PHBhdGggY2xhc3M9ImNscy0zIiBkPSJNMzkuMzIgNzZhMTEuODUgMTEuODUgMCAwIDAgMTIgMTEuNjJWNzYiLz48cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Ik0zOS4zMiA3NmExMiAxMiAwIDAgMSAxMi0xMS44MlY3NiIvPjxwYXRoIGNsYXNzPSJjbHMtNSIgZD0iTTQzLjc0IDE5LjgzYTEyLjgyIDEyLjgyIDAgMSAxLTI1LjY0IDAiLz48cGF0aCBjbGFzcz0iY2xzLTYiIGQ9Ik0yNy4zOSAzMS42bC0xLjU4IDUuOTZtOS4zNy01LjcybDIuNTUgNS40N200LjI2LTkuODVsMy41MyA0LjVtLTI1LjQzLTQuNWwtMy41MyA0LjUiLz48L3N2Zz4=" class="Polaris-Avatar__Image" alt="" role="presentation"></span></div>
+                </div>
+                <div class="Polaris-ResourceList-Item__Content">
+                  <h3><span class="Polaris-TextStyle--variationStrong"><%= patient.name%></span></h3>
+                  <div>Emergency Contact: <%=patient.emergency_contact%></div>
+                </div>
+                <div class="Polaris-ResourceList-Item__Actions">
+                  <div class="Polaris-ButtonGroup Polaris-ButtonGroup--segmented">
+                    <div class="Polaris-ButtonGroup__Item"><a class="Polaris-Button Polaris-Button--sizeSlim" href=<%=admin_patient_url(patient)%> data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>View patient details</span></span></a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        <% end %>
+
+      </ul>
+    </div>
+  </div> 
+<% end %>
+</div>
+
