@@ -19,8 +19,6 @@ Rails.application.routes.draw do
         resources :patients
       end
 
-      #get '/nurse/:nurse_id/patients/sort', to: 'patients#sort'
-
       resources :rooms do
         get 'sort', on: :collection
         get 'summary', on: :collection
@@ -28,33 +26,11 @@ Rails.application.routes.draw do
 
       resources :doctors do
         get 'sort', on: :collection
-        #get 'swap', on: :collection
-        #post 'swap_perform', on: :collection
-      end
-
-      # you do not need this sessions controller
-      # nor these routes! You redirect immediately
-      # in response to the admin
-      controller :sessions do
-        get 'login', to: 'sessions#new'
-        post 'login', to: 'sessions#create'
-        delete 'logout', to: 'sessions#destroy'
       end
 
       root 'sessions#new'
     end
 
-
-    # These following routes were left over from the DB1 project! (please ignore)
-    #get '/doctors/update_mentor_salary', to: 'doctors#update_mentor_salary'
-    #get '/doctors/sort_doctors', to: 'doctors#sort_doctors'
-    #get '/patients/add_patient', to: 'patients#add_patient'
-    #get '/patients/remove_patient', to: 'patients#remove_patient'
-    #get '/patients/change_ownership', to: 'patients#change_ownership'
-
-    #get '/nurse/:nurse_id/patients/sort', to: 'patients#sort'
-
-    # use resources except!
     put '/nurse_assignments', to: 'nurse_assignments#update'
     post '/nurse_assignments', to: 'nurse_assignments#create'
 

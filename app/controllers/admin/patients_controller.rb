@@ -3,13 +3,7 @@ class Admin::PatientsController < Admin::BaseController
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_patient
 
   def sort
-    @current_patients = 
-      if params[:nurse_id]
-        Nurse.find(params[:nurse_id]).patients.order(name: :asc)
-      else
-        Patient.all.order(name: :asc)
-      end
-    #render 'patients/index'
+    @current_patients = Patient.all.order(name: :asc)
     render :index
   end
 
@@ -37,14 +31,11 @@ class Admin::PatientsController < Admin::BaseController
       @is_not_subsection = false
 
     else
-      # all doctors before queries (seeded)
       @current_patients = Patient.all
       @is_not_subsection = true
     end
-    #render 'patients/index'
   end
 
-  # GET /patients/new
   def new
     @patient = Patient.new
 
@@ -73,7 +64,6 @@ class Admin::PatientsController < Admin::BaseController
       if @patient.save && (params[:nurse_id]? @nurse_assignment.save : true)
         unless params[:email_check].nil?
           MentorConfirmationMailer.assigned(@doctor_assigned, params[:email_text]).deliver_later
-          #OrderMailer.assigned(@user_nurse, @doctor_assigned, params[:email_text]).deliver_later
         end
 
         format.html { flash[:success] = 'Patient record was successfully created.'
@@ -91,7 +81,6 @@ class Admin::PatientsController < Admin::BaseController
 
   def show
     @patient = Patient.find(params[:id])
-    #render 'patients/show'
   end
 
   def destroy

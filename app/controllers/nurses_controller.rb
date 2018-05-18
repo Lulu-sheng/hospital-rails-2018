@@ -6,29 +6,8 @@ class NursesController < ApplicationController
 
   layout :resolve_layout
 
-  # this is before the transaction is actually committed
   def index
-    # all doctors before queries (seeded)
     @nurses = Nurse.all
-    #@is_head_nurse = Nurse.find(session[:nurse_id]).eql?(Nurse.first)
-
-    # first query: get the name of the nurses that take care of employees that are
-    # under the care of doctor Lulu Sheng
-    @luluDoctor = Doctor.joins(:employee_record).where('employee_records.name':'Lulu Sheng')
-    @patientsUnderLulu = Patient.where(doctor_id:@luluDoctor)
-
-    @luluNurses = []
-    @patientsUnderLulu.each do |patient|
-      @luluNurses << Nurse.joins(:employee_record).where(id: patient.nurses).select('employee_records.name')
-    end
-
-    # second query: the name of the nurse who works the least amount of hours per week
-    @leastHours = Nurse.minimum(:hours_per_week)
-    #@nurseWithLeastHrs = Nurse.where(hours_per_week:@leastHours).first
-    @nurseWithLeastHrs = Nurse.joins(:employee_record).where(hours_per_week:@leastHours).select('employee_records.name').first
-
-    # third query: total number of night-shift nurses
-    @numOfNightShift = Nurse.where(night_shift:true).count(:id)
   end
 
   def destroy
@@ -62,7 +41,7 @@ class NursesController < ApplicationController
   def update
     @nurse = Nurse.find(params[:id])
     @employee = @nurse.employee_record
-    @previous_email = @employee.gravatar
+    @previous_email = @employee.email
 
     respond_to do |format|
       if [@nurse.update(nurse_params), @employee.update(employee_params)].all?

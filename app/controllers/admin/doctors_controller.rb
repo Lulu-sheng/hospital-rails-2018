@@ -1,22 +1,7 @@
-class Admin::DoctorsController < ApplicationController
+class Admin::DoctorsController < Admin::BaseController
   layout :resolve_layout
   def index
-    # all doctors before queries (seeded)
     @doctors = Doctor.all
-
-    # first query: the average salary of student doctors
-    @studentAvgSal = Doctor.where.not(mentor_id: nil).joins(:employee_record).average(:salary)
-  end
-
-  def update_mentor_salary
-    # second query: update all of the mentor doctor salaries by 10$
-    @mentors = Doctor.select(:mentor_id).where.not(mentor_id: nil)
-
-    @arrayOfMentorRecords = EmployeeRecord.where(employee_id:@mentors).to_a
-    @arrayOfMentorRecords.each do |record|
-      record.increment!(:salary, 10)
-    end
-    @doctorsAfterSalaryUpdate = Doctor.all
   end
 
   def sort_doctors
@@ -25,13 +10,25 @@ class Admin::DoctorsController < ApplicationController
     render "index"
   end
 
+=begin
+  def swap
+  end
+
+  def swap_perform
+    doctor_from = Doctor.joins(:employee_record).where('employee_records.name': 'Emily Smith').first
+    @Justin = Doctor.joins(:employee_record).where('employee_records.name': 'Justin Wong')
+    @JustinPatients = Patient.where(doctor_id: @Justin).update_all(doctor_id: @Emily.id)
+    redirect_to admin_doctors_url
+  end
+=end
+
   def create
     @doctor = Doctor.new(doctor_params)
     @employee = @doctor.build_employee_record(employee_params)
 
     respond_to do |format|
       if [@doctor.save, @employee.save].all?
-        #NewAccountMailer.notice_new_account(@nurse).deliver_later
+        NewAccountMailer.notice_new_account(@nurse).deliver_later
         format.html { flash[:success] = 'Doctor was successfully created'
                       redirect_to admin_doctors_path }
       else
@@ -45,7 +42,6 @@ class Admin::DoctorsController < ApplicationController
 
     doctor.destroy
     respond_to do |format|
-      # this is so that if you delete yourself, you are logged out
       format.html { flash[:success] = 'Doctor was successfully removed from the system'
                     redirect_to admin_doctors_url }
     end
@@ -59,15 +55,11 @@ class Admin::DoctorsController < ApplicationController
   def update
     @doctor = Doctor.find(params[:id])
     @employee = @doctor.employee_record
-    @previous_email = @employee.gravatar
 
     respond_to do |format|
       if [@doctor.update(doctor_params), @employee.update(employee_params)].all?
         format.html { flash[:success] = 'Doctor was successfully updated'
                       redirect_to admin_doctors_path }
-        unless @previous_email.eql?(@doctor.employee_record.email)
-          GenerateHashJob.perform_later(@doctor)
-        end
       else
         format.html { render :edit }
       end
@@ -84,10 +76,26 @@ class Admin::DoctorsController < ApplicationController
     @employee = EmployeeRecord.new
   end
 
+  def show
+    @doctor = Doctor.find(params[:id])
+    @patients_under_doctor = @doctor.patients
+
+    @doctor_nurses = []
+    @patients_under_doctor.each do |patient|
+      nurses_for_patient = Nurse.where(id: patient.nurses)
+      unless nurses_for_patient.empty?
+        nurses_for_patient.each do |nurse|
+          @doctor_nurses << nurse
+        end
+      end
+    end
+    @doctor_nurses = @doctor_nurses.uniq
+  end
+
   private
   def doctor_params
     params.require(:doctor).permit(:'received_license(1i)', :'received_license(2i)', 
-                                  :'received_license(3i)', :specialty, :mentor_id)
+                                   :'received_license(3i)', :specialty, :mentor_id)
   end
 
   def employee_params
@@ -102,7 +110,7 @@ class Admin::DoctorsController < ApplicationController
 
   def resolve_layout
     case action_name
-    when "new", "create", "edit", "update"
+    when "new", "create", "edit", "update", "show"
       "admin/layouts/application"
     else # index
       "admin/layouts/index_layout"

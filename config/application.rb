@@ -22,6 +22,6 @@ module HospitalManagement
     end
 
     config.middleware.use I18n::JS::Middleware
-    config.active_job.queue_adapter = :sidekiq
+    #config.active_job.queue_adapter = :sidekiq
   end
 end

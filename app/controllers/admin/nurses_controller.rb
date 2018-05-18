@@ -2,7 +2,6 @@ class Admin::NursesController < Admin::BaseController
   #skip_before_action :authorize, only: :new
   layout :resolve_layout
 
-  # this is before the transaction is actually committed
   def index
     @nurses = Nurse.all
   end
@@ -45,6 +44,12 @@ class Admin::NursesController < Admin::BaseController
     redirect_to admin_nurses_url
   end
 
+  # this is bubbled up from the transaction failure
+  rescue_from 'Nurse::Error' do |exception|
+    flash[:warning] = exception.message
+    redirect_to admin_nurses_url
+  end
+
   def edit
     @nurse = Nurse.find(params[:id])
     @employee = @nurse.employee_record
@@ -53,11 +58,15 @@ class Admin::NursesController < Admin::BaseController
   def update
     @nurse = Nurse.find(params[:id])
     @employee = @nurse.employee_record
+    @previous_email = @employee.email
 
     respond_to do |format|
       if [@nurse.update(nurse_params), @employee.update(employee_params)].all?
         format.html { flash[:success] = 'Nurse was successfully updated'
                       redirect_to admin_nurses_path }
+        unless @previous_email.eql?(@nurse.employee_record.email)
+          GenerateHashJob.perform_later(@nurse)
+        end
       else
         format.html { render :edit }
       end

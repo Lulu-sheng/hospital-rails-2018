@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   # change this so that you only set_user when
   # you use @user_nurse. Otherwise, don't!
   include CurrentUser
-  # so for admin, before we 
   before_action :set_user
   before_action :authorize
   before_action :set_locale

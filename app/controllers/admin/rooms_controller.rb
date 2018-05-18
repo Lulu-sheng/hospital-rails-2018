@@ -1,4 +1,4 @@
-class Admin::RoomsController < ApplicationController
+class Admin::RoomsController < Admin::BaseController
   layout :resolve_layout
   def index
     @rooms = Room.all
@@ -8,7 +8,6 @@ class Admin::RoomsController < ApplicationController
     @room = Room.new(room_params)
     respond_to do |format|
       if @room.save
-        #NewAccountMailer.notice_new_account(@nurse).deliver_later
         format.html { flash[:success] = 'Room was successfully created'
                       redirect_to admin_rooms_path }
       else
@@ -55,6 +54,12 @@ class Admin::RoomsController < ApplicationController
       end
     end
   end
+  
+  def summary
+    @patients_per_floor_hash =Patient.joins(:room).group(:floor).count(:id)
+    @vip_per_floor_hash = Room.where(vip: true).group(:floor).count(:id)
+    @rooms_per_floor_hash = Room.group(:floor).count(:id)
+  end
 
   def sort
     @rooms = Room.all.order(number: :asc)
@@ -78,7 +83,7 @@ class Admin::RoomsController < ApplicationController
 
   def resolve_layout
     case action_name
-    when "new", "create", "edit", "update"
+    when "new", "create", "edit", "update", "summary"
       "admin/layouts/application"
     else # index
       "admin/layouts/index_layout"
