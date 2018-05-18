@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180508233333) do
+ActiveRecord::Schema.define(version: 20180518020712) do
 
   create_table "doctors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "specialty"
     t.date "received_license"
     t.bigint "mentor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["mentor_id"], name: "index_doctors_on_mentor_id"
   end
 

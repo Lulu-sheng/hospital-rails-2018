@@ -11,6 +11,7 @@
 
   <body>
     <div class="flex-container">
+      <div class="ghost-div">
       <div class="make-shift-navbar">
         <%= link_to t('.patients'), patients_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
         <%= link_to t('.nurses'), nurses_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
@@ -32,6 +33,7 @@
       <% end %>
 
       <%= link_to t('.logout_html'), logout_url, method: :delete, class: "Polaris-Button Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+      </div>
       </div>
 
       <div class="Nurse-Content">
