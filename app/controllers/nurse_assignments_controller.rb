@@ -5,6 +5,7 @@ class NurseAssignmentsController < ApplicationController
     @nurse_assignment = @user_nurse.nurse_assignments.build(patient: patient, start_date: Date.today)
 
     respond_to do |format|
+      # if there are no nurse assignments currently in place between the pair
       if (NurseAssignment.where(patient_id: nurse_assignment_params[:patient_id], nurse_id: @user_nurse, end_date: nil).empty? &&
           @nurse_assignment.save)
         format.js { @new_patient_name = patient.name
@@ -21,6 +22,7 @@ class NurseAssignmentsController < ApplicationController
     assignment = NurseAssignment.where(nurse_id: @user_nurse, patient_id: nurse_assignment_params[:patient_id], end_date: nil) 
 
     respond_to do |format|
+      # set the end_date
       if assignment.update(end_date: Date.today)
         format.js {@new_patient_name = nil
                    @current_patients = Patient.all}

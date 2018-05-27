@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   skip_before_action :authorize
   def new
+    # my attempt to create an initial form
     if Nurse.count == 0
       redirect_to new_admin_nurse_url
     elsif !session[:nurse_id].nil?
@@ -10,8 +11,7 @@ class SessionsController < ApplicationController
 
   def create
     nurse = Nurse.find_by(username: params[:username])
-    if nurse.try(:authenticate, params[:password]) # checks if user is nil before trying to call
-      # authenticate does the decoding of the hashed password
+    if nurse.try(:authenticate, params[:password]) 
       session[:nurse_id] = nurse.id
       if (Nurse.first.id.eql?(nurse.id))
         redirect_to admin_patients_url

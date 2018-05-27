@@ -1,5 +1,5 @@
 class Admin::DoctorsController < Admin::BaseController
-  layout :resolve_layout
+  layout 'admin/layouts/index_layout', only: [:index, :sort]
   def index
     @doctors = Doctor.all
   end
@@ -39,11 +39,22 @@ class Admin::DoctorsController < Admin::BaseController
 
   def destroy
     doctor = Doctor.find(params[:id])
+    dependent = false
+    Patient.all.each do |patient|
+      if patient.doctor_id.to_s.eql?(params[:id])
+        dependent = true
+      end
+    end
 
-    doctor.destroy
     respond_to do |format|
-      format.html { flash[:success] = 'Doctor was successfully removed from the system'
-                    redirect_to admin_doctors_url }
+      unless dependent
+        doctor.destroy
+        format.html { flash[:success] = 'Doctor was successfully removed from the system'
+                      redirect_to admin_doctors_url }
+      else
+        format.html {flash[:warning] = 'This doctor is still assigned to existing patients'
+                     redirect_to admin_doctors_url }
+      end
     end
   end
 
@@ -106,15 +117,6 @@ class Admin::DoctorsController < Admin::BaseController
     logger.error "Attempt to access invalid doctor #{params[:id]}"
     flash[:warning] = 'Invalid doctor'
     redirect_to admin_doctors_url
-  end
-
-  def resolve_layout
-    case action_name
-    when "new", "create", "edit", "update", "show"
-      "admin/layouts/application"
-    else # index
-      "admin/layouts/index_layout"
-    end
   end
 end
 

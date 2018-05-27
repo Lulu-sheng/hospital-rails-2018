@@ -1,5 +1,5 @@
 class Admin::PatientsController < Admin::BaseController
-  layout :resolve_layout
+  layout 'admin/layouts/index_layout', only: [:index, :sort]
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_patient
 
   def sort
@@ -104,15 +104,6 @@ class Admin::PatientsController < Admin::BaseController
   end
 
   private
-
-  def resolve_layout
-    case action_name
-    when "new", "create", "show" 
-      "admin/layouts/application"
-    else # index
-      "admin/layouts/index_layout"
-    end
-  end
 
   def get_doctors
     Doctor.all.to_a.map do |doctor|

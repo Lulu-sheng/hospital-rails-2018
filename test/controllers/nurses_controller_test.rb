@@ -68,7 +68,7 @@ class NursesControllerTest < ActionDispatch::IntegrationTest
 
   test "display errors faulty create" do
     assert_difference 'Nurse.count', 0 do
-      post nurses_url, params: {employee_record: {name: '', email: '', salary: nil},
+      post admin_nurses_url, params: {employee_record: {name: '', email: '', salary: nil},
                                 nurse: {'date_of_certification(1i)': '', 'date_of_certification(2i)': '', 'date_of_certification(3i)': '',
                                         night_shift: nil, hours_per_week: nil, username: '', password: '', password_confirmation: ''}}
     end

@@ -10,7 +10,8 @@ class NewNurseTest < ApplicationSystemTestCase
   end
 
   test "add new nurse" do
-    visit nurses_url
+    visit admin_nurses_url
+    take_screenshot
     click_link "Add New Record"
     fill_in 'employee_record[name]', with: 'Freya'
     fill_in 'employee_record[email]', with: 'lulu.sheng@hotmail.com'

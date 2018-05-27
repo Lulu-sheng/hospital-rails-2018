@@ -14,12 +14,12 @@ Rails.application.routes.draw do
       put '/nurse_assignments', to: 'nurse_assignments#update'
       post '/nurse_assignments', to: 'nurse_assignments#create'
 
-      get 'nurses/admin', to: 'nurses#sort'
-      resources :nurses do
+      resources :nurses, except: :show do
+        get 'sort', on: :collection
         resources :patients
       end
 
-      resources :rooms do
+      resources :rooms, except: :show do
         get 'sort', on: :collection
         get 'summary', on: :collection
       end
@@ -28,7 +28,7 @@ Rails.application.routes.draw do
         get 'sort', on: :collection
       end
 
-      root 'sessions#new'
+      #root 'sessions#new'
     end
 
     put '/nurse_assignments', to: 'nurse_assignments#update'
@@ -39,13 +39,11 @@ Rails.application.routes.draw do
       get 'sort', on: :collection
     end
 
-    resources :nurses, except: [:destroy, :create] do
+    resources :nurses, except: [:show, :destroy, :create] do
       get 'sort', on: :collection
-    end
-
-    resources :nurses do
       resources :patients
     end
+
     root 'sessions#new'
   end
 

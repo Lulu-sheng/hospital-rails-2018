@@ -29,7 +29,7 @@ class PatientsTest < ApplicationSystemTestCase
     find(".Polaris-Checkbox").click
     assert_selector '.Polaris-TextField--multiline'
     #https://github.com/thoughtbot/capybara-webkit/issues/629
-    click_on "Create patient"
+    click_on "Create Patient Record"
 
     mail = ActionMailer::Base.deliveries.last
     assert_equal ["lulu.sheng1418@gmail.com"], mail.to 

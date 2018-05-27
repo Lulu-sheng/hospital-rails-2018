@@ -1,5 +1,5 @@
 class PatientsController < ApplicationController
-  layout :resolve_layout
+  layout "index_layout", except: [:new, :create, :show]
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_patient
 
   def sort
@@ -18,22 +18,22 @@ class PatientsController < ApplicationController
     end
     if (params[:nurse_id])
       # All assignments associated with the specific nurse.
-      @assignments = NurseAssignment.joins(:patient).where(nurse_id: params[:nurse_id])
+      assignments = NurseAssignment.where(nurse_id: params[:nurse_id])
 
       # Partition all of the nurse assignments that are currently taking place
       # and those that are not currently taking place
-      @assignments = @assignments.partition { |assignment| assignment.end_date.nil? }
+      assignments = assignments.partition { |assignment| assignment.end_date.nil? }
 
       # push these separate assignment patient_id's into
       # their own array
       current_patients = []
       past_patients = []
 
-      @assignments[0].each do |assignment|
+      assignments[0].each do |assignment|
         current_patients << assignment.patient_id
       end
 
-      @assignments[1].each do |assignment|
+      assignments[1].each do |assignment|
         past_patients << assignment.patient_id
       end
 
@@ -42,6 +42,8 @@ class PatientsController < ApplicationController
       # we cannot access the attributes association with the joined model. However
       # we must partition the patients with the nurse_assignment attribute (end_date)
       # hence this was the workaround.
+      #
+      # also reduces repetition
       @current_patients = Patient.where(id: current_patients)
       @past_patients = Patient.where(id: past_patients)
       @is_not_subsection = false
@@ -115,16 +117,6 @@ class PatientsController < ApplicationController
   end
 
   private
-
-  def resolve_layout
-    case action_name
-    when "new", "create", "show" 
-      "application"
-    else # index
-      "index_layout"
-    end
-  end
-
   def get_doctors
     Doctor.all.to_a.map do |doctor|
       { name: doctor.employee_record.name,

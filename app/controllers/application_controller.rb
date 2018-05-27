@@ -27,9 +27,6 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize
-    # everything is untouchable except for
-    # the sessions controller. You must login
-    # order to access everything but the login page
     if session[:nurse_id].nil?
       flash[:warning] = 'Please log in'
       redirect_to login_url

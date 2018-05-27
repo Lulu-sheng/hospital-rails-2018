@@ -18,7 +18,6 @@ class DoctorSelector extends React.Component {
   }
   render() {
     const options = this.props.doctors.map((doctor) => <option key={doctor.value.toString()} value={doctor.value}>{doctor.name}</option>);
-    // this is a method! Not a function, hence no function keyword
 
     let DoctorTypeCustomComponent = MentorType;
     for (let doctor of this.props.doctors) {

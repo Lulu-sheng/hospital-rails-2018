@@ -1,6 +1,5 @@
 class Admin::NursesController < Admin::BaseController
-  #skip_before_action :authorize, only: :new
-  layout :resolve_layout
+  layout 'admin/layouts/index_layout', only: [:index, :sort]
 
   def index
     @nurses = Nurse.all
@@ -101,15 +100,6 @@ class Admin::NursesController < Admin::BaseController
     logger.error "Attempt to access invalid nurse #{params[:id]}"
     flash[:warning] = 'Invalid nurse'
     redirect_to admin_nurses_url
-  end
-
-  def resolve_layout
-    case action_name
-    when "new", "create", "edit", "update"
-      "admin/layouts/application"
-    else # index
-      "admin/layouts/index_layout"
-    end
   end
 
   def no_nurses?

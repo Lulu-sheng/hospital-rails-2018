@@ -1,10 +1,6 @@
 require 'date'
 class NursesController < ApplicationController
-  #skip_before_action :authorize, only: :new
-  # but authorize 
-  #before_action :authorize, only: :new, unless: :no_nurses?
-
-  layout :resolve_layout
+  layout 'index_layout', except: [:edit, :update]
 
   def index
     @nurses = Nurse.all
@@ -80,15 +76,6 @@ class NursesController < ApplicationController
     logger.error "Attempt to access invalid nurse #{params[:id]}"
     flash[:warning] = 'Invalid nurse'
     redirect_to nurses_url
-  end
-
-  def resolve_layout
-    case action_name
-    when "new", "create", "edit", "update"
-      "application"
-    else # index
-      "index_layout"
-    end
   end
 end
 

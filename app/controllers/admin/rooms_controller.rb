@@ -1,5 +1,5 @@
 class Admin::RoomsController < Admin::BaseController
-  layout :resolve_layout
+  layout 'admin/layouts/index_layout', only: [:index, :sort]
   def index
     @rooms = Room.all
   end
@@ -79,14 +79,5 @@ class Admin::RoomsController < Admin::BaseController
     logger.error "Attempt to access invalid room #{params[:id]}"
     flash[:warning] = 'Invalid room'
     redirect_to admin_rooms_url
-  end
-
-  def resolve_layout
-    case action_name
-    when "new", "create", "edit", "update", "summary"
-      "admin/layouts/application"
-    else # index
-      "admin/layouts/index_layout"
-    end
   end
 end

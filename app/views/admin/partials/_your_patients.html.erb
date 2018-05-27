@@ -5,6 +5,7 @@
     </div>
     <div class="Polaris-Card__Section">
       <ul class="Polaris-List Polaris-List--typeBullet">
+        <!-- only show the nurse assignments that are currently in place -->
         <% user.nurse_assignments.where(end_date: nil).to_a.each do |assignment| %>
           <% patient = Patient.find(assignment.patient_id)%>
           <% if patient.name == @new_patient_name %>
