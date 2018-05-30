@@ -2,7 +2,7 @@ class Admin::NursesController < Admin::BaseController
   layout 'admin/layouts/index_layout', only: [:index, :sort]
 
   def index
-    @nurses = Nurse.all
+    @nurses = Nurse.includes(:employee_record)
   end
 
   def create
@@ -35,12 +35,6 @@ class Admin::NursesController < Admin::BaseController
                       redirect_to admin_nurses_url }
       end
     end
-  end
-
-  # this is bubbled up from the transaction failure
-  rescue_from 'Nurse::Error' do |exception|
-    flash[:warning] = exception.message
-    redirect_to admin_nurses_url
   end
 
   # this is bubbled up from the transaction failure

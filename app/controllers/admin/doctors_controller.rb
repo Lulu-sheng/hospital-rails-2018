@@ -1,7 +1,7 @@
 class Admin::DoctorsController < Admin::BaseController
   layout 'admin/layouts/index_layout', only: [:index, :sort]
   def index
-    @doctors = Doctor.all
+    @doctors = Doctor.includes(:employee_record).references(:employee_record).all
   end
 
   def sort_doctors

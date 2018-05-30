@@ -17,25 +17,38 @@ class PatientsController < ApplicationController
       redirect_to patients_url(locale: params[:set_locale])
     end
     if (params[:nurse_id])
+=begin
+      assignments = Patient.includes(:nurse_assignments).where('nurse_assignments.nurse_id': params[:nurse_id])
+
+      # this doesn't work because we are partitioning each assignment, not each patient
+      # although we do need each patient, we can count each patient multiple times
+      @current_patients, @past_patients = assignments.partition { |assignment| assignment.nurse_assignments.end_date.nil? }
+=end
+      assignments = Patient.joins(:nurse_assignments).where('nurse_assignments.nurse_id': params[:nurse_id])
+        .select('patients.*, nurse_assignments.end_date AS end_date')
+
+
+      @current_patients, @past_patients = assignments.partition { |assignment| assignment.end_date.nil? }
+      @past_patients = @past_patients.uniq
+      @is_not_subsection = false
+    else
+      @current_patients = Patient.all
+      @is_not_subsection = true
+=begin
       # All assignments associated with the specific nurse.
-      assignments = NurseAssignment.where(nurse_id: params[:nurse_id])
+      assignments = NurseAssignment.joins(:patients).where(nurse_id: params[:nurse_id])
 
       # Partition all of the nurse assignments that are currently taking place
       # and those that are not currently taking place
-      assignments = assignments.partition { |assignment| assignment.end_date.nil? }
+      past_assinments, current_assignments = assignments.partition { |assignment| assignment.end_date.nil? }
 
       # push these separate assignment patient_id's into
       # their own array
-      current_patients = []
-      past_patients = []
+      current_patients = assignments[0].map { |assignment| assignment.patient_id }
+      past_patients = assignments[1].map { |assignment| assignment.patient_id }
 
-      assignments[0].each do |assignment|
-        current_patients << assignment.patient_id
-      end
-
-      assignments[1].each do |assignment|
-        past_patients << assignment.patient_id
-      end
+      # joins is used for cases in which you do NOT want to access records from a 
+      # relationship.
 
       # run another query to extract patients who are in each partition
       # this is because even if we created a join between patinet and nurse_assignments,
@@ -47,11 +60,11 @@ class PatientsController < ApplicationController
       @current_patients = Patient.where(id: current_patients)
       @past_patients = Patient.where(id: past_patients)
       @is_not_subsection = false
-
     else
       # all doctors before queries (seeded)
       @current_patients = Patient.all
       @is_not_subsection = true
+=end
     end
   end
 
