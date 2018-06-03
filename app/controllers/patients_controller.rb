@@ -17,54 +17,15 @@ class PatientsController < ApplicationController
       redirect_to patients_url(locale: params[:set_locale])
     end
     if (params[:nurse_id])
-=begin
-      assignments = Patient.includes(:nurse_assignments).where('nurse_assignments.nurse_id': params[:nurse_id])
-
-      # this doesn't work because we are partitioning each assignment, not each patient
-      # although we do need each patient, we can count each patient multiple times
-      @current_patients, @past_patients = assignments.partition { |assignment| assignment.nurse_assignments.end_date.nil? }
-=end
       assignments = Patient.joins(:nurse_assignments).where('nurse_assignments.nurse_id': params[:nurse_id])
         .select('patients.*, nurse_assignments.end_date AS end_date')
 
-
       @current_patients, @past_patients = assignments.partition { |assignment| assignment.end_date.nil? }
-      @past_patients = @past_patients.uniq
-      @is_not_subsection = false
+      @past_patients.uniq!
+      @is_subsection = true
     else
       @current_patients = Patient.all
-      @is_not_subsection = true
-=begin
-      # All assignments associated with the specific nurse.
-      assignments = NurseAssignment.joins(:patients).where(nurse_id: params[:nurse_id])
-
-      # Partition all of the nurse assignments that are currently taking place
-      # and those that are not currently taking place
-      past_assinments, current_assignments = assignments.partition { |assignment| assignment.end_date.nil? }
-
-      # push these separate assignment patient_id's into
-      # their own array
-      current_patients = assignments[0].map { |assignment| assignment.patient_id }
-      past_patients = assignments[1].map { |assignment| assignment.patient_id }
-
-      # joins is used for cases in which you do NOT want to access records from a 
-      # relationship.
-
-      # run another query to extract patients who are in each partition
-      # this is because even if we created a join between patinet and nurse_assignments,
-      # we cannot access the attributes association with the joined model. However
-      # we must partition the patients with the nurse_assignment attribute (end_date)
-      # hence this was the workaround.
-      #
-      # also reduces repetition
-      @current_patients = Patient.where(id: current_patients)
-      @past_patients = Patient.where(id: past_patients)
-      @is_not_subsection = false
-    else
-      # all doctors before queries (seeded)
-      @current_patients = Patient.all
-      @is_not_subsection = true
-=end
+      @is_subsection = false
     end
   end
 
@@ -76,14 +37,10 @@ class PatientsController < ApplicationController
   def create
     @patient = Patient.new(patient_params)
 
-    unless params[:email_check].nil?
-      @doctor_assigned = Doctor.find(params[:patient][:doctor_id])
-    end
-
     respond_to do |format|
       if @patient.save
         unless params[:email_check].nil?
-          MentorConfirmationMailer.assigned(@doctor_assigned, params[:email_text]).deliver_later
+          MentorConfirmationMailer.assigned(Doctor.find(params[:patient][:doctor_id]), params[:email_text]).deliver_later
         end
 
         format.html { flash[:success] = 'Patient record was successfully created.'

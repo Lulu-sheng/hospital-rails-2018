@@ -12,28 +12,31 @@
   <body>
     <div class="flex-container">
       <div class="ghost-div">
-      <div class="make-shift-navbar">
-        <%= link_to t('.patients'), patients_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
-        <%= link_to t('.nurses'), nurses_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+        <div class="make-shift-navbar">
+          <%= link_to t('.patients'), patients_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+          <%= link_to t('.nurses'), nurses_path, class: "Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
 
-        <%= render partial: 'partials/profile', locals: {user: @user_nurse} %>
-        <div id="your-patients">
-          <%= render_if_have_patients @user_nurse, 'partials/your_patients', {user: @user_nurse}%>
+          <%= render partial: 'partials/profile', locals: {user: @user_nurse} %>
+          <div id="your-patients">
+            <%= render_if_have_patients @user_nurse, 'partials/your_patients', {user: @user_nurse}%>
+          </div>
+
+          <%= form_tag patients_path, method: :get do %> 
+            <div class="Polaris-Select">
+              <%= select_tag 'set_locale',
+                options_for_select(LANGUAGES, I18n.locale.to_s),
+                onchange: 'this.form.submit()',
+                class: 'Polaris-Select__Input'%>
+              <div class="Polaris-Select__Icon"><span class="Polaris-Icon">
+                  <svg class="Polaris-Icon__Svg" viewBox="0 0 20 20" focusable="false" aria-hidden="true">
+                    <path d="M13 8l-3-3-3 3h6zm-.1 4L10 14.9 7.1 12h5.8z" fill-rule="evenodd"></path>
+                  </svg></span></div>
+                  <div class="Polaris-Select__Backdrop"></div>
+            </div>
+          <% end %>
+
+          <%= link_to t('.logout_html'), logout_url, method: :delete, class: "Polaris-Button Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
         </div>
-
-        <%= form_tag patients_path, method: :get do %> 
-          <div class="Polaris-Select">
-            <%= select_tag 'set_locale',
-              options_for_select(LANGUAGES, I18n.locale.to_s),
-              onchange: 'this.form.submit()',
-              class: 'Polaris-Select__Input'%>
-            <div class="Polaris-Select__Icon"><span class="Polaris-Icon"><svg class="Polaris-Icon__Svg" viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="M13 8l-3-3-3 3h6zm-.1 4L10 14.9 7.1 12h5.8z" fill-rule="evenodd"></path></svg></span></div>
-            <div class="Polaris-Select__Backdrop"></div>
-        </div>
-      <% end %>
-
-      <%= link_to t('.logout_html'), logout_url, method: :delete, class: "Polaris-Button Polaris-Button Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
-      </div>
       </div>
 
       <div class="Nurse-Content">
@@ -62,7 +65,7 @@
               </div>
             </div>
           </div>
-          <% if @is_not_subsection.nil? || @is_not_subsection %>
+          <% unless @is_subsection %>
             <%= render "partials/buttons"%>
           <% end %>
         </div>

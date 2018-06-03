@@ -12,27 +12,15 @@ class Admin::PatientsController < Admin::BaseController
       redirect_to admin_patients_url(locale: params[:set_locale])
     end
     if (params[:nurse_id])
-      @assignments = NurseAssignment.joins(:patient).where(nurse_id: params[:nurse_id])
-      @assignments = @assignments.partition { |assignment| assignment.end_date.nil? }
-
-      current_patients = []
-      past_patients = []
-
-      @assignments[0].each do |assignment|
-        current_patients << assignment.patient_id
-      end
-
-      @assignments[1].each do |assignment|
-        past_patients << assignment.patient_id
-      end
-
-      @current_patients = Patient.where(id: current_patients)
-      @past_patients = Patient.where(id: past_patients)
-      @is_not_subsection = false
-
+      assignments = Patient.joins(:nurse_assignments).where('nurse_assignments.nurse_id': params[:nurse_id])
+        .select('patients.*, nurse_assignments.end_date AS end_date')
+      
+      @current_patients, @past_patients = assignments.partition { |assignment| assignment.end_date.nil? }
+      @past_patients.uniq!
+      @is_subsection = true
     else
       @current_patients = Patient.all
-      @is_not_subsection = true
+      @is_subsection = false
     end
   end
 
@@ -52,10 +40,6 @@ class Admin::PatientsController < Admin::BaseController
   def create
     @patient = Patient.new(patient_params)
 
-    unless params[:email_check].nil?
-      @doctor_assigned = Doctor.find(params[:patient][:doctor_id])
-    end
-
     if params[:nurse_id]
       @nurse_assignment = Nurse.find(params[:nurse_id]).nurse_assignments.build(patient: @patient, start_date: Date.today)
     end
@@ -63,7 +47,7 @@ class Admin::PatientsController < Admin::BaseController
     respond_to do |format|
       if @patient.save && (params[:nurse_id]? @nurse_assignment.save : true)
         unless params[:email_check].nil?
-          MentorConfirmationMailer.assigned(@doctor_assigned, params[:email_text]).deliver_later
+          MentorConfirmationMailer.assigned(Doctor.find(params[:patient][:doctor_id]), params[:email_text]).deliver_later
         end
 
         format.html { flash[:success] = 'Patient record was successfully created.'

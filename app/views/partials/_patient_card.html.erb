@@ -8,7 +8,7 @@
               <div class="Polaris-Stack__Item Polaris-Stack__Item--fill">
                 <h2 class="Polaris-Heading"><%= patient.name%>: r.<%= patient.room.number%></h2>
               </div>
-              <% if is_not_subsection.nil? || is_not_subsection %>
+                <% unless is_subsection %>
               <div class="Polaris-Stack__Item">
                 <div class="Polaris-ButtonGroup">
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain" class="drop-button">

@@ -3,13 +3,13 @@
     <h3 aria-label="Accounts" class="Polaris-Subheading">Current Patients</h3>
   </div>
 <% end %>
-<%= render partial: "admin/partials/patient_card", locals: {patients: @current_patients, is_not_subsection: @is_not_subsection}%>
+<%= render partial: "admin/partials/patient_card", locals: {patients: @current_patients, is_subsection: @is_subsection}%>
 
 <% if @past_patients && !@past_patients.empty? %>
   <div class="patient-partition-header">
     <h3 aria-label="Accounts" class="Polaris-Subheading">Past Patients</h3>
   </div>
-  <%= render partial: "admin/partials/patient_card", locals: {patients: @past_patients, is_not_subsection: @is_not_subsection}%>
+  <%= render partial: "admin/partials/patient_card", locals: {patients: @past_patients, is_subsection: @is_subsection}%>
 <% end%>
 
 <% if @past_patients && @current_patients && @past_patients.empty? && @current_patients.empty?%>
