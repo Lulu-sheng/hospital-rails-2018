@@ -12,10 +12,10 @@
               <div class="Polaris-Stack__Item">
                 <div class="Polaris-ButtonGroup">
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
-                      <a class="Polaris-Button Polaris-Button--plain" href="<%= admin_doctor_url(doctor.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Full Details</span></span></a>
+                      <a class="Polaris-Button Polaris-Button--plain" href="<%= admin_doctor_url(doctor)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Full Details</span></span></a>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
-                      <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_admin_doctor_url(doctor.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Record</span></span></a>
+                      <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_admin_doctor_url(doctor)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Record</span></span></a>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
                     <%= link_to 'Delete Doctor', admin_doctor_path(doctor), method: :delete, data: {confirm: 'Are you sure you want to remove this doctor\'s record and account?' }, class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true"%>

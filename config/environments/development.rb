@@ -63,4 +63,5 @@ config.webpacker.check_yarn_integrity = true
     authentication:       'plain',
     enable_starttls_auto: true 
   }
+  config.action_mailer.perform_deliveries = false
 end

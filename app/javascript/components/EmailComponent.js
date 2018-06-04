@@ -1,5 +1,5 @@
 import React from 'react'
-class MentorType extends React.Component { 
+class EmailComponent extends React.Component { 
   render() {
     return (
       <div>
@@ -19,4 +19,4 @@ class MentorType extends React.Component {
     ); 
   }
 }
-export default MentorType
+export default EmailComponent

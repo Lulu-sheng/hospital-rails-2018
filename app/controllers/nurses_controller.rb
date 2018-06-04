@@ -3,7 +3,7 @@ class NursesController < ApplicationController
   layout 'index_layout', except: [:edit, :update]
 
   def index
-    @nurses = Nurse.all
+    @nurses = Nurse.includes(:employee_record).references(:employee_record)
   end
 
   def destroy
@@ -24,6 +24,7 @@ class NursesController < ApplicationController
   end
 
   # this is bubbled up from the transaction failure
+  # (always have at least one nurse)
   rescue_from 'Nurse::Error' do |exception|
     flash[:warning] = exception.message
     redirect_to nurses_url
@@ -37,13 +38,13 @@ class NursesController < ApplicationController
   def update
     @nurse = Nurse.find(params[:id])
     @employee = @nurse.employee_record
-    @previous_email = @employee.email
+    previous_email = @employee.email
 
     respond_to do |format|
       if [@nurse.update(nurse_params), @employee.update(employee_params)].all?
         format.html { flash[:success] = 'Nurse was successfully updated'
                       redirect_to nurses_path }
-        unless @previous_email.eql?(@nurse.employee_record.email)
+        unless previous_email.eql?(@nurse.employee_record.email)
           GenerateHashJob.perform_later(@nurse)
         end
       else
@@ -58,6 +59,7 @@ class NursesController < ApplicationController
   end
 
   def new
+    # invokes flash error
     redirect_to new_admin_nurse_url
   end
 

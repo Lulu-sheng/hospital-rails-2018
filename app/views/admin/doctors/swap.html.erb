@@ -24,7 +24,6 @@
             <div class="Polaris-Labelled__LabelWrapper">
               <div class="Polaris-Label"><label id="TextField3Label" for="TextField3" class="Polaris-Label__Text">Doctor Receiving Patients</label></div>
             </div>
-              <!--<input id="TextField3" class="Polaris-TextField__Input" aria-labelledby="TextField3Label" aria-invalid="false" value="">-->
               <%= select_tag(:doctor_to, options_from_collection_for_select(Doctor.all, :id, :name)) %>
           </div>
         </div>
@@ -33,7 +32,6 @@
             <div class="Polaris-Labelled__LabelWrapper">
               <div class="Polaris-Label"><label id="TextField4Label" for="TextField4" class="Polaris-Label__Text">Doctor From Which Patients Are Being Revoked From</label></div>
             </div>
-              <!--<input id="TextField4" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField4Label" aria-invalid="false" value="">-->
               <%= select_tag(:doctor_from, options_from_collection_for_select(Doctor.all, :id, :name)) %>
 
           </div>

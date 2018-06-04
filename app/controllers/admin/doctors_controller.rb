@@ -1,26 +1,9 @@
 class Admin::DoctorsController < Admin::BaseController
   layout 'admin/layouts/index_layout', only: [:index, :sort]
+  rescue_from ActiveRecord::RecordNotFound, with: :invalid_doctor
   def index
-    @doctors = Doctor.includes(:employee_record).references(:employee_record).all
+    @doctors = Doctor.includes(:employee_record).references(:employee_record)
   end
-
-  def sort_doctors
-    @doctors = Doctor.all.order(received_license: :asc)
-    @studentAvgSal = Doctor.where.not(mentor_id: nil).joins(:employee_record).average(:salary)
-    render "index"
-  end
-
-=begin
-  def swap
-  end
-
-  def swap_perform
-    doctor_from = Doctor.joins(:employee_record).where('employee_records.name': 'Emily Smith').first
-    @Justin = Doctor.joins(:employee_record).where('employee_records.name': 'Justin Wong')
-    @JustinPatients = Patient.where(doctor_id: @Justin).update_all(doctor_id: @Emily.id)
-    redirect_to admin_doctors_url
-  end
-=end
 
   def create
     @doctor = Doctor.new(doctor_params)
@@ -28,7 +11,6 @@ class Admin::DoctorsController < Admin::BaseController
 
     respond_to do |format|
       if [@doctor.save, @employee.save].all?
-        NewAccountMailer.notice_new_account(@nurse).deliver_later
         format.html { flash[:success] = 'Doctor was successfully created'
                       redirect_to admin_doctors_path }
       else
@@ -47,8 +29,7 @@ class Admin::DoctorsController < Admin::BaseController
     end
 
     respond_to do |format|
-      unless dependent
-        doctor.destroy
+      if !dependent && doctor.destroy
         format.html { flash[:success] = 'Doctor was successfully removed from the system'
                       redirect_to admin_doctors_url }
       else
@@ -93,14 +74,9 @@ class Admin::DoctorsController < Admin::BaseController
 
     @doctor_nurses = []
     @patients_under_doctor.each do |patient|
-      nurses_for_patient = Nurse.where(id: patient.nurses)
-      unless nurses_for_patient.empty?
-        nurses_for_patient.each do |nurse|
-          @doctor_nurses << nurse
-        end
-      end
+      @doctor_nurses += patient.nurses
     end
-    @doctor_nurses = @doctor_nurses.uniq
+    @doctor_nurses.uniq!
   end
 
   private

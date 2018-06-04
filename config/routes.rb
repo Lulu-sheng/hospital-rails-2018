@@ -28,7 +28,7 @@ Rails.application.routes.draw do
         get 'sort', on: :collection
       end
 
-      #root 'sessions#new'
+      #root 'sessions#new' (no root for admin!)
     end
 
     put '/nurse_assignments', to: 'nurse_assignments#update'

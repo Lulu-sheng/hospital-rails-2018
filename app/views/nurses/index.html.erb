@@ -13,7 +13,7 @@
                 <div class="Polaris-ButtonGroup">
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
                     <% if nurse.id == @user_nurse.id %>
-                      <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_nurse_url(nurse.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Record</span></span></a>
+                      <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_nurse_url(nurse)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Record</span></span></a>
                     <% end %>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">

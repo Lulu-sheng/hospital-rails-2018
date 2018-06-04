@@ -10,7 +10,7 @@
     <h3 aria-label="Accounts" class="Polaris-Subheading">Past Patients</h3>
   </div>
   <%= render partial: "partials/patient_card", locals: {patients: @past_patients, is_subsection: @is_subsection}%>
-<% end%>
+<%end%>
 
 <% if @past_patients && @current_patients && @past_patients.empty? && @current_patients.empty?%>
   <h3>This nurse has no patients assigned to them at the moment</h3>

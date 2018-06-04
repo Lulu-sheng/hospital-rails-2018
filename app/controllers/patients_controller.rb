@@ -3,16 +3,12 @@ class PatientsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_patient
 
   def sort
-    @current_patients = 
-      if params[:nurse_id]
-        Nurse.find(params[:nurse_id]).patients.order(name: :asc)
-      else
-        Patient.all.order(name: :asc)
-      end
+    @current_patients = Patient.all.order(name: :asc)
     render 'index'
   end
 
   def index
+    # refactor into locales controller
     if params[:set_locale]
       redirect_to patients_url(locale: params[:set_locale])
     end
@@ -33,6 +29,10 @@ class PatientsController < ApplicationController
     @patient = Patient.new
     @doctor_array = get_doctors
   end
+
+  #def edit
+    #@patient = Patient.find(params[:id])
+  #end
 
   def create
     @patient = Patient.new(patient_params)
@@ -59,10 +59,12 @@ class PatientsController < ApplicationController
     @patient = Patient.find(params[:id])
   end
 
+  # when you destroy a patient, all assignments are destroyed
+  # (currently active and past...)
   def destroy
-    @patient = Patient.find(params[:id])
-    if @patient.nurses.to_a.include? @user_nurse
-      @patient.destroy
+    patient = Patient.find(params[:id])
+    if patient.nurses.to_a.include? @user_nurse
+      patient.destroy
       respond_to do |format|
         format.html { flash[:success] = 'Patient was successfully removed.'
                       redirect_to patients_url }

@@ -12,10 +12,12 @@
               <div class="Polaris-Stack__Item">
                 <div class="Polaris-ButtonGroup">
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain" class="drop-button">
-                    <%= button_to_if patient, t('.drop_patient_html'), admin_nurse_assignments_path(patient_id: patient), "Polaris-Button Polaris-Button--plain Polaris-Button__Content", true, :put%>
+                    <%unless NurseAssignment.where(patient_id: patient, nurse_id: @user_nurse, end_date: nil).empty?%>
+                      <%= button_to t('.drop_patient_html'), admin_nurse_assignments_path(patient_id: patient), class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", remote: true, method: :put %>
+                    <%end%>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
-                    <%= link_to t('.full_details_html'), admin_patient_path(patient.id), class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
+                    <%= link_to t('.full_details_html'), admin_patient_path(patient), class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true"%>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
                     <%= button_to t('.manage_patient_html'), admin_nurse_assignments_path(patient_id: patient), class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true", remote: true%>

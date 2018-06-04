@@ -8,6 +8,7 @@ class Admin::PatientsController < Admin::BaseController
   end
 
   def index
+    # refactor this into locales controller
     if params[:set_locale]
       redirect_to admin_patients_url(locale: params[:set_locale])
     end
@@ -26,7 +27,6 @@ class Admin::PatientsController < Admin::BaseController
 
   def new
     @patient = Patient.new
-
     @doctor_array = get_doctors
 
     @url =
@@ -41,11 +41,11 @@ class Admin::PatientsController < Admin::BaseController
     @patient = Patient.new(patient_params)
 
     if params[:nurse_id]
-      @nurse_assignment = Nurse.find(params[:nurse_id]).nurse_assignments.build(patient: @patient, start_date: Date.today)
+      nurse_assignment = Nurse.find(params[:nurse_id]).nurse_assignments.build(patient: @patient, start_date: Date.today)
     end
 
     respond_to do |format|
-      if @patient.save && (params[:nurse_id]? @nurse_assignment.save : true)
+      if @patient.save && (params[:nurse_id]? nurse_assignment.save : true)
         unless params[:email_check].nil?
           MentorConfirmationMailer.assigned(Doctor.find(params[:patient][:doctor_id]), params[:email_text]).deliver_later
         end
@@ -68,22 +68,13 @@ class Admin::PatientsController < Admin::BaseController
   end
 
   def destroy
-    @patient = Patient.find(params[:id])
-    @patient.destroy
+    patient = Patient.find(params[:id])
+    patient.destroy
     respond_to do |format|
       format.html { flash[:success] = 'Patient was successfully removed.'
                     redirect_to admin_patients_url }
       @current_patients = Patient.all
       ActionCable.server.broadcast 'patients', html: render_to_string('admin/patients/index', layout: false)
-    end
-  end
-
-  def information
-    patient = Patient.find(params[:id])
-    if stale?(patient)
-      respond_to do |format|
-        format.json { render json: {status: 'SUCCESS', message: 'Loaded patient information', data: patient}, status: :ok }
-      end
     end
   end
 

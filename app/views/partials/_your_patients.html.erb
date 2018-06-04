@@ -7,7 +7,7 @@
       <ul class="Polaris-List Polaris-List--typeBullet">
         <% user.nurse_assignments.where(end_date: nil).to_a.each do |assignment| %>
           <% patient = Patient.find(assignment.patient_id)%>
-          <% if patient.name == @new_patient_name %>
+          <% if patient.name == new_patient_name %>
             <li class="patient-highlight Polaris-List__Item">
             <% else %>
               <li class="Polaris-List__Item">

@@ -1,19 +1,20 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  # change this so that you only set_user when
-  # you use @user_nurse. Otherwise, don't!
   include CurrentUser
+
+  # instantiate @user_nurse
   before_action :set_user
   before_action :authorize
   before_action :set_locale
 
+  # implement a number of default options that all
+  # url_for-based methods will use
   def default_url_options
     { locale: I18n.locale }
   end
 
   protected
-
   def set_locale
     if params[:locale]
       if I18n.available_locales.map(&:to_s).include?(params[:locale]) 

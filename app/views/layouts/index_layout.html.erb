@@ -18,7 +18,7 @@
 
           <%= render partial: 'partials/profile', locals: {user: @user_nurse} %>
           <div id="your-patients">
-            <%= render_if_have_patients @user_nurse, 'partials/your_patients', {user: @user_nurse}%>
+            <%= render_if_have_patients @user_nurse, 'partials/your_patients', {user: @user_nurse, new_patient_name: @new_patient_name}%>
           </div>
 
           <%= form_tag patients_path, method: :get do %> 

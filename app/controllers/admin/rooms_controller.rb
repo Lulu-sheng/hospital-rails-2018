@@ -27,8 +27,7 @@ class Admin::RoomsController < Admin::BaseController
     end
 
     respond_to do |format|
-      if !dependent
-        room.destroy
+      if !dependent && room.destroy
         format.html { flash[:success] = 'Room was successfully removed from the system'
                       redirect_to admin_rooms_url}
       else

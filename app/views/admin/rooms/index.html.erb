@@ -11,7 +11,7 @@
               <div class="Polaris-Stack__Item">
                 <div class="Polaris-ButtonGroup">
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
-                      <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_admin_room_url(room.id)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Room</span></span></a>
+                      <a class="Polaris-Button Polaris-Button--plain" href="<%= edit_admin_room_url(room)%>" data-polaris-unstyled="true"><span class="Polaris-Button__Content"><span>Edit Room</span></span></a>
                   </div>
                   <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
                     <%= link_to 'Delete Room', admin_room_path(room), method: :delete, data: {confirm: 'Are you sure you want to remove this room' }, class: "Polaris-Button Polaris-Button--plain Polaris-Button__Content", 'data-polaris-unstyled':"true"%>

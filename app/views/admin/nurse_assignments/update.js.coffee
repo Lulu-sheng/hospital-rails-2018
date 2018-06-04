@@ -1,5 +1,5 @@
 your_patients = document.getElementById("your-patients") 
-your_patients.innerHTML = "<%= j render_if_have_patients @user_nurse, 'admin/partials/your_patients', {user: @user_nurse}%>"
+your_patients.innerHTML = "<%= j render_if_have_patients @user_nurse, 'admin/partials/your_patients', {user: @user_nurse, new_patient_name: @new_patient_name}%>"
 
 
 notice = document.getElementsByClassName("banner-style")[0]

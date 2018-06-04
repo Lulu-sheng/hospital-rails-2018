@@ -2,7 +2,7 @@ class Admin::NursesController < Admin::BaseController
   layout 'admin/layouts/index_layout', only: [:index, :sort]
 
   def index
-    @nurses = Nurse.includes(:employee_record)
+    @nurses = Nurse.includes(:employee_record).references(:employee_record)
   end
 
   def create
@@ -51,13 +51,13 @@ class Admin::NursesController < Admin::BaseController
   def update
     @nurse = Nurse.find(params[:id])
     @employee = @nurse.employee_record
-    @previous_email = @employee.email
+    previous_email = @employee.email
 
     respond_to do |format|
       if [@nurse.update(nurse_params), @employee.update(employee_params)].all?
         format.html { flash[:success] = 'Nurse was successfully updated'
                       redirect_to admin_nurses_path }
-        unless @previous_email.eql?(@nurse.employee_record.email)
+        unless previous_email.eql?(@nurse.employee_record.email)
           GenerateHashJob.perform_later(@nurse)
         end
       else
@@ -74,9 +74,6 @@ class Admin::NursesController < Admin::BaseController
   def new
     @nurse = Nurse.new
     @employee = EmployeeRecord.new
-    if no_nurses?
-      render 'admin/nurses/new_register'
-    end
   end
 
   private
@@ -94,9 +91,5 @@ class Admin::NursesController < Admin::BaseController
     logger.error "Attempt to access invalid nurse #{params[:id]}"
     flash[:warning] = 'Invalid nurse'
     redirect_to admin_nurses_url
-  end
-
-  def no_nurses?
-    Nurse.count == 0
   end
 end

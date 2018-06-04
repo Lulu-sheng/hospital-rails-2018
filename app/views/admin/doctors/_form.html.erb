@@ -16,7 +16,6 @@
               </div>
               <%= fields_for :employee_record, doctor.employee_record do |employee_record_form| %>
                 <div class="Polaris-TextField">
-                  <!--<input id="TextField7" class="Polaris-TextField__Input" aria-labelledby="TextField7Label" aria-invalid="false" value placeholder="Jane Doe">-->
                   <%= employee_record_form.text_field :name, class:"Polaris-TextField__Input", placeholder: "Jane Doe"%>
                   <div class="Polaris-TextField__Backdrop"></div>
                 </div>
@@ -30,7 +29,6 @@
                   </label></div>
               </div>
               <div class="Polaris-TextField">
-                <!--<input id="TextField8" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField8Label" aria-invalid="false" value placeholder="jane.doe@gmail.com">-->
                 <%= employee_record_form.email_field :email, class:"Polaris-TextField__Input", placeholder: "jane.doe@gmail.com"%>
                 <div class="Polaris-TextField__Backdrop"></div>
               </div>
@@ -44,7 +42,6 @@
                   </label></div>
               </div>
               <div class="Polaris-TextField">
-                <!--<input id="TextField8" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField8Label" aria-invalid="false" value placeholder="jane.doe@gmail.com">-->
                 <%= employee_record_form.number_field :salary, step: 0.01, id: "TextField8", class:"Polaris-TextField__Input", placeholder: "0.00"%>
               <% end%>
               <div class="Polaris-TextField__Backdrop"></div>
@@ -57,7 +54,6 @@
               <div class="Polaris-Labelled__LabelWrapper">
                 <div class="Polaris-Label"><label id="TextField7Label" for="TextField7" class="Polaris-Label__Text">Date Upon License Was Received</label></div>
               </div>
-              <!--<input id="TextField7" class="Polaris-TextField__Input" aria-labelledby="TextField7Label" aria-invalid="false" value placeholder="Jane Doe">-->
               <%= form.date_select :received_license%>
             </div>
           </div>
@@ -69,7 +65,6 @@
                   </label></div>
               </div>
               <div class="Polaris-TextField">
-                <!--<input id="TextField8" class="Polaris-TextField__Input" type="email" aria-labelledby="TextField8Label" aria-invalid="false" value placeholder="jane.doe@gmail.com">-->
                 <%= form.text_field :specialty, class:"Polaris-TextField__Input", placeholder: "pediatrics"%>
                 <div class="Polaris-TextField__Backdrop"></div>
               </div>
@@ -84,11 +79,8 @@
                 <%= form.collection_select(:mentor_id, Doctor.all, :id, :name, include_blank: true)%>
               </div>
             </div>
-
         </div>
-
       </div>
-
     </div>
   </div>
 
